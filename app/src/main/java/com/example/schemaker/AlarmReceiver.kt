@@ -7,6 +7,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 
+/**Halo**/
+
 class AlarmReceiver : BroadcastReceiver() {
     private lateinit var notificationManager : NotificationManager
     private lateinit var notificationChannel: NotificationChannel
