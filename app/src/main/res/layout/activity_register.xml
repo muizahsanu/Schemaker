@@ -35,14 +35,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Login"
+                    android:text="@string/str_login_LogReg"
                     android:textSize="24sp"
                     android:textAlignment="center"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sign up"
+                    android:text="@string/str_signup_LogReg"
                     android:textSize="24sp"
                     android:textColor="#94194d"
                     android:textAlignment="center"/>
@@ -65,25 +65,28 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayout_email_register"
                     android:transitionName="email_trans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="Email"
+                    android:hint="@string/str_email_LogReg"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_email_register"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayout_fullname_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="Full Name"
+                    android:hint="@string/str_fullnam_LogReg"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -94,25 +97,29 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayout_username_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="Username"
+                    android:hint="@string/str_username_LogReg"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_username_register"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:maxLength="15"
+                        android:inputType="textShortMessage"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayout_password_register"
                     android:transitionName="password_trans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:hint="Password"
+                    android:hint="@string/str_password_LogReg"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="#94194d"
                     app:boxCornerRadiusTopEnd="8dp"
@@ -121,7 +128,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_password_register"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -137,10 +145,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"
-                    android:text="Sign Up"
+                    android:text="@string/str_signup_LogReg"
                     app:iconGravity="end"
-                    app:icon="@drawable/ic_arrow"
-                    />
+                    app:icon="@drawable/ic_arrow" />
             </LinearLayout>
 
         </LinearLayout>

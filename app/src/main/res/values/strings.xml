@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Schemaker</string>
+
+    <!--  LOGIN dan REGISTER -->
+    <string name="str_login_LogReg">Login</string>
+    <string name="str_signup_LogReg">Sign up</string>
+    <string name="str_email_LogReg">Email</string>
+    <string name="str_password_LogReg">Password</string>
+    <string name="str_forgetpass_LogReg">Forget Password?</string>
+    <string name="str_fullnam_LogReg">Full Name</string>
+    <string name="str_username_LogReg">Username</string>
 </resources>
