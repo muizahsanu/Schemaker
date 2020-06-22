@@ -1,19 +1,32 @@
 package com.example.schemaker.ui
 
+import android.app.ActivityOptions
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Pair
 import android.util.Patterns
+import android.view.View
 import com.example.schemaker.R
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         btn_register_register.setOnClickListener {
             validationForm()
+        }
+        btn_login_register.setOnClickListener {
+            val options = ActivityOptions.makeSceneTransitionAnimation(this,
+                Pair<View,String>(inputLayout_email_register,"email_trans"),
+                Pair<View,String>(inputLayout_password_register,"password_trans")
+            )
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent,options.toBundle())
         }
     }
 
@@ -56,6 +69,5 @@ class RegisterActivity : AppCompatActivity() {
         }
         inputLayout_password_register.isErrorEnabled = false
     }
-
 
 }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Pair as UtilPair
 import com.example.schemaker.R
+import com.example.schemaker.ui.main.HomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,13 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent, options.toBundle())
+            overridePendingTransition(0,0)
+        }
+
+        btn_getStarted_main.setOnClickListener {
+            startActivity(Intent(this,
+                HomeActivity::class.java))
+            finish()
         }
 
     }

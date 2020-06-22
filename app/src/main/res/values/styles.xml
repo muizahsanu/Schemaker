@@ -6,7 +6,10 @@
         <item name="colorPrimary">#94194d</item>
         <item name="colorPrimaryDark">#94194d</item>
         <item name="colorAccent">#dedede</item>
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
+        <item name="colorOnPrimary">#d8eaf8</item>
         <item name="colorOnSurface">#94194d</item>
+        <item name="colorOnSecondary">#94194d</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
