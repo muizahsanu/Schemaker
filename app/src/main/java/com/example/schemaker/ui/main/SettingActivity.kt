@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import com.example.schemaker.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_setting.*
 
 class SettingActivity : AppCompatActivity() {
@@ -28,7 +27,9 @@ class SettingActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 when(item.itemId){
                     R.id.nav_home_menu ->{
-                        startActivity(Intent(this@SettingActivity,HomeActivity::class.java))
+                        val intent = Intent(this@SettingActivity,HomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
                     }
                     R.id.nav_group_menu ->{

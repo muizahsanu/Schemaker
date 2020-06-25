@@ -1,13 +1,9 @@
 package com.example.schemaker.ui.main
 
-import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,8 +14,6 @@ import com.example.schemaker.ui.AddScheduleActivity
 import com.example.schemaker.viewmodel.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.layout_addschedule_dialog.view.*
-import java.util.*
 
 class HomeActivity : AppCompatActivity() {
 

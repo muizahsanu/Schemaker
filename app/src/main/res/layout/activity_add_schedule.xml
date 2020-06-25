@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#121212"
     tools:context=".ui.AddScheduleActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -12,17 +13,18 @@
         android:layout_height="wrap_content"
         android:background="#94194d"
         app:layout_constraintTop_toTopOf="parent">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp">
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save"
-                android:background="#fff"
+                android:layout_alignParentEnd="true"
                 android:fontFamily="@font/lin_libertine_rb"
-                android:layout_alignParentEnd="true"/>
+                android:text="Save" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -30,23 +32,38 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_addSchedule">
-        <EditText
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:padding="18dp"
-            android:hint="Schedule Title"/>
+            android:hint="Title Schedule"
+            android:textColorHint="#99D8EAF8"
+            app:boxBackgroundColor="#121212"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textSize="24sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:gravity="center">
+            android:background="#121212"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/tv_tanggal_addSchedule"
@@ -54,24 +71,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
                 android:paddingTop="16dp"
+                android:paddingEnd="18dp"
                 android:paddingBottom="16dp"
                 android:text="tanggal"
-                android:fontFamily="@font/lin_libertine_rb"
                 android:textAlignment="textStart"
-                android:textSize="18sp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/tv_jam_addSchedule"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
                 android:text="6:00 PM"
-                android:textSize="18sp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
