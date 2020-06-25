@@ -37,7 +37,9 @@
                     android:layout_weight="1"
                     android:text="@string/str_login_LogReg"
                     android:textSize="24sp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:textColor="#808080"
+                    android:textAppearance="@style/TextHeadBold"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -45,7 +47,8 @@
                     android:text="@string/str_signup_LogReg"
                     android:textSize="24sp"
                     android:textColor="#94194d"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextHeadBold"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -78,7 +81,8 @@
                         android:id="@+id/et_email_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:fontFamily="@font/lin_libertine_r"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -93,7 +97,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_fullname_register"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lin_libertine_r"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -110,7 +115,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="15"
-                        android:inputType="textShortMessage"/>
+                        android:inputType="textShortMessage"
+                        android:fontFamily="@font/lin_libertine_r"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -129,7 +135,8 @@
                         android:id="@+id/et_password_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword"
+                        android:fontFamily="@font/lin_libertine_r"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -146,6 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"
                     android:text="@string/str_signup_LogReg"
+                    android:fontFamily="@font/lin_libertine_rb"
                     app:iconGravity="end"
                     app:icon="@drawable/ic_arrow" />
             </LinearLayout>

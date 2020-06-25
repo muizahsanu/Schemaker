@@ -39,7 +39,8 @@
                     android:text="@string/str_login_LogReg"
                     android:textSize="24sp"
                     android:textColor="#94194d"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextHeadBold"/>
                 <TextView
                     android:id="@+id/btn_register_login"
                     android:transitionName="linear2"
@@ -48,7 +49,8 @@
                     android:layout_weight="1"
                     android:text="@string/str_signup_LogReg"
                     android:textSize="24sp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextHeadBold"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -75,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:hint="@string/str_email_LogReg"
+                    app:hintTextAppearance="@style/TextBody"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -82,7 +85,8 @@
                         android:id="@+id/et_email_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:fontFamily="@font/lin_libertine_r"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -92,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:hint="@string/str_password_LogReg"
+                    app:hintTextAppearance="@style/TextBody"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="#94194d"
                     app:boxCornerRadiusTopEnd="8dp"
@@ -101,7 +106,8 @@
                         android:id="@+id/et_password_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword"
+                        android:fontFamily="@font/lin_libertine_r"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,7 +115,9 @@
                     android:layout_gravity="end"
                     android:layout_marginBottom="18dp"
                     android:text="@string/str_forgetpass_LogReg"
-                    android:textColor="#94194d"/>
+                    android:textColor="#94194d"
+                    android:textSize="16sp"
+                    android:textAppearance="@style/TextHeadBold"/>
             </LinearLayout>
 
             <LinearLayout
@@ -125,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"
                     android:text="@string/str_login_LogReg"
+                    android:fontFamily="@font/lin_libertine_rb"
                     app:iconGravity="end"
                     app:icon="@drawable/ic_arrow"
                     />

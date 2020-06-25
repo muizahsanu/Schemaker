@@ -11,6 +11,8 @@
         android:id="@+id/bottomNav_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemTextAppearanceActive="@style/TextHeadBold"
+        app:itemTextAppearanceInactive="@style/TextBody"
         app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottomappbar_menu"/>

@@ -37,34 +37,34 @@ class RegisterActivity : AppCompatActivity() {
         val etPassword = et_password_register.text.toString()
         val usernamePattern = Pattern.compile("^[a-z0-9_-]{3,15}$")
 
-
         if(etEmail.isEmpty()){
-            inputLayout_email_register.error = "Email tidak boleh kosong"
+            inputLayout_email_register.error = "Email must not be empty"
             return
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(etEmail).matches()){
-            inputLayout_email_register.error = "Email tidak valid"
+            inputLayout_email_register.error = "Invalid email"
+            return
         }
         inputLayout_email_register.isErrorEnabled = false
 
         if(etFullname.isEmpty()){
-            inputLayout_fullname_register.error = "Fullname tidak boleh kosong"
+            inputLayout_fullname_register.error = "Fullname must not be empty"
             return
         }
         inputLayout_fullname_register.isErrorEnabled = false
 
         if(etUsername.isEmpty()){
-            inputLayout_username_register.error = "Username tidak boleh kosong"
+            inputLayout_username_register.error = "Username must not be empty"
             return
         }
         if(!usernamePattern.matcher(etUsername).matches()){
-            inputLayout_username_register.error = "Tidak boleh ada spasi"
+            inputLayout_username_register.error = "Invalid username"
             return
         }
         inputLayout_username_register.isErrorEnabled = false
 
         if(etPassword.isEmpty()){
-            inputLayout_password_register.error = "Password tidak boleh kosong"
+            inputLayout_password_register.error = "Password must not be empty"
             return
         }
         inputLayout_password_register.isErrorEnabled = false

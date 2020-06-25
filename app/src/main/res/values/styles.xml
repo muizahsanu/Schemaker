@@ -3,16 +3,30 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#94194d</item>
-        <item name="colorPrimaryDark">#94194d</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#dedede</item>
         <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
-        <item name="colorOnPrimary">#d8eaf8</item>
-        <item name="colorOnSurface">#94194d</item>
-        <item name="colorOnSecondary">#94194d</item>
+        <item name="colorOnPrimary">@color/colorAccent</item>
+        <item name="colorOnSurface">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/colorPrimary</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
+    </style>
+
+    <style name="TextHeadBold">
+        <item name="fontFamily">@font/lin_libertine_rb</item>
+    </style>
+
+    <style name="TextBody">
+        <item name="fontFamily">@font/lin_libertine_r</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
 </resources>
