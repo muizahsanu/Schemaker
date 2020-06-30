@@ -11,13 +11,13 @@ import com.example.schemaker.R
 import com.example.schemaker.adapter.ScheduleAdapter
 import com.example.schemaker.model.ScheduleEntity
 import com.example.schemaker.ui.AddScheduleActivity
-import com.example.schemaker.viewmodel.HomeViewModel
+import com.example.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
-    private var homeViewMode: HomeViewModel? = null
+    private var homeViewMode: ScheduleViewModel? = null
     private lateinit var scheduleAdapter: ScheduleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,11 +27,15 @@ class HomeActivity : AppCompatActivity() {
         bottomNav_home.selectedItemId = R.id.nav_home_menu
         bottomNav_home.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
 
-        homeViewMode = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        homeViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         homeViewMode?.getAllData()?.observe(this,Observer<List<ScheduleEntity>>{this.initRecyclerView(it)})
 
         btn_add_home.setOnClickListener {
             startActivity(Intent(this,AddScheduleActivity::class.java))
+        }
+
+        btn_deleteAll.setOnClickListener {
+            homeViewMode?.deleteAllData()
         }
     }
 
@@ -39,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
         scheduleAdapter = ScheduleAdapter()
         scheduleAdapter.scheduleAdapter(scheduleEntity)
         rv_schedule_home.apply {
-            layoutManager = LinearLayoutManager(this@HomeActivity)
+            layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.HORIZONTAL,false)
             this.adapter = scheduleAdapter
         }
     }

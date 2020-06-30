@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:background="#94194d"
         app:layout_constraintTop_toTopOf="parent">
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp">
 
             <Button
+                android:id="@+id/btn_save_addSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -29,6 +29,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/inicobalayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -36,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_addSchedule">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_title_addSchedule"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,18 +47,67 @@
             app:boxStrokeWidth="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_title_addSchedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="@color/colorAccent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_description_addSchedule"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Detail Schedule"
+            android:textColorHint="#99D8EAF8"
+            app:boxBackgroundColor="#121212"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_description_addSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textSize="24sp"
+                android:textColor="@color/colorAccent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
+            <TextView
+                android:id="@+id/tv_withTime"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="With time"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/lin_libertine_rb"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swButton_time_addSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,6 +146,41 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup_color_addSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorBackgroundSchedule1" />
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorBackgroundSchedule2" />
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorBackgroundSchedule3" />
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorBackgroundSchedule4" />
+
+        </RadioGroup>
 
         <View
             android:layout_width="match_parent"

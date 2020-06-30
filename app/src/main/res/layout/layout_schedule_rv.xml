@@ -1,30 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lin_layourRV"
+    android:layout_width="150dp"
+    android:layout_height="172dp"
     android:orientation="vertical"
-    android:background="#212121"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp">
+    android:layout_gravity="center"
+    android:elevation="8dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#212121"
+    android:layout_margin="8dp">
 
-    <TextView
-        android:id="@+id/tv_title_layoutRV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textAppearance="@style/TextHeadBold"
-        android:textSize="18sp"
-        android:textColor="@color/colorAccent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/ic_round_person_pin"/>
+        <TextView
+            android:id="@+id/tv_title_layoutRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Title"
+            android:textAppearance="@style/TextHeadBold"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent" />
 
-    <TextView
-        android:id="@+id/tv_desc_layoutRV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Desctiotion"
-        android:textAppearance="@style/TextBody"
-        android:textSize="14sp"
-        android:textColor="@color/colorAccent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/ic_calendar"/>
+            <TextView
+                android:id="@+id/tv_date_layoutRV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Date"
+                android:textColor="@color/colorAccent"/>
+        </LinearLayout>
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/ic_time"/>
+            <TextView
+                android:id="@+id/tv_time_layoutRV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Time"
+                android:textColor="@color/colorAccent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc_layoutRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Desctiotion"
+            android:maxLines="2"
+            android:textAppearance="@style/TextBody"
+            android:textSize="14sp"
+            android:textColor="@color/colorAccent" />
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

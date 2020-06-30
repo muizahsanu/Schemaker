@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.schemaker.model.ScheduleEntity
 import com.example.schemaker.model.ScheduleRepo
 
-class HomeViewModel(app: Application): AndroidViewModel(app) {
+class ScheduleViewModel(app: Application): AndroidViewModel(app) {
 
     private var repo: ScheduleRepo = ScheduleRepo(app)
 
@@ -14,5 +14,7 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
     fun setData(scheduleEntity: ScheduleEntity){
         repo.setData(scheduleEntity)
     }
+
+    fun deleteAllData(){repo.deleteAllData()}
 
 }

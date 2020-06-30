@@ -21,6 +21,8 @@ class ScheduleRepo(app: Application): CoroutineScope {
 
     fun getData() = mScheduleDao?.getAllData()
 
+    fun deleteAllData(){launch { deleteAllDataBG() }}
+
     fun setData(scheduleEntity: ScheduleEntity){
         launch { setDataBackground(scheduleEntity) }
     }
@@ -28,6 +30,12 @@ class ScheduleRepo(app: Application): CoroutineScope {
     private suspend fun setDataBackground(scheduleEntity: ScheduleEntity){
         withContext(Dispatchers.IO){
             mScheduleDao?.upsertSchedule(scheduleEntity)
+        }
+    }
+
+    private suspend fun deleteAllDataBG(){
+        withContext(Dispatchers.IO){
+            mScheduleDao?.deleteAllData()
         }
     }
 }

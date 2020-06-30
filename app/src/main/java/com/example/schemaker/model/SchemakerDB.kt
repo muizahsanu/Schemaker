@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [ScheduleEntity::class],version = 1)
+@Database(entities = [ScheduleEntity::class],version = 2)
 abstract class SchemakerDB: RoomDatabase() {
 
     abstract val scheduleDao: ScheduleDao
@@ -20,7 +20,7 @@ abstract class SchemakerDB: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         SchemakerDB::class.java,
-                        "schemakerDB").build()
+                        "schemakerDB").fallbackToDestructiveMigration().build()
                 }
                 return instance
             }
