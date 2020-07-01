@@ -14,6 +14,7 @@ import java.util.*
 class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     private lateinit var scheduleItems: List<ScheduleEntity>
+    private lateinit var mItemClickListener: ItemClickListener
 
     inner class ViewHolder(v:View):RecyclerView.ViewHolder(v){
         val titleSche = v.tv_title_layoutRV
@@ -22,7 +23,7 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
         val dateSche = v.tv_date_layoutRV
         val timeSche = v.tv_time_layoutRV
 
-        fun bind(scheduleEntity: ScheduleEntity){
+        fun bind(scheduleEntity: ScheduleEntity, clickListener: ItemClickListener){
             titleSche.text = scheduleEntity.title
             descSche.text = scheduleEntity.description
             linBackground.setCardBackgroundColor(Color.parseColor(scheduleEntity.bgcolor))
@@ -35,11 +36,17 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
             else{
                 timeSche.text = "All day"
             }
+
+            // Click item listener
+            itemView.setOnClickListener {
+                clickListener.itemClickListener(scheduleEntity)
+            }
         }
     }
 
-    fun scheduleAdapter(scheduleEntity: List<ScheduleEntity>){
+    fun scheduleAdapter(scheduleEntity: List<ScheduleEntity>,clickListener: ItemClickListener){
         scheduleItems = scheduleEntity
+        mItemClickListener = clickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,10 +56,14 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scheduleItems.get(position))
+        holder.bind(scheduleItems.get(position), mItemClickListener)
     }
 
     override fun getItemCount(): Int {
         return scheduleItems.size
+    }
+
+    interface ItemClickListener {
+        fun itemClickListener(scheduleEntity: ScheduleEntity)
     }
 }

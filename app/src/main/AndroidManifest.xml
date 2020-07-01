@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.AddScheduleActivity"/>
-        <activity android:name=".ui.main.SettingActivity"/>
+        <activity android:name=".ui.DetailScheduleActivity"></activity>
+        <activity android:name=".ui.AddScheduleActivity" />
+        <activity android:name=".ui.main.SettingActivity" />
         <activity android:name=".ui.main.GroupActivity" />
         <activity android:name=".ui.main.HomeActivity" />
         <activity android:name=".ui.RegisterActivity" />

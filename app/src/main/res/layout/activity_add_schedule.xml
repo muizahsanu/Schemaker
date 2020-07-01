@@ -19,6 +19,15 @@
             android:layout_marginEnd="18dp">
 
             <Button
+                android:id="@+id/btn_cancel_addSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/btn_save_addSchedule"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:text="Cancel"
+                android:visibility="gone"/>
+
+            <Button
                 android:id="@+id/btn_save_addSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,6 +98,7 @@
             android:background="@color/colorPrimary" />
 
         <LinearLayout
+            android:id="@+id/lin_withTime_addSchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="18dp"
@@ -183,6 +193,7 @@
         </RadioGroup>
 
         <View
+            android:id="@+id/lin_view4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary" />

@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.schemaker.R
 import com.example.schemaker.model.ScheduleEntity
@@ -26,18 +27,30 @@ class AddScheduleActivity : AppCompatActivity() {
     private var withTime: Boolean = true
     private lateinit var mScheduleViewMode: ScheduleViewModel
     private lateinit var mCalendar: Calendar
+    private var editCheck: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_schedule)
-
-
 
         // Mendeklarasikan ViewModel
         mScheduleViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
 
         // Mengambil tanggal dan jam sekarang atau current date time
         mCalendar = Calendar.getInstance()
+
+        val scID = intent.getStringExtra("SC_ID")
+        if(scID != null){
+            updateUI()
+        }
+        else{
+            tv_tanggal_addSchedule.text = DateFormat.format("dd MMM yyyy",mCalendar).toString()
+            mCalendar.apply {
+                this.set(Calendar.HOUR, 7)
+                this.set(Calendar.MINUTE,0)
+                this.set(Calendar.SECOND,0)
+            }
+        }
 
         // Setup radio button checked change listener
         radioGroup_color_addSchedule.setOnCheckedChangeListener(radioButtonCheckedListener())
@@ -54,16 +67,30 @@ class AddScheduleActivity : AppCompatActivity() {
         }
 
         btn_save_addSchedule.setOnClickListener {
-            formValidation()
+            if(scID != null && editCheck == false){
+                editCheck = true
+                updateUI()
+            }
+            else if(scID != null && editCheck == true){
+                // update data
+                setDataToRoomDb(scID)
+                updateUI()
+            }
+            else{
+                val newSCID = UUID.randomUUID().toString()
+                formValidation(newSCID)
+            }
+        }
+
+        btn_cancel_addSchedule.setOnClickListener {
+            editCheck = false
         }
 
         /**
          * -------------------------BAGIAN PEMILIHAN TANGGAL---------------------------
          * **/
         // Menampilkan tanggal sekarang / current date
-        tv_tanggal_addSchedule.text = DateFormat.format("dd MMM yyyy",mCalendar).toString()
         tv_tanggal_addSchedule.setOnClickListener {
-
             //Membuat Date Picker
             val datePickerDialog = DatePickerDialog(
                 this,
@@ -84,11 +111,6 @@ class AddScheduleActivity : AppCompatActivity() {
         /**
          * --------------------BAGIAN PEMILIHAN JAM / TIME PICKER--------------------------
          * **/
-        mCalendar.apply {
-            this.set(Calendar.HOUR, 7)
-            this.set(Calendar.MINUTE,0)
-            this.set(Calendar.SECOND,0)
-        }
         tv_jam_addSchedule.text = DateFormat.format("hh:mm a",mCalendar).toString()
         tv_jam_addSchedule.setOnClickListener {
             //
@@ -102,6 +124,52 @@ class AddScheduleActivity : AppCompatActivity() {
                 mCalendar.get(Calendar.MINUTE), // Menyeting Default Minute pada Time Picker
                 false // Tipe jam 12 atau 24
             ).show()
+        }
+    }
+
+    private fun updateUI(){
+        val scTitle = intent.getStringExtra("SC_TITLE")
+        val scDesc = intent.getStringExtra("SC_DESC")
+        val scTime = intent.getStringExtra("SC_TIME")
+        val scWithTime = intent.getBooleanExtra("SC_WITHTIME",false)
+
+        mCalendar.timeInMillis = scTime!!.toLong() * 1000L
+
+        if(scWithTime == false){
+            tv_jam_addSchedule.visibility = View.INVISIBLE
+            swButton_time_addSchedule.isChecked = true
+            withTime = scWithTime
+        }
+        else{
+            tv_jam_addSchedule.visibility = View.VISIBLE
+            swButton_time_addSchedule.isChecked = false
+            withTime = scWithTime
+        }
+
+        et_title_addSchedule.setText(scTitle.toString())
+        et_description_addSchedule.setText(scDesc.toString())
+        tv_tanggal_addSchedule.text = DateFormat.format("dd MMM yyyy",mCalendar).toString()
+        tv_jam_addSchedule.text = DateFormat.format("hh:mm a",mCalendar).toString()
+
+        if(editCheck == true){
+            et_title_addSchedule.isEnabled = true
+            et_description_addSchedule.isEnabled = true
+            tv_tanggal_addSchedule.isEnabled = true
+            tv_jam_addSchedule.isEnabled = true
+            lin_withTime_addSchedule.visibility = View.VISIBLE
+            radioGroup_color_addSchedule.visibility = View.VISIBLE
+            btn_save_addSchedule.text = "Save"
+            btn_cancel_addSchedule.visibility = View.VISIBLE
+        }
+        else{
+            et_title_addSchedule.isEnabled = false
+            et_description_addSchedule.isEnabled = false
+            tv_tanggal_addSchedule.isEnabled = false
+            tv_jam_addSchedule.isEnabled = false
+            lin_withTime_addSchedule.visibility = View.GONE
+            radioGroup_color_addSchedule.visibility = View.GONE
+            btn_save_addSchedule.text = "Edit"
+            btn_cancel_addSchedule.visibility = View.GONE
         }
     }
 
@@ -170,7 +238,7 @@ class AddScheduleActivity : AppCompatActivity() {
     }
 
 
-    private fun formValidation(){
+    private fun formValidation(scheduleID:String){
         val title = et_title_addSchedule.text
         val description = et_description_addSchedule.text
         if(title.isNullOrBlank()){
@@ -187,11 +255,11 @@ class AddScheduleActivity : AppCompatActivity() {
         }
         tf_description_addSchedule.isErrorEnabled = false
 
-        setDataToRoomDb()
+        setDataToRoomDb(scheduleID)
     }
 
 
-    private fun setDataToRoomDb(){
+    private fun setDataToRoomDb(scheduleID:String){
         if(tv_jam_addSchedule.visibility == View.INVISIBLE){
             mCalendar.apply {
                 this.set(Calendar.HOUR,0)
@@ -199,7 +267,6 @@ class AddScheduleActivity : AppCompatActivity() {
                 this.set(Calendar.SECOND,0)
             }
         }
-        val scheduleID = UUID.randomUUID().toString()
         val title = et_title_addSchedule.text.toString()
         val description = et_description_addSchedule.text.toString()
         val timestamp = mCalendar.timeInMillis / 1000

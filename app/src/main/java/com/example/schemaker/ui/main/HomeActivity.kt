@@ -15,7 +15,7 @@ import com.example.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
 
     private var homeViewMode: ScheduleViewModel? = null
     private lateinit var scheduleAdapter: ScheduleAdapter
@@ -41,7 +41,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initRecyclerView(scheduleEntity: List<ScheduleEntity>){
         scheduleAdapter = ScheduleAdapter()
-        scheduleAdapter.scheduleAdapter(scheduleEntity)
+        scheduleAdapter.scheduleAdapter(scheduleEntity,this)
         rv_schedule_home.apply {
             layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.HORIZONTAL,false)
             this.adapter = scheduleAdapter
@@ -76,5 +76,17 @@ class HomeActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_down,R.anim.slide_out_down)
+    }
+
+    override fun itemClickListener(scheduleEntity: ScheduleEntity) {
+        val intent = Intent(this, AddScheduleActivity::class.java)
+        intent.putExtra("SC_ID",scheduleEntity.scheduleID)
+        intent.putExtra("SC_TITLE",scheduleEntity.title)
+        intent.putExtra("SC_DESC",scheduleEntity.description)
+        intent.putExtra("SC_TIME",scheduleEntity.timestamp)
+        intent.putExtra("SC_BGCOLOR",scheduleEntity.bgcolor)
+        intent.putExtra("SC_WITHTIME",scheduleEntity.with_time)
+
+        startActivity(intent)
     }
 }
