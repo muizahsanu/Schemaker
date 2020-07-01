@@ -28,6 +28,7 @@ class AddScheduleActivity : AppCompatActivity() {
     private lateinit var mScheduleViewMode: ScheduleViewModel
     private lateinit var mCalendar: Calendar
     private var editCheck: Boolean = false
+    private var remindMe: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,7 @@ class AddScheduleActivity : AppCompatActivity() {
             updateUI()
         }
         else{
+            cb_rimendMe_addSchedule.isChecked = true
             tv_tanggal_addSchedule.text = DateFormat.format("dd MMM yyyy",mCalendar).toString()
             mCalendar.apply {
                 this.set(Calendar.HOUR, 7)
@@ -65,6 +67,9 @@ class AddScheduleActivity : AppCompatActivity() {
                 tv_jam_addSchedule.visibility = View.VISIBLE
             }
         }
+        cb_rimendMe_addSchedule.setOnCheckedChangeListener { button, isChecked ->
+            remindMe = isChecked
+        }
 
         btn_save_addSchedule.setOnClickListener {
             if(scID != null && editCheck == false){
@@ -84,6 +89,7 @@ class AddScheduleActivity : AppCompatActivity() {
 
         btn_cancel_addSchedule.setOnClickListener {
             editCheck = false
+            updateUI()
         }
 
         /**
@@ -132,18 +138,26 @@ class AddScheduleActivity : AppCompatActivity() {
         val scDesc = intent.getStringExtra("SC_DESC")
         val scTime = intent.getStringExtra("SC_TIME")
         val scWithTime = intent.getBooleanExtra("SC_WITHTIME",false)
+        val scRemindMe = intent.getBooleanExtra("SC_REMINDME",false)
+
+        remindMe = scRemindMe
+        if(remindMe == false){
+            cb_rimendMe_addSchedule.isChecked = false
+        }
+        else{
+            cb_rimendMe_addSchedule.isChecked = true
+        }
 
         mCalendar.timeInMillis = scTime!!.toLong() * 1000L
 
-        if(scWithTime == false){
+        withTime = scWithTime
+        if(withTime == false){
             tv_jam_addSchedule.visibility = View.INVISIBLE
             swButton_time_addSchedule.isChecked = true
-            withTime = scWithTime
         }
         else{
             tv_jam_addSchedule.visibility = View.VISIBLE
             swButton_time_addSchedule.isChecked = false
-            withTime = scWithTime
         }
 
         et_title_addSchedule.setText(scTitle.toString())
@@ -156,6 +170,7 @@ class AddScheduleActivity : AppCompatActivity() {
             et_description_addSchedule.isEnabled = true
             tv_tanggal_addSchedule.isEnabled = true
             tv_jam_addSchedule.isEnabled = true
+            cb_rimendMe_addSchedule.isEnabled = true
             lin_withTime_addSchedule.visibility = View.VISIBLE
             radioGroup_color_addSchedule.visibility = View.VISIBLE
             btn_save_addSchedule.text = "Save"
@@ -166,6 +181,7 @@ class AddScheduleActivity : AppCompatActivity() {
             et_description_addSchedule.isEnabled = false
             tv_tanggal_addSchedule.isEnabled = false
             tv_jam_addSchedule.isEnabled = false
+            cb_rimendMe_addSchedule.isEnabled = false
             lin_withTime_addSchedule.visibility = View.GONE
             radioGroup_color_addSchedule.visibility = View.GONE
             btn_save_addSchedule.text = "Edit"
@@ -272,9 +288,11 @@ class AddScheduleActivity : AppCompatActivity() {
         val timestamp = mCalendar.timeInMillis / 1000
         val bgColor = mColorPick
         val with_time = withTime
-        val schedules = ScheduleEntity(scheduleID,title,description,timestamp.toString(),bgColor,with_time)
+        val remindMe = remindMe
+        val schedules = ScheduleEntity(scheduleID,title,description,timestamp.toString(),bgColor,with_time,remindMe)
 
         mScheduleViewMode.setData(schedules)
+        Log.w("AddSche_Result",schedules.toString())
         val intent = Intent(this,HomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)

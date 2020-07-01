@@ -20,6 +20,7 @@ class ScheduleRepo(app: Application): CoroutineScope {
     }
 
     fun getData() = mScheduleDao?.getAllData()
+    fun getListRowReminders() = mScheduleDao?.getListRowReminders()
 
     fun deleteAllData(){launch { deleteAllDataBG() }}
 

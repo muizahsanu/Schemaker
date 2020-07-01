@@ -16,4 +16,7 @@ interface ScheduleDao {
 
     @Query("select * from schedule order by timestamp asc")
     fun getAllData(): LiveData<List<ScheduleEntity>>
+
+    @Query("Select * from schedule where remindMe = 1")
+    fun getListRowReminders(): LiveData<List<ScheduleEntity>>
 }

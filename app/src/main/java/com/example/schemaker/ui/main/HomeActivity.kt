@@ -3,11 +3,13 @@ package com.example.schemaker.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.schemaker.R
+import com.example.schemaker.ScheduleService
 import com.example.schemaker.adapter.ScheduleAdapter
 import com.example.schemaker.model.ScheduleEntity
 import com.example.schemaker.ui.AddScheduleActivity
@@ -28,7 +30,8 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
         bottomNav_home.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
 
         homeViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
-        homeViewMode?.getAllData()?.observe(this,Observer<List<ScheduleEntity>>{this.initRecyclerView(it)})
+        homeViewMode?.getAllData()?.observe(this,Observer<List<ScheduleEntity>>{ this.initRecyclerView(it)})
+        homeViewMode?.getRowsSchedule()?.observe(this,Observer<List<ScheduleEntity>>{this.startService(it)})
 
         btn_add_home.setOnClickListener {
             startActivity(Intent(this,AddScheduleActivity::class.java))
@@ -36,6 +39,20 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
 
         btn_deleteAll.setOnClickListener {
             homeViewMode?.deleteAllData()
+        }
+    }
+
+    private fun startService(scheduleEntity: List<ScheduleEntity>){
+        if(scheduleEntity.isNotEmpty()){
+            val serviceIntent = Intent(this,ScheduleService::class.java)
+            serviceIntent.putExtra("SC_ID",scheduleEntity.get(0).scheduleID)
+            serviceIntent.putExtra("SC_TIME",scheduleEntity.get(0).timestamp)
+            serviceIntent.putExtra("SC_TITLE",scheduleEntity.get(0).title)
+            startService(serviceIntent)
+        }
+        else{
+            val serviceIntent = Intent(this,ScheduleService::class.java)
+            stopService(serviceIntent)
         }
     }
 
@@ -86,6 +103,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
         intent.putExtra("SC_TIME",scheduleEntity.timestamp)
         intent.putExtra("SC_BGCOLOR",scheduleEntity.bgcolor)
         intent.putExtra("SC_WITHTIME",scheduleEntity.with_time)
+        intent.putExtra("SC_REMINDME",scheduleEntity.remindMe)
 
         startActivity(intent)
     }

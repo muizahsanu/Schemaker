@@ -11,6 +11,8 @@ class ScheduleViewModel(app: Application): AndroidViewModel(app) {
 
     fun getAllData() = repo.getData()
 
+    fun getRowsSchedule() = repo.getListRowReminders()
+
     fun setData(scheduleEntity: ScheduleEntity){
         repo.setData(scheduleEntity)
     }

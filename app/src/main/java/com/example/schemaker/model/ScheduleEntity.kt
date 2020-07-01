@@ -11,5 +11,6 @@ data class ScheduleEntity (
     val description: String,
     val timestamp: String,
     val bgcolor:String,
-    val with_time: Boolean
+    val with_time: Boolean,
+    val remindMe: Boolean
 )
