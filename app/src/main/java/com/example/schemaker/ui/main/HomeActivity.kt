@@ -1,12 +1,13 @@
 package com.example.schemaker.ui.main
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -116,6 +117,24 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         overridePendingTransition(R.anim.slide_in_down,R.anim.slide_out_down)
     }
 
+    private fun popupDialog(scID: String){
+        val dialogBuilder = AlertDialog.Builder(this,R.style.DialogTheme)
+
+        dialogBuilder.apply {
+            this.setTitle("Delete Schedule")
+            this.setMessage("Are you sure you want to delete this schedule?")
+            this.setPositiveButton("Delete",
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    homeViewMode?.deleteByID(scID)
+            })
+            this.setNegativeButton("Cancel",
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    dialogInterface.cancel()
+                })
+            this.create().show()
+        }
+    }
+
     override fun itemClickListener(scheduleEntity: ScheduleEntity) {
         val intent = Intent(this, AddScheduleActivity::class.java)
         intent.putExtra("SC_ID",scheduleEntity.scheduleID)
@@ -127,5 +146,10 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         intent.putExtra("SC_REMINDME",scheduleEntity.remindMe)
 
         startActivity(intent)
+    }
+
+    override fun itemLongClickListener(scheduleEntity: ScheduleEntity) {
+        val scID = scheduleEntity.scheduleID
+        popupDialog(scID)
     }
 }

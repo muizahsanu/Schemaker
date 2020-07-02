@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schemaker.R
 import com.example.schemaker.model.ScheduleEntity
@@ -41,6 +42,12 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
             itemView.setOnClickListener {
                 clickListener.itemClickListener(scheduleEntity)
             }
+            itemView.setOnLongClickListener(object: View.OnLongClickListener{
+                override fun onLongClick(p0: View?): Boolean {
+                    clickListener.itemLongClickListener(scheduleEntity)
+                    return true
+                }
+            })
         }
     }
 
@@ -65,5 +72,6 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     interface ItemClickListener {
         fun itemClickListener(scheduleEntity: ScheduleEntity)
+        fun itemLongClickListener(scheduleEntity: ScheduleEntity)
     }
 }

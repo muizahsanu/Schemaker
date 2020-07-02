@@ -40,6 +40,13 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
             itemView.setOnClickListener {
                 clickListener.itemClickListener(scheduleEntity)
             }
+
+            itemView.setOnLongClickListener(object: View.OnLongClickListener{
+                override fun onLongClick(p0: View?): Boolean {
+                    clickListener.itemLongClickListener(scheduleEntity)
+                    return true
+                }
+            })
         }
     }
 
@@ -64,5 +71,7 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
 
     interface ItemClickListener {
         fun itemClickListener(scheduleEntity: ScheduleEntity)
+        fun itemLongClickListener(scheduleEntity: ScheduleEntity)
     }
+
 }
