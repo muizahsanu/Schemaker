@@ -1,8 +1,11 @@
 package com.example.schemaker.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "schedule")
 data class ScheduleEntity (
     @PrimaryKey
@@ -13,4 +16,4 @@ data class ScheduleEntity (
     val bgcolor:String,
     val with_time: Boolean,
     val remindMe: Boolean
-)
+) : Parcelable

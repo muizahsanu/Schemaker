@@ -1,5 +1,8 @@
 package com.example.schemaker.ui.main
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +11,7 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.schemaker.AlarmReceiver
 import com.example.schemaker.R
 import com.example.schemaker.ScheduleService
 import com.example.schemaker.adapter.ScheduleAdapter
@@ -21,6 +25,8 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
 
     private var homeViewMode: ScheduleViewModel? = null
     private lateinit var scheduleAdapter: ScheduleAdapter
+
+    private lateinit var scList: ArrayList<ScheduleEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,18 +45,22 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
 
         btn_deleteAll.setOnClickListener {
             homeViewMode?.deleteAllData()
+//            val serviceIntent = Intent(this,ScheduleService::class.java)
+//            startService(serviceIntent)
         }
     }
 
     private fun startService(scheduleEntity: List<ScheduleEntity>){
         if(scheduleEntity.isNotEmpty()){
             val serviceIntent = Intent(this,ScheduleService::class.java)
-            serviceIntent.putExtra("SC_ID",scheduleEntity.get(0).scheduleID)
-            serviceIntent.putExtra("SC_TIME",scheduleEntity.get(0).timestamp)
-            serviceIntent.putExtra("SC_TITLE",scheduleEntity.get(0).title)
             startService(serviceIntent)
         }
         else{
+            val alarmMngr = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+            val alarmIntent = Intent(this, AlarmReceiver::class.java)
+            val anjing = PendingIntent.getBroadcast(this,1,alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmMngr?.cancel(anjing)
+
             val serviceIntent = Intent(this,ScheduleService::class.java)
             stopService(serviceIntent)
         }
