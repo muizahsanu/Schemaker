@@ -15,18 +15,18 @@ import com.example.schemaker.AlarmReceiver
 import com.example.schemaker.R
 import com.example.schemaker.ScheduleService
 import com.example.schemaker.adapter.ScheduleAdapter
+import com.example.schemaker.adapter.ScheduleDoneAdapter
 import com.example.schemaker.model.ScheduleEntity
 import com.example.schemaker.ui.AddScheduleActivity
 import com.example.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
+class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,ScheduleDoneAdapter.ItemClickListener {
 
     private var homeViewMode: ScheduleViewModel? = null
     private lateinit var scheduleAdapter: ScheduleAdapter
-
-    private lateinit var scList: ArrayList<ScheduleEntity>
+    private lateinit var scheduleDoneAdapter: ScheduleDoneAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,13 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
         bottomNav_home.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
 
         homeViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
-        homeViewMode?.getAllData()?.observe(this,Observer<List<ScheduleEntity>>{ this.initRecyclerView(it)})
-        homeViewMode?.getRowsSchedule()?.observe(this,Observer<List<ScheduleEntity>>{this.startService(it)})
+        homeViewMode?.getAllData()?.observe(this,Observer<List<ScheduleEntity>>{
+            this.iniRecyviewScheduleDone(it)
+        })
+        homeViewMode?.getRowsSchedule()?.observe(this,Observer<List<ScheduleEntity>>{
+            this.initRecyclerView(it)
+            this.startService(it)
+        })
 
         btn_add_home.setOnClickListener {
             startActivity(Intent(this,AddScheduleActivity::class.java))
@@ -45,8 +50,6 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
 
         btn_deleteAll.setOnClickListener {
             homeViewMode?.deleteAllData()
-//            val serviceIntent = Intent(this,ScheduleService::class.java)
-//            startService(serviceIntent)
         }
     }
 
@@ -72,6 +75,14 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener {
         rv_schedule_home.apply {
             layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.HORIZONTAL,false)
             this.adapter = scheduleAdapter
+        }
+    }
+    private fun iniRecyviewScheduleDone(scheduleEntity: List<ScheduleEntity>){
+        scheduleDoneAdapter = ScheduleDoneAdapter()
+        scheduleDoneAdapter.scheduleDoneAdapter(scheduleEntity,this)
+        rv_scheduleRecent_home.apply {
+            layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.HORIZONTAL,false)
+            this.adapter = scheduleDoneAdapter
         }
     }
 

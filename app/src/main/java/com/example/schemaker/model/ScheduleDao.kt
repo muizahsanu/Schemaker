@@ -19,7 +19,7 @@ interface ScheduleDao {
     @Query("delete from schedule where scheduleID = :scheID")
     fun deletByID(scheID: String)
 
-    @Query("select * from schedule order by timestamp asc")
+    @Query("Select * from schedule where remindMe = 0 order by timestamp asc")
     fun getAllData(): LiveData<List<ScheduleEntity>>
 
     @Query("Select * from schedule where remindMe = 1 order by timestamp asc")
