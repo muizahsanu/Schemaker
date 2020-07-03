@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.schemaker">
+    package="com.emtwnty.schemaker">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
-        android:name=".App"
+        android:name="com.emtwnty.schemaker.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.AddScheduleActivity" />
-        <activity android:name=".ui.main.SettingActivity" />
-        <activity android:name=".ui.main.GroupActivity" />
-        <activity android:name=".ui.main.HomeActivity" />
-        <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.MainActivity">
+        <activity android:name="com.emtwnty.schemaker.ui.AddScheduleActivity" />
+        <activity android:name="com.emtwnty.schemaker.ui.main.SettingActivity" />
+        <activity android:name="com.emtwnty.schemaker.ui.main.GroupActivity" />
+        <activity android:name="com.emtwnty.schemaker.ui.main.HomeActivity" />
+        <activity android:name="com.emtwnty.schemaker.ui.RegisterActivity" />
+        <activity android:name="com.emtwnty.schemaker.ui.LoginActivity" />
+        <activity android:name="com.emtwnty.schemaker.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ScheduleService"/>
-        <receiver android:name=".AlarmReceiver"
+        <service android:name="com.emtwnty.schemaker.ScheduleService"/>
+        <receiver android:name="com.emtwnty.schemaker.AlarmReceiver"
             android:exported="false"/>
     </application>
 

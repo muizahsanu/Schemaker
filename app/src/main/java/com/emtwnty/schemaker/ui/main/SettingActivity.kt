@@ -1,10 +1,10 @@
-package com.example.schemaker.ui.main
+package com.emtwnty.schemaker.ui.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.example.schemaker.R
+import com.emtwnty.schemaker.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_setting.*
 

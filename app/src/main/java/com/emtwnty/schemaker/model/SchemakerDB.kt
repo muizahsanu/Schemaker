@@ -1,4 +1,4 @@
-package com.example.schemaker.model
+package com.emtwnty.schemaker.model
 
 import android.content.Context
 import androidx.room.Database

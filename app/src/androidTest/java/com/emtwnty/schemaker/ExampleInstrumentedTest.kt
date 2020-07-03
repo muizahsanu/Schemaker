@@ -1,4 +1,4 @@
-package com.example.schemaker
+package com.emtwnty.schemaker
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.schemaker", appContext.packageName)
+        assertEquals("com.emtwnty.schemaker", appContext.packageName)
     }
 }

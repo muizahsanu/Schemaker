@@ -1,4 +1,4 @@
-package com.example.schemaker
+package com.emtwnty.schemaker
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,7 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.example.schemaker.App.Companion.CHANNEL_ID_ALARM
+import com.emtwnty.schemaker.App.Companion.CHANNEL_ID_ALARM
 import java.util.*
 
 class AlarmReceiver: BroadcastReceiver(), LifecycleOwner {

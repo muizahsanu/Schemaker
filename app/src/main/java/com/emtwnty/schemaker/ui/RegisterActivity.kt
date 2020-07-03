@@ -1,4 +1,4 @@
-package com.example.schemaker.ui
+package com.emtwnty.schemaker.ui
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Pair
 import android.util.Patterns
 import android.view.View
-import com.example.schemaker.R
+import com.emtwnty.schemaker.R
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.regex.Pattern
 

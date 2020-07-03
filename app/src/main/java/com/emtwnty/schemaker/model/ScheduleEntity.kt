@@ -1,4 +1,4 @@
-package com.example.schemaker.model
+package com.emtwnty.schemaker.model
 
 import android.os.Parcelable
 import androidx.room.Entity

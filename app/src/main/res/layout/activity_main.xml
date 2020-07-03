@@ -41,9 +41,10 @@
                 android:textSize="18sp"
                 android:textColor="#000"/>
             <TextView
+                android:id="@+id/tv_coba"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create your own Schedule\nor Group Schedule"
+                android:text="Create your own Schedule\nor Group Schedule with your friend"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textColor="#AAAAAA"
@@ -58,6 +59,21 @@
             android:layout_weight=".9"
             android:gravity="center"
             android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_signInGoogle_main"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="Sign in with Google"
+                android:textAllCaps="false"
+                app:icon="@drawable/googleg_disabled_color_18"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_signOutGoogle_main"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="Sign Out"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_getStarted_main"
                 android:layout_width="220dp"

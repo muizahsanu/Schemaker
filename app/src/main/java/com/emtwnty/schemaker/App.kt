@@ -1,12 +1,10 @@
-package com.example.schemaker
+package com.emtwnty.schemaker
 
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import com.example.schemaker.model.ScheduleRepo
-import com.example.schemaker.model.SchemakerDB
 
 class App: Application() {
     companion object{

@@ -1,4 +1,4 @@
-package com.example.schemaker.ui.main
+package com.emtwnty.schemaker.ui.main
 
 import android.app.AlarmManager
 import android.app.AlertDialog
@@ -12,14 +12,14 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.schemaker.AlarmReceiver
-import com.example.schemaker.R
-import com.example.schemaker.ScheduleService
-import com.example.schemaker.adapter.ScheduleAdapter
-import com.example.schemaker.adapter.ScheduleDoneAdapter
-import com.example.schemaker.model.ScheduleEntity
-import com.example.schemaker.ui.AddScheduleActivity
-import com.example.schemaker.viewmodel.ScheduleViewModel
+import com.emtwnty.schemaker.AlarmReceiver
+import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.ScheduleService
+import com.emtwnty.schemaker.adapter.ScheduleAdapter
+import com.emtwnty.schemaker.adapter.ScheduleDoneAdapter
+import com.emtwnty.schemaker.model.ScheduleEntity
+import com.emtwnty.schemaker.ui.AddScheduleActivity
+import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 

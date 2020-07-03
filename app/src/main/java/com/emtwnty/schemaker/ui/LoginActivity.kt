@@ -1,11 +1,11 @@
-package com.example.schemaker.ui
+package com.emtwnty.schemaker.ui
 
 import android.app.ActivityOptions
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.example.schemaker.R
+import com.emtwnty.schemaker.R
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Pair
 

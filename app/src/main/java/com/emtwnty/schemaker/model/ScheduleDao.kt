@@ -1,4 +1,4 @@
-package com.example.schemaker.model
+package com.emtwnty.schemaker.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -6,18 +6,18 @@ import androidx.room.*
 @Dao
 interface ScheduleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertSchedule(scheduleEntity: ScheduleEntity)
+    suspend fun upsertSchedule(scheduleEntity: ScheduleEntity)
     @Query("update schedule set remindMe= :newRemindMe where scheduleID = :scID")
-    fun updateRemindMe(scID: String, newRemindMe:Boolean)
+    suspend fun updateRemindMe(scID: String, newRemindMe:Boolean)
 
     @Delete
-    fun deleteOne(scheduleEntity: ScheduleEntity)
+    suspend fun deleteOne(scheduleEntity: ScheduleEntity)
 
     @Query("delete from schedule")
-    fun deleteAllData()
+    suspend fun deleteAllData()
 
     @Query("delete from schedule where scheduleID = :scheID")
-    fun deletByID(scheID: String)
+    suspend fun deletByID(scheID: String)
 
     @Query("Select * from schedule where remindMe = 0 order by timestamp asc")
     fun getAllData(): LiveData<List<ScheduleEntity>>

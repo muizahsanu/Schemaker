@@ -1,4 +1,4 @@
-package com.example.schemaker
+package com.emtwnty.schemaker
 
 import org.junit.Test
 

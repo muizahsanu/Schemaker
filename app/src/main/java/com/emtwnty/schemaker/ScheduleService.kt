@@ -1,20 +1,18 @@
-package com.example.schemaker
+package com.emtwnty.schemaker
 
 import android.app.AlarmManager
-import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.example.schemaker.App.Companion.CHANNEL_ID_SERVICE
-import com.example.schemaker.model.ScheduleEntity
-import com.example.schemaker.viewmodel.ScheduleViewModel
+import com.emtwnty.schemaker.App.Companion.CHANNEL_ID_SERVICE
+import com.emtwnty.schemaker.model.ScheduleEntity
+import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import java.util.*
 
 class ScheduleService: Service(),LifecycleOwner {

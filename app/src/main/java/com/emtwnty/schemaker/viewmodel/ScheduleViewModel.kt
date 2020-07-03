@@ -1,9 +1,9 @@
-package com.example.schemaker.viewmodel
+package com.emtwnty.schemaker.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.schemaker.model.ScheduleEntity
-import com.example.schemaker.model.ScheduleRepo
+import com.emtwnty.schemaker.model.ScheduleEntity
+import com.emtwnty.schemaker.model.ScheduleRepo
 
 class ScheduleViewModel(app: Application): AndroidViewModel(app) {
 

@@ -1,4 +1,4 @@
-package com.example.schemaker.ui
+package com.emtwnty.schemaker.ui
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -12,12 +12,11 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import com.example.schemaker.R
-import com.example.schemaker.model.ScheduleEntity
-import com.example.schemaker.ui.main.HomeActivity
-import com.example.schemaker.viewmodel.ScheduleViewModel
+import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.model.ScheduleEntity
+import com.emtwnty.schemaker.ui.main.HomeActivity
+import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import kotlinx.android.synthetic.main.activity_add_schedule.*
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.example.schemaker.adapter
+package com.emtwnty.schemaker.adapter
 
 import android.graphics.Color
 import android.text.format.DateFormat
@@ -6,16 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.schemaker.R
-import com.example.schemaker.model.ScheduleEntity
+import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.model.ScheduleEntity
 import kotlinx.android.synthetic.main.layout_schedule_rv.view.*
 import java.util.*
 
-class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>() {
+class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
+
     private lateinit var scheduleItems: List<ScheduleEntity>
     private lateinit var mItemClickListener: ItemClickListener
 
-    inner class ViewHolder(v: View):RecyclerView.ViewHolder(v){
+    inner class ViewHolder(v:View):RecyclerView.ViewHolder(v){
         val titleSche = v.tv_title_layoutRV
         val descSche = v.tv_desc_layoutRV
         val linBackground = v.lin_layourRV
@@ -40,7 +41,6 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
             itemView.setOnClickListener {
                 clickListener.itemClickListener(scheduleEntity)
             }
-
             itemView.setOnLongClickListener(object: View.OnLongClickListener{
                 override fun onLongClick(p0: View?): Boolean {
                     clickListener.itemLongClickListener(scheduleEntity)
@@ -50,7 +50,7 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
         }
     }
 
-    fun scheduleDoneAdapter(scheduleEntity: List<ScheduleEntity>, clickListener: ItemClickListener){
+    fun scheduleAdapter(scheduleEntity: List<ScheduleEntity>,clickListener: ItemClickListener){
         scheduleItems = scheduleEntity
         mItemClickListener = clickListener
     }
@@ -73,5 +73,4 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
         fun itemClickListener(scheduleEntity: ScheduleEntity)
         fun itemLongClickListener(scheduleEntity: ScheduleEntity)
     }
-
 }
