@@ -15,5 +15,6 @@ data class ScheduleEntity (
     val timestamp: String,
     val bgcolor:String,
     val with_time: Boolean,
-    val remindMe: Boolean
+    val remindMe: Boolean,
+    val done: Boolean
 ) : Parcelable

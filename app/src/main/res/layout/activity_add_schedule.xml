@@ -209,7 +209,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Remind Me"
+                android:text="Remind me"
                 android:textSize="18sp"
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/lin_libertine_rb"/>

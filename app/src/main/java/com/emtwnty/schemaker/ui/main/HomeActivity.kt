@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -37,10 +38,15 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         bottomNav_home.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
 
         homeViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
-        homeViewMode?.getAllData()?.observe(this,Observer<List<ScheduleEntity>>{
+        /** [ Mengambil jadwal/task yang TIDAK akan diingatkan ] **/
+        homeViewMode?.getDonetask()?.observe(this,Observer<List<ScheduleEntity>>{
             this.iniRecyviewScheduleDone(it)
         })
-        homeViewMode?.getRowsSchedule()?.observe(this,Observer<List<ScheduleEntity>>{
+        /** [ Mengambil jadwal/task yang AKAN diingatkan ] **/
+        homeViewMode?.getRemindTask()?.observe(this,Observer<List<ScheduleEntity>>{
+        })
+        /** [ Mengambil jadwal/task yang BELUM selesai ] **/
+        homeViewMode?.getNotDoneTask()?.observe(this,Observer<List<ScheduleEntity>>{
             this.initRecyclerView(it)
             this.startService(it)
         })
@@ -54,6 +60,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         }
     }
 
+    /** [Menjalankan service jika ada jadwal/task yang akan diingatkan] **/
     private fun startService(scheduleEntity: List<ScheduleEntity>){
         if(scheduleEntity.isNotEmpty()){
             val serviceIntent = Intent(this,ScheduleService::class.java)
@@ -70,6 +77,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         }
     }
 
+    /** [Menampilkan data task yang belum selesai ke dalam recycler view] **/
     private fun initRecyclerView(scheduleEntity: List<ScheduleEntity>){
         scheduleAdapter = ScheduleAdapter()
         scheduleAdapter.scheduleAdapter(scheduleEntity,this)
@@ -78,6 +86,8 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
             this.adapter = scheduleAdapter
         }
     }
+
+    /** [Menampilkan data task yang sudah selesai ke dalam recycler view] **/
     private fun iniRecyviewScheduleDone(scheduleEntity: List<ScheduleEntity>){
         scheduleDoneAdapter = ScheduleDoneAdapter()
         scheduleDoneAdapter.scheduleDoneAdapter(scheduleEntity,this)
@@ -92,6 +102,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         bottomNav_home.selectedItemId = R.id.nav_home_menu
     }
 
+    /** [ START-- ] Navigation Item Selected. ketika user klik menu pada bottom nav**/
     private fun navigationItemSelectedListener() =
         object : BottomNavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -112,11 +123,14 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
                 return true
             }
         }
+    /** [ END-- ] Navigation Item Selected. ketika user klik menu pada bottom nav**/
+
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_down,R.anim.slide_out_down)
     }
 
+    /** [ START-- ] Dialog delete item **/
     private fun popupDialog(scID: String){
         val dialogBuilder = AlertDialog.Builder(this,R.style.DialogTheme)
 
@@ -134,7 +148,10 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
             this.create().show()
         }
     }
+    /** [ END-- ] Dialog delete item **/
 
+
+    /** [Ketika user klik salah satu item di Recycler View] **/
     override fun itemClickListener(scheduleEntity: ScheduleEntity) {
         val intent = Intent(this, AddScheduleActivity::class.java)
         intent.putExtra("SC_ID",scheduleEntity.scheduleID)
@@ -148,6 +165,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         startActivity(intent)
     }
 
+    /** [ Ketika user menekan sedikit lama salah satu item di Recycler View ] **/
     override fun itemLongClickListener(scheduleEntity: ScheduleEntity) {
         val scID = scheduleEntity.scheduleID
         popupDialog(scID)

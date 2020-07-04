@@ -9,9 +9,9 @@ class ScheduleViewModel(app: Application): AndroidViewModel(app) {
 
     private var repo: ScheduleRepo = ScheduleRepo(app)
 
-    fun getAllData() = repo.getData()
-
-    fun getRowsSchedule() = repo.getListRowReminders()
+    fun getDonetask() = repo.getDonetask()
+    fun getRemindTask() = repo.getRemindTask()
+    fun getNotDoneTask() = repo.getNotDoneTask()
 
     fun setData(scheduleEntity: ScheduleEntity){
         repo.setData(scheduleEntity)
@@ -27,8 +27,8 @@ class ScheduleViewModel(app: Application): AndroidViewModel(app) {
         repo.deleteByID(scID)
     }
 
-    fun updateRemindMe(scheID: String, newRemindMe: Boolean){
-        repo.updateRemindMe(scheID, newRemindMe)
+    fun updateRemindMe(scheID: String, newDone: Boolean){
+        repo.updateRemindMe(scheID, newDone)
     }
 
 }

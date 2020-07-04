@@ -36,14 +36,14 @@
                 android:layout_height="wrap_content"
                 android:text="halo"
                 android:textColor="@color/colorAccent"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_schedule_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:visibility="gone"/>
+                android:layout_margin="8dp"/>
 
         </LinearLayout>
         <LinearLayout

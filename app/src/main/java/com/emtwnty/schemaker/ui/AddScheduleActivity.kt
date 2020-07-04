@@ -38,6 +38,7 @@ class AddScheduleActivity : AppCompatActivity() {
 
         // Mengambil tanggal dan jam sekarang atau current date time
         mCalendar = Calendar.getInstance()
+        mCalendar.add(Calendar.DATE,1)
 
         val scID = intent.getStringExtra("SC_ID")
         if(scID != null){
@@ -50,6 +51,7 @@ class AddScheduleActivity : AppCompatActivity() {
                 this.set(Calendar.HOUR, 7)
                 this.set(Calendar.MINUTE,0)
                 this.set(Calendar.SECOND,0)
+                this.set(Calendar.AM_PM,Calendar.AM)
             }
         }
 
@@ -288,7 +290,8 @@ class AddScheduleActivity : AppCompatActivity() {
         val bgColor = mColorPick
         val with_time = withTime
         val remindMe = remindMe
-        val schedules = ScheduleEntity(scheduleID,title,description,timestamp.toString(),bgColor,with_time,remindMe)
+        val done = true
+        val schedules = ScheduleEntity(scheduleID,title,description,timestamp.toString(),bgColor,with_time,remindMe,done)
 
         mScheduleViewMode.setData(schedules)
         Log.w("AddSche_Result",schedules.toString())

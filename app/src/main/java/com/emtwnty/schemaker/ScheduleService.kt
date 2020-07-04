@@ -26,18 +26,11 @@ class ScheduleService: Service(),LifecycleOwner {
     override fun onCreate() {
         super.onCreate()
 
-        // Memberikan nilai awal untuk scID
         scID = ""
 
-        /**
-         * Mendaftarkan LifeCycle pada class service ini
-         * karena di class service tidak bisa nge get LifeCycle
-         *
-         * **/
         lifecycleRegistry = LifecycleRegistry(this)
         lifecycleRegistry.markState(Lifecycle.State.CREATED)
 
-        // Mendeklarasikan Schedule View Model
         mScheduleViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(ScheduleViewModel::class.java)
     }
 
@@ -45,67 +38,47 @@ class ScheduleService: Service(),LifecycleOwner {
         isiIntent = intent?.getStringExtra("ASD").toString()
 
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
-        mScheduleViewModel.getRowsSchedule()?.observeForever(Observer<List<ScheduleEntity>>{
-            /** --Pengecekan apakah ada schedule yang akan diingatkan pada user--
-             *
-             * Ini agar forground service tidak dijalankan jika tidak ada
-             * list schedule yg harus di ingatkan **/
-            // Jika ya maka akan set Alarm sesuai dengan tanggal yg sudah di tetepkan
-            // Lalu menjalankan forground service
-            if(it.isNotEmpty()){
-                // Memanggil fungsi setAlarm lalu mengisi parameter dengan List<ScheduleEntity>
-                // yang diambil dari room database
-                setAlarm(it)
 
-                // Memanggil fungsi service notifikasi untuk menjalankan foreground service
-                // dan memunculkan notifikasi bahwa service sedang berjalan
+        /** [ Mengambil task yang belum selesai ] **/
+        mScheduleViewModel.getNotDoneTask()?.observeForever(Observer<List<ScheduleEntity>>{
+            if(it.isNotEmpty()){
+                setAlarm(it)
                 notifService(it)
             }
-            // Jika tidak maka foreground service akan berhenti
-            else this.stopSelf() // Memberhentikan foreground service
+            else this.stopSelf()
         })
 
         return START_NOT_STICKY
     }
 
-/**
- * ============== Bagian menjalankan Service dan menyeting Notication =======================
- *
- * **/
+    /** [START-- setting notification, start service] **/
     private fun notifService(scheduleList: List<ScheduleEntity>){
-        val scTimestamp = scheduleList.get(0).timestamp.toLong()
-        val scTitle = scheduleList.get(0).title
-        val scWithTime = scheduleList.get(0).with_time
-        var scTitle2 = ""
+
+        /** Data task pertama **/
+        val scTimestamp = scheduleList[0].timestamp.toLong()
+        val scTitle = scheduleList[0].title
+        val scWithTime = scheduleList[0].with_time
         var nextEvent = "Nothing"
 
-        // Set next event atau schedule
-        // yang nanti akan dimunculkan di dalam notification service
+
+        /** Data task yang akan datang dari yang pertama **/
+        var scTitle2 = ""
         val scheDeadline2 = Calendar.getInstance()
         if(scheduleList.size > 1){
-            val scTimestamp2 = scheduleList.get(1).timestamp.toLong()
-            scTitle2 = scheduleList.get(1).title
+            val scTimestamp2 = scheduleList[1].timestamp.toLong()
+            scTitle2 = scheduleList[1].title
             scTitle2 += " - "
             scheDeadline2.timeInMillis = scTimestamp2 * 1000L
             nextEvent = DateFormat.format("MMM dd, yyyy",scheDeadline2).toString()
         }
 
-        // Mengambil tanggal sesuai dengan timestamp yang ada pada schedule di db
         val scheDeadline = Calendar.getInstance()
         scheDeadline.timeInMillis = scTimestamp * 1000L
-        // Mengambil tanggal sekarang / current date time
         val currentDate = Calendar.getInstance()
 
-        /**
-         *  Pengecekkan apakah Deadline kurang dari satu hari dari Current Date
-         *
-         * **/
-        // Jika ya maka akan mengubah text pada tanggal yg akan ditampilkan
         val jarakTanggal =scheDeadline.get(Calendar.DATE) - currentDate.get(Calendar.DATE)
         if(jarakTanggal == 1){
             scTime = "Tomorrow on "
-            // Pengecekan apakah User membuat Schedule dengan waktu yg spesifik
-            // Jika ya maka akan memunculkan jam pada service notifikasi
             if(scWithTime == true){
                 scTime += DateFormat.format("MMM dd, yyyy hh:mm a",scheDeadline).toString()
             }else scTime += DateFormat.format("MMM dd, yyyy",scheDeadline).toString()
@@ -114,93 +87,68 @@ class ScheduleService: Service(),LifecycleOwner {
             scTime = DateFormat.format("MMM dd, yyyy",scheDeadline).toString()
         }
 
-        /**
-         *  Setup notification untur service. notifikasi akan muncul jika service berjalan
-         *
-         * **/
+
+        /** Membuat notification **/
         val notif = NotificationCompat.Builder(this,CHANNEL_ID_SERVICE)
-            .setContentTitle(scTitle+" - "+scTime)
-            .setContentText("[Next event]: "+scTitle2+nextEvent)
+            .setContentTitle("$scTitle - $scTime")
+            .setContentText("[Next event]: $scTitle2$nextEvent")
             .setSmallIcon(R.drawable.ic_calendar)
             .build()
 
-        // start or run the foreground service
-        // notifikasi akan muncul dan tidak dapat di swap atau dihapus
-        // jika foreground service sedang berjalan
+        /** Menjalankan service di foreground **/
         startForeground(1,notif)
     }
+    /** [END-- setting notification, start service] **/
 
-/**
- * =============================== Bagian menyetel alarm =====================================
- *
- * **/
+
+    /** [START-- menyetel alarm manager dan intent] **/
     private fun setAlarm(scheduleList: List<ScheduleEntity>){
-        scID = scheduleList.get(0).scheduleID
-        val scTitle = scheduleList.get(0).title
-        val scTimestamp = scheduleList.get(0).timestamp.toLong()
+        scID = scheduleList[0].scheduleID
+        val scTitle = scheduleList[0].title
+        val scTimestamp = scheduleList[0].timestamp.toLong()
+        val scRemindme = scheduleList[0].remindMe
 
-        /**
-         * Mengambil date time sesuai dengan timestamp lalu dimasukan ke
-         * value calDeadline yang nantinya akan digunakan untuk men-trigger Alarm Manager
-         *
-         * **/
+        /** convert timestamp to date time **/
         val calDeadline = Calendar.getInstance()
         calDeadline.timeInMillis = scTimestamp * 1000L
 
-        /**
-         * SETUP Alarm Manager, Alarm intent dan juga Pending Intent
-         *
-         * **/
+        /** jika karen date time sudah melebihi deadline **/
+        if(calDeadline.before(Calendar.getInstance())){
+            mScheduleViewModel.updateRemindMe(scID,false)
+        }
+
+        /** Menyeting pending intent **/
         val alarmMngr = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
-        // membuat intent yang ditujukan ke AlarmReceiver
         val alarmIntent = Intent(this,AlarmReceiver::class.java).let {
-            // Menyisipkan data pada intent dan mengirimkannya ke class tujuan
             it.putExtra("SC_TIME",scTimestamp)
             it.putExtra("SC_TITLE",scTitle)
+            it.putExtra("SC_REMINDME",scRemindme)
 
-            // Pending intent yang digunakan untuk menjalankan Broadcast
             PendingIntent.getBroadcast(this,1,it,PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
-        /**
-         * Setting Alarm Manager
-         * yang gunakan untuk men-trigger sesuai tanggal / jam yang sudah di tentukan
-         *
-         * **/
-        // Trigger alarm pada tanggal atau jam yang tepat (Tidak berulang)
+        /** Menyeting alarm manager (tidak berulang) **/
         alarmMngr?.setExact(
-            // Tipe alarm manager yang digunakan, menggunakan Local Date Time
             AlarmManager.RTC_WAKEUP,
-            // Menyetel pada saat kapan Alarm akan di trigger (bisa tanggal/jam)
             calDeadline.timeInMillis,
-            // Akan intent kemana jika Alarm sudah di trigger
             alarmIntent
         )
-
     }
+    /** [END-- menyetel alarm manager dan intent] **/
 
-    /**
-     * Kondisi ketika Service diberhentikan
-     *
-     * **/
+
+    /** [START-- Kondisi ketika service berhenti] **/
     override fun onDestroy() {
-        /**
-         * ====== Ketika Serice berhenti maka memberhentikan Alarm ======
-         *
-         * **/
+
+        /** memberhentikan alarm **/
         val alarmMngr = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
         val alarmIntent = Intent(this,AlarmReceiver::class.java).let {
             PendingIntent.getBroadcast(this,1,it,PendingIntent.FLAG_UPDATE_CURRENT)
         }
         alarmMngr?.cancel(alarmIntent)
 
-        /**
-         * ===== Ketika service berhenti maka mengubah remindMe menjadi false =======
-         *
-         * yang dimana Schedule ini tidak akan di remind lagi dan akan masuk
-         * kedalam list Schedule yang sudah kelewat atau sudah di di remind
-         *
-         * **/
+        /** jika Schedule id tidak kosong:
+         *  memberikan kondisi bahwa schedule sudah beres atau sudah lewat tanggal **/
         if(scID.isNotEmpty()){
             mScheduleViewModel.updateRemindMe(scID,false)
         }

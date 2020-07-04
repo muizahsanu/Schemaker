@@ -20,10 +20,11 @@ class ScheduleRepo(app: Application): CoroutineScope {
         mScheduleDao = db.scheduleDao
     }
 
-    fun updateRemindMe(scheID: String, newRemindMe: Boolean){launch { updateRemindMeBG(scheID, newRemindMe) }}
+    fun updateRemindMe(scheID: String, newDone: Boolean){launch { updateRemindMeBG(scheID, newDone) }}
 
-    fun getData() = mScheduleDao?.getAllData()
-    fun getListRowReminders() = mScheduleDao?.getListRowReminders()
+    fun getDonetask() = mScheduleDao?.getDonetask()
+    fun getRemindTask() = mScheduleDao?.getRemindTask()
+    fun getNotDoneTask() = mScheduleDao?.getNotDoneTask()
 
     fun deleteAllData(){launch { deleteAllDataBG() }}
     fun deleteOne(scheduleEntity: ScheduleEntity){launch { deleteOneBG(scheduleEntity) }}
@@ -57,9 +58,9 @@ class ScheduleRepo(app: Application): CoroutineScope {
         }
     }
 
-    private suspend fun updateRemindMeBG(scheID: String, newRemindMe: Boolean){
+    private suspend fun updateRemindMeBG(scheID: String, newDone: Boolean){
         withContext(Dispatchers.IO){
-            mScheduleDao?.updateRemindMe(scheID,newRemindMe)
+            mScheduleDao?.updateRemindMe(scheID,newDone)
         }
     }
 }
