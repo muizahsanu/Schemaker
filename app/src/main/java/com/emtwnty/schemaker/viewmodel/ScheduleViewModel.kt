@@ -18,14 +18,13 @@ class ScheduleViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun deleteAllData(){repo.deleteAllData()}
-
     fun deletOne(scheduleEntity: ScheduleEntity){
         repo.deleteOne(scheduleEntity)
     }
-
     fun deleteByID(scID: String){
         repo.deleteByID(scID)
     }
+    fun deleteDoneTask(){repo.deleteDoneTask()}
 
     fun updateRemindMe(scheID: String, newDone: Boolean){
         repo.updateRemindMe(scheID, newDone)

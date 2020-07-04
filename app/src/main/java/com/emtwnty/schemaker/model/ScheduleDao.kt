@@ -19,6 +19,8 @@ interface ScheduleDao {
     suspend fun deleteAllData()
     @Query("delete from schedule where scheduleID = :scheID")
     suspend fun deletByID(scheID: String)
+    @Query("delete from schedule where done = 0")
+    suspend fun deleteDoneTask()
 
 
     /** [---GET DATA---] **/

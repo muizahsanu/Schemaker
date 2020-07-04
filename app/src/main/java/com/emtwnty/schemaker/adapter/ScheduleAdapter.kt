@@ -18,18 +18,18 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     inner class ViewHolder(v:View):RecyclerView.ViewHolder(v){
         val titleSche = v.tv_title_layoutRV
-        val descSche = v.tv_desc_layoutRV
         val linBackground = v.lin_layourRV
-        val dateSche = v.tv_date_layoutRV
-        val timeSche = v.tv_time_layoutRV
+        val dateSche = v.tv_tanggal_layoutRV
+        val daySche = v.tv_hari_layoutRV
+        val timeSche = v.tv_jam_layoutRV
 
-        fun bind(scheduleEntity: ScheduleEntity, clickListener: ItemClickListener){
+        fun bind(scheduleEntity: ScheduleEntity, clickListener: ItemClickListener, position: Int){
             titleSche.text = scheduleEntity.title
-            descSche.text = scheduleEntity.description
-            linBackground.setCardBackgroundColor(Color.parseColor(scheduleEntity.bgcolor))
+            linBackground.setBackgroundColor(Color.parseColor(scheduleEntity.bgcolor))
             val dateTime = Calendar.getInstance()
             dateTime.timeInMillis = scheduleEntity.timestamp.toLong() * 1000L
-            dateSche.text = DateFormat.format("dd MMM yyyy",dateTime).toString()
+            dateSche.text = DateFormat.format("dd",dateTime).toString()
+            daySche.text = DateFormat.format("E",dateTime).toString()
             if(scheduleEntity.with_time == true){
                 timeSche.text = DateFormat.format("hh:mm a",dateTime).toString()
             }
@@ -39,11 +39,11 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
             // Click item listener
             itemView.setOnClickListener {
-                clickListener.itemClickListener(scheduleEntity)
+                clickListener.itemClickListener(scheduleEntity, position)
             }
             itemView.setOnLongClickListener(object: View.OnLongClickListener{
                 override fun onLongClick(p0: View?): Boolean {
-                    clickListener.itemLongClickListener(scheduleEntity)
+                    clickListener.itemLongClickListener(scheduleEntity,position)
                     return true
                 }
             })
@@ -53,6 +53,7 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     fun scheduleAdapter(scheduleEntity: List<ScheduleEntity>,clickListener: ItemClickListener){
         scheduleItems = scheduleEntity
         mItemClickListener = clickListener
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -62,7 +63,7 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(scheduleItems.get(position), mItemClickListener)
+        holder.bind(scheduleItems.get(position), mItemClickListener,position)
     }
 
     override fun getItemCount(): Int {
@@ -70,7 +71,7 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     }
 
     interface ItemClickListener {
-        fun itemClickListener(scheduleEntity: ScheduleEntity)
-        fun itemLongClickListener(scheduleEntity: ScheduleEntity)
+        fun itemClickListener(scheduleEntity: ScheduleEntity, position: Int)
+        fun itemLongClickListener(scheduleEntity: ScheduleEntity, position: Int)
     }
 }

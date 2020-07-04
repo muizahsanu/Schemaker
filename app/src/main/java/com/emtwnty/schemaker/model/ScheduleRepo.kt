@@ -29,15 +29,10 @@ class ScheduleRepo(app: Application): CoroutineScope {
     fun deleteAllData(){launch { deleteAllDataBG() }}
     fun deleteOne(scheduleEntity: ScheduleEntity){launch { deleteOneBG(scheduleEntity) }}
     fun deleteByID(scheID: String){launch { deleteByIDBG(scheID) }}
+    fun deleteDoneTask(){launch { deleteDoneTaskBG() }}
 
     fun setData(scheduleEntity: ScheduleEntity){
         launch { setDataBackground(scheduleEntity) }
-    }
-
-    private suspend fun setDataBackground(scheduleEntity: ScheduleEntity){
-        withContext(Dispatchers.IO){
-            mScheduleDao?.upsertSchedule(scheduleEntity)
-        }
     }
 
     private suspend fun deleteAllDataBG(){
@@ -45,19 +40,27 @@ class ScheduleRepo(app: Application): CoroutineScope {
             mScheduleDao?.deleteAllData()
         }
     }
-
     private suspend fun deleteOneBG(scheduleEntity: ScheduleEntity){
         withContext(Dispatchers.IO){
             mScheduleDao?.deleteOne(scheduleEntity)
         }
     }
-
     private suspend fun deleteByIDBG(scheID: String){
         withContext(Dispatchers.IO){
             mScheduleDao?.deletByID(scheID)
         }
     }
+    private suspend fun deleteDoneTaskBG(){
+        withContext(Dispatchers.IO){
+            mScheduleDao?.deleteDoneTask()
+        }
+    }
 
+    private suspend fun setDataBackground(scheduleEntity: ScheduleEntity){
+        withContext(Dispatchers.IO){
+            mScheduleDao?.upsertSchedule(scheduleEntity)
+        }
+    }
     private suspend fun updateRemindMeBG(scheID: String, newDone: Boolean){
         withContext(Dispatchers.IO){
             mScheduleDao?.updateRemindMe(scheID,newDone)

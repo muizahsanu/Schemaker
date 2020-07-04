@@ -1,82 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lin_layourRV"
-    android:layout_width="150dp"
-    android:layout_height="172dp"
+    android:id="@+id/cv_schedule_layoutRV"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center"
     android:elevation="8dp"
+    android:transitionName="trans_cv_to_addSche"
     app:cardElevation="4dp"
     app:cardBackgroundColor="#212121"
     android:layout_margin="8dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="84dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/lin_layourRV"
+            android:transitionName="trans_lin_to_toolbar"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_hari_layoutRV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sun"
+                android:textColor="@color/colorAccent"
+                android:textAppearance="@style/TextHeadBold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/tv_tanggal_layoutRV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28"
+                android:textColor="@color/colorAccent"
+                android:textAppearance="@style/TextHeadBold"
+                android:textSize="21sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <TextView
+                android:id="@+id/tv_title_layoutRV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bemerah"
+                android:maxLines="2"
+                android:textAppearance="@style/TextHeadBold"
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:id="@+id/tv_jam_layoutRV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4:30 Am"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/lin_libertine_r"
+                android:textSize="16sp"/>
+        </LinearLayout>
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/ic_round_person_pin"/>
-        <TextView
-            android:id="@+id/tv_title_layoutRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Title"
-            android:textAppearance="@style/TextHeadBold"
-            android:textSize="18sp"
-            android:textColor="@color/colorAccent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:background="@drawable/ic_calendar"/>
-            <TextView
-                android:id="@+id/tv_date_layoutRV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="Date"
-                android:textColor="@color/colorAccent"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:background="@drawable/ic_time"/>
-            <TextView
-                android:id="@+id/tv_time_layoutRV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="Time"
-                android:textColor="@color/colorAccent"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_desc_layoutRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Desctiotion"
-            android:maxLines="2"
-            android:textAppearance="@style/TextBody"
-            android:textSize="14sp"
-            android:textColor="@color/colorAccent" />
+            android:id="@+id/indicatorDone_layoutRV"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_circle_check_uncheck"/>
     </LinearLayout>
 
 

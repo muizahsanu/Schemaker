@@ -66,12 +66,15 @@
                 android:layout_height="wrap_content"
                 android:text="Sign in with Google"
                 android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                app:iconTint="@color/colorAccent"
                 app:icon="@drawable/googleg_disabled_color_18"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_signOutGoogle_main"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:text="Sign Out"/>
 
             <com.google.android.material.button.MaterialButton

@@ -9,6 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_addSchedule"
+        android:transitionName="trans_lin_to_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#94194d"
@@ -25,6 +26,7 @@
                 android:layout_toStartOf="@id/btn_save_addSchedule"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:text="Cancel"
+                android:textColor="@color/colorAccent"
                 android:visibility="gone"/>
 
             <Button
@@ -33,12 +35,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/lin_libertine_rb"
-                android:text="Save" />
+                android:text="Save"
+                android:textColor="@color/colorAccent" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/inicobalayout"
+        android:transitionName="trans_cv_to_addSche"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -108,7 +112,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="With time"
+                android:text="All day"
                 android:textSize="18sp"
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/lin_libertine_rb"/>

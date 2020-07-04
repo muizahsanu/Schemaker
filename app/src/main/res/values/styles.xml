@@ -6,10 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#dedede</item>
-        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
-        <item name="colorOnPrimary">@color/colorAccent</item>
-        <item name="colorOnSurface">@color/colorPrimary</item>
-        <item name="colorOnSecondary">@color/colorPrimary</item>
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/colorAccent</item>
+        <item name="colorOnSecondary">@color/colorAccent</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
@@ -17,6 +17,8 @@
 
     <style name="TextHeadBold">
         <item name="fontFamily">@font/lin_libertine_rb</item>
+        <item name="colorOnSurface">@color/colorAccent</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextBody">

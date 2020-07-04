@@ -12,12 +12,10 @@
         android:id="@+id/bottomNav_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#212121"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
         app:menu="@menu/bottomappbar_menu"
-        app:labelVisibilityMode="selected"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>

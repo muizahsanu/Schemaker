@@ -1,15 +1,23 @@
 package com.emtwnty.schemaker.ui.main
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.app.ActivityOptions
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Pair
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.core.view.get
+import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +31,9 @@ import com.emtwnty.schemaker.ui.AddScheduleActivity
 import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.layout_schedule_rv.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,ScheduleDoneAdapter.ItemClickListener {
 
@@ -33,6 +44,11 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        lin_progressbar_home.bringToFront()
+        lin_progressbar_home.setOnClickListener {
+
+        }
 
         bottomNav_home.selectedItemId = R.id.nav_home_menu
         bottomNav_home.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
@@ -55,8 +71,26 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
             startActivity(Intent(this,AddScheduleActivity::class.java))
         }
 
-        btn_deleteAll.setOnClickListener {
-            homeViewMode?.deleteAllData()
+        btn_deleteAll_home.setOnClickListener {
+            val halo = scheduleDoneAdapter.itemCount
+            val animationDuration = resources.getInteger(android.R.integer.config_longAnimTime)
+            if(halo != 0){
+                lin_progressbar_home.visibility = View.VISIBLE
+                for (i in 0..halo-1){
+                    Timer().schedule(1000){
+                        val asd = rv_scheduleRecent_home.get(i)
+                        asd.animate()
+                            .alpha(0f)
+                            .setDuration(animationDuration.toLong())
+                            .setListener(object : AnimatorListenerAdapter(){
+                                override fun onAnimationEnd(animation: Animator?) {
+                                    homeViewMode?.deleteDoneTask()
+                                    lin_progressbar_home.visibility = View.GONE
+                                }
+                            })
+                    }
+                }
+            }
         }
     }
 
@@ -79,20 +113,40 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
 
     /** [Menampilkan data task yang belum selesai ke dalam recycler view] **/
     private fun initRecyclerView(scheduleEntity: List<ScheduleEntity>){
+        if(scheduleEntity.isEmpty()){
+            rv_schedule_home.visibility = View.GONE
+            tv_emptyTask_home.visibility = View.VISIBLE
+        }
+        else{
+            rv_schedule_home.visibility = View.VISIBLE
+            tv_emptyTask_home.visibility = View.GONE
+        }
+
         scheduleAdapter = ScheduleAdapter()
-        scheduleAdapter.scheduleAdapter(scheduleEntity,this)
         rv_schedule_home.apply {
-            layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.HORIZONTAL,false)
+            scheduleAdapter.scheduleAdapter(scheduleEntity,this@HomeActivity)
+            scheduleAdapter.notifyDataSetChanged()
+            layoutManager = LinearLayoutManager(this@HomeActivity)
             this.adapter = scheduleAdapter
+            this.adapter?.notifyDataSetChanged()
         }
     }
 
     /** [Menampilkan data task yang sudah selesai ke dalam recycler view] **/
     private fun iniRecyviewScheduleDone(scheduleEntity: List<ScheduleEntity>){
+        if(scheduleEntity.isEmpty()){
+            rv_scheduleRecent_home.visibility = View.GONE
+            tv_completedTask_home.visibility = View.VISIBLE
+        }
+        else{
+            rv_scheduleRecent_home.visibility = View.VISIBLE
+            tv_completedTask_home.visibility = View.GONE
+        }
+
         scheduleDoneAdapter = ScheduleDoneAdapter()
-        scheduleDoneAdapter.scheduleDoneAdapter(scheduleEntity,this)
         rv_scheduleRecent_home.apply {
-            layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.HORIZONTAL,false)
+            scheduleDoneAdapter.scheduleDoneAdapter(scheduleEntity,this@HomeActivity)
+            layoutManager = LinearLayoutManager(this@HomeActivity)
             this.adapter = scheduleDoneAdapter
         }
     }
@@ -131,7 +185,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
     }
 
     /** [ START-- ] Dialog delete item **/
-    private fun popupDialog(scID: String){
+    private fun popupDialog(scID: String, position: Int,v: View){
         val dialogBuilder = AlertDialog.Builder(this,R.style.DialogTheme)
 
         dialogBuilder.apply {
@@ -139,7 +193,15 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
             this.setMessage("Are you sure you want to delete this schedule?")
             this.setPositiveButton("Delete",
                 DialogInterface.OnClickListener { dialogInterface, i ->
-                    homeViewMode?.deleteByID(scID)
+                    val animationDuration = resources.getInteger(android.R.integer.config_longAnimTime)
+                    v.animate()
+                        .alpha(0f)
+                        .setDuration(animationDuration.toLong())
+                        .setListener(object : AnimatorListenerAdapter(){
+                            override fun onAnimationEnd(animation: Animator?) {
+                                homeViewMode?.deleteByID(scID)
+                            }
+                        })
             })
             this.setNegativeButton("Cancel",
                 DialogInterface.OnClickListener { dialogInterface, i ->
@@ -152,7 +214,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
 
 
     /** [Ketika user klik salah satu item di Recycler View] **/
-    override fun itemClickListener(scheduleEntity: ScheduleEntity) {
+    override fun itemClickListener(scheduleEntity: ScheduleEntity, position: Int) {
         val intent = Intent(this, AddScheduleActivity::class.java)
         intent.putExtra("SC_ID",scheduleEntity.scheduleID)
         intent.putExtra("SC_TITLE",scheduleEntity.title)
@@ -162,12 +224,23 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         intent.putExtra("SC_WITHTIME",scheduleEntity.with_time)
         intent.putExtra("SC_REMINDME",scheduleEntity.remindMe)
 
-        startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(this,
+            Pair<View,String>(cv_schedule_layoutRV,"trans_cv_to_addSche"),
+            Pair<View,String>(lin_layourRV,"trans_lin_to_toolbar")
+        )
+        startActivity(intent,options.toBundle())
     }
 
     /** [ Ketika user menekan sedikit lama salah satu item di Recycler View ] **/
-    override fun itemLongClickListener(scheduleEntity: ScheduleEntity) {
+    override fun itemLongClickListener(scheduleEntity: ScheduleEntity,position:Int) {
         val scID = scheduleEntity.scheduleID
-        popupDialog(scID)
+        val v = rv_schedule_home.get(position)
+        popupDialog(scID,position,v)
+    }
+
+    override fun itemLongClickListenerDone(scheduleEntity: ScheduleEntity, position: Int) {
+        val scID = scheduleEntity.scheduleID
+        val v = rv_scheduleRecent_home.get(position)
+        popupDialog(scID,position,v)
     }
 }

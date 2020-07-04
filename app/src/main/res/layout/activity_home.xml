@@ -4,90 +4,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#212121"
+    android:background="#121212"
     tools:context=".ui.main.HomeActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav_home"
-        android:orientation="vertical">
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav_home">
         <LinearLayout
-            android:layout_weight="1.5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/tv_yourSchedule_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
+                android:fontFamily="@font/lin_libertine_rz"
                 android:text="Your Schedule"
-                android:textSize="32sp"
                 android:textColor="@color/colorAccent"
-                android:fontFamily="@font/lin_libertine_rz"/>
+                android:textSize="32sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="halo"
-                android:textColor="@color/colorAccent"
                 android:textAlignment="center"
-                android:visibility="gone"/>
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_emptyTask_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:text="There is no schedule"
+                android:textColor="@color/colorAccent"
+                android:textStyle="italic"
+                android:textSize="15sp"
+                android:textAlignment="center"
+                android:fontFamily="@font/lin_libertine_r" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_schedule_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"/>
+                android:layout_margin="8dp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/tv_finishEvent_home"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lin_libertine_rz"
+                    android:text="Completed"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:id="@+id/btn_deleteAll_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_round_delete_24"/>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_finishEvent_home"
+                android:id="@+id/tv_completedTask_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="8dp"
-                android:text="Completed Schedule"
+                android:layout_marginEnd="20dp"
+                android:text="No schedule has been completed yet"
                 android:textColor="@color/colorAccent"
-                android:textSize="32sp"
-                android:fontFamily="@font/lin_libertine_rz"/>
+                android:textStyle="italic"
+                android:textSize="15sp"
+                android:textAlignment="center"
+                android:fontFamily="@font/lin_libertine_r" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_scheduleRecent_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"/>
+                android:layout_margin="8dp" />
 
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_deleteAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DeleteAll"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav_home"
-        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#d8eaf8"
+        android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_add"
-        android:layout_margin="32dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginEnd="18dp"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNav_home"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -95,14 +122,24 @@
         android:id="@+id/bottomNav_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#212121"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
-        app:labelVisibilityMode="selected"
         app:menu="@menu/bottomappbar_menu"
         app:layout_constraintBottom_toBottomOf="parent">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-
+    <LinearLayout
+        android:id="@+id/lin_progressbar_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:gravity="center"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
