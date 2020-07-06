@@ -10,14 +10,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Pair
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.get
-import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +30,6 @@ import com.emtwnty.schemaker.ui.AddScheduleActivity
 import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.layout_schedule_rv.*
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -224,9 +222,32 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         intent.putExtra("SC_WITHTIME",scheduleEntity.with_time)
         intent.putExtra("SC_REMINDME",scheduleEntity.remindMe)
 
+        val cv = rv_schedule_home.get(position).findViewById<CardView>(R.id.cv_schedule_layoutRV)
+        val lin = rv_schedule_home.get(position).findViewById<LinearLayout>(R.id.lin_layourRV)
+
         val options = ActivityOptions.makeSceneTransitionAnimation(this,
-            Pair<View,String>(cv_schedule_layoutRV,"trans_cv_to_addSche"),
-            Pair<View,String>(lin_layourRV,"trans_lin_to_toolbar")
+            Pair<View,String>(cv,"trans_cv_to_addSche"),
+            Pair<View,String>(lin,"trans_lin_to_toolbar")
+        )
+        startActivity(intent,options.toBundle())
+    }
+
+    override fun itemClickListenerDone(scheduleEntity: ScheduleEntity, position: Int) {
+        val intent = Intent(this, AddScheduleActivity::class.java)
+        intent.putExtra("SC_ID",scheduleEntity.scheduleID)
+        intent.putExtra("SC_TITLE",scheduleEntity.title)
+        intent.putExtra("SC_DESC",scheduleEntity.description)
+        intent.putExtra("SC_TIME",scheduleEntity.timestamp)
+        intent.putExtra("SC_BGCOLOR",scheduleEntity.bgcolor)
+        intent.putExtra("SC_WITHTIME",scheduleEntity.with_time)
+        intent.putExtra("SC_REMINDME",scheduleEntity.remindMe)
+
+        val cv = rv_scheduleRecent_home.get(position).findViewById<CardView>(R.id.cv_schedule_layoutRV)
+        val lin = rv_scheduleRecent_home.get(position).findViewById<LinearLayout>(R.id.lin_layourRV)
+
+        val options = ActivityOptions.makeSceneTransitionAnimation(this,
+            Pair<View,String>(cv,"trans_cv_to_addSche"),
+            Pair<View,String>(lin,"trans_lin_to_toolbar")
         )
         startActivity(intent,options.toBundle())
     }

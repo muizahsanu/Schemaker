@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -138,15 +139,21 @@ class AddScheduleActivity : AppCompatActivity() {
         val scTitle = intent.getStringExtra("SC_TITLE")
         val scDesc = intent.getStringExtra("SC_DESC")
         val scTime = intent.getStringExtra("SC_TIME")
+        val scBgColor = intent.getStringExtra("SC_BGCOLOR")
         val scWithTime = intent.getBooleanExtra("SC_WITHTIME",false)
         val scRemindMe = intent.getBooleanExtra("SC_REMINDME",false)
 
+        toolbar_addSchedule.setBackgroundColor(Color.parseColor(scBgColor))
+        btn_save_addSchedule.setBackgroundColor(Color.parseColor(scBgColor))
+        batas1_addSchedule.setBackgroundColor(Color.parseColor(scBgColor))
+        batas2_addSchedule.setBackgroundColor(Color.parseColor(scBgColor))
+        batas3_addSchedule.setBackgroundColor(Color.parseColor(scBgColor))
+        batas4_addSchedule.setBackgroundColor(Color.parseColor(scBgColor))
+
         remindMe = scRemindMe
-        if(remindMe == false){
-            cb_rimendMe_addSchedule.isChecked = false
-        }
-        else{
-            cb_rimendMe_addSchedule.isChecked = true
+        when(remindMe){
+            false->cb_rimendMe_addSchedule.isChecked = false
+            true->cb_rimendMe_addSchedule.isChecked = true
         }
 
         mCalendar.timeInMillis = scTime!!.toLong() * 1000L

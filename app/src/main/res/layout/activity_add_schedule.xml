@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/btn_save_addSchedule"
                 android:fontFamily="@font/lin_libertine_rb"
-                android:text="Cancel"
+                android:text="@string/btn_cancel"
                 android:textColor="@color/colorAccent"
                 android:visibility="gone"/>
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/lin_libertine_rb"
-                android:text="Save"
+                android:text="@string/btn_save"
                 android:textColor="@color/colorAccent" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -54,7 +54,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title Schedule"
+            android:hint="@string/hint_title"
             android:textColorHint="#99D8EAF8"
             app:boxBackgroundColor="#121212"
             app:boxStrokeWidth="0dp">
@@ -71,6 +71,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
+            android:id="@+id/batas1_addSchedule"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary" />
@@ -80,7 +81,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Detail Schedule"
+            android:hint="@string/hint_desc"
             android:textColorHint="#99D8EAF8"
             app:boxBackgroundColor="#121212"
             app:boxStrokeWidth="0dp">
@@ -97,6 +98,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
+            android:id="@+id/batas2_addSchedule"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary" />
@@ -112,7 +114,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="All day"
+                android:text="@string/tv_allday"
                 android:textSize="18sp"
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/lin_libertine_rb"/>
@@ -141,7 +143,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="18dp"
                 android:paddingBottom="16dp"
-                android:text="tanggal"
+                android:text="@string/tv_tanggal"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp" />
@@ -156,12 +158,13 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="18dp"
                 android:paddingBottom="16dp"
-                android:text="6:00 PM"
+                android:text="@string/tv_jam"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <View
+            android:id="@+id/batas3_addSchedule"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary" />
@@ -197,7 +200,7 @@
         </RadioGroup>
 
         <View
-            android:id="@+id/lin_view4"
+            android:id="@+id/batas4_addSchedule"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary" />
@@ -213,7 +216,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Remind me"
+                android:text= "@string/tv_remindme"
                 android:textSize="18sp"
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/lin_libertine_rb"/>

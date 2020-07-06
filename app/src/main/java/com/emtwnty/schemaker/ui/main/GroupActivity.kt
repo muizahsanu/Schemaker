@@ -22,7 +22,7 @@ class GroupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_group)
 
         cobaViewModel = ViewModelProviders.of(this).get(CobaViewModel::class.java)
-        cobaViewModel.getData().observe(this,Observer<List<CobaModel>>{ Log.w("pastilah",it.toString())})
+//        cobaViewModel.getData().observe(this,Observer<List<CobaModel>>{ Log.w("pastilah",it.toString())})
 
         bottomNav_group.selectedItemId = R.id.nav_group_menu
         bottomNav_group.setOnNavigationItemSelectedListener(navigationItemSelectedListener())

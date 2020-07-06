@@ -34,7 +34,7 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
                 timeSche.text = DateFormat.format("hh:mm a",dateTime).toString()
             }
             else{
-                timeSche.text = "All day"
+                timeSche.text = R.string.tv_allday.toString()
             }
 
             if(scheduleEntity.done != true){
@@ -43,7 +43,7 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
 
             // Click item listener
             itemView.setOnClickListener {
-                clickListener.itemClickListener(scheduleEntity, position)
+                clickListener.itemClickListenerDone(scheduleEntity, position)
             }
             itemView.setOnLongClickListener(object: View.OnLongClickListener{
                 override fun onLongClick(p0: View?): Boolean {
@@ -74,7 +74,7 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
     }
 
     interface ItemClickListener {
-        fun itemClickListener(scheduleEntity: ScheduleEntity, position:Int)
+        fun itemClickListenerDone(scheduleEntity: ScheduleEntity, position:Int)
         fun itemLongClickListenerDone(scheduleEntity: ScheduleEntity,position: Int)
     }
 

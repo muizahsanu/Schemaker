@@ -30,7 +30,7 @@
                 android:id="@+id/tv_hari_layoutRV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sun"
+                android:text="@string/str_namahari"
                 android:textColor="@color/colorAccent"
                 android:textAppearance="@style/TextHeadBold"
                 android:textSize="20sp"/>
@@ -38,7 +38,7 @@
                 android:id="@+id/tv_tanggal_layoutRV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="28"
+                android:text="@string/str_tanggal_angka"
                 android:textColor="@color/colorAccent"
                 android:textAppearance="@style/TextHeadBold"
                 android:textSize="21sp"/>
@@ -54,7 +54,7 @@
                 android:id="@+id/tv_title_layoutRV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bemerah"
+                android:text="@string/str_title"
                 android:maxLines="2"
                 android:textAppearance="@style/TextHeadBold"
                 android:textSize="20sp"
@@ -63,7 +63,7 @@
                 android:id="@+id/tv_jam_layoutRV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4:30 Am"
+                android:text="@string/str_jam_angka"
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/lin_libertine_r"
                 android:textSize="16sp"/>
@@ -73,7 +73,8 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_circle_check_uncheck"/>
+            android:background="@drawable/ic_circle_check_uncheck"
+            android:contentDescription="@string/str_IVdesc_checkIcon"/>
     </LinearLayout>
 
 

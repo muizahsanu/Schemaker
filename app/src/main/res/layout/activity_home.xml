@@ -24,17 +24,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/lin_libertine_rz"
-                android:text="Your Schedule"
+                android:text="@string/str_yourschedule"
                 android:textColor="@color/colorAccent"
                 android:textSize="32sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="halo"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_emptyTask_home"
@@ -43,7 +35,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
-                android:text="There is no schedule"
+                android:text="@string/str_noschduledata"
                 android:textColor="@color/colorAccent"
                 android:textStyle="italic"
                 android:textSize="15sp"
@@ -63,14 +55,15 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                tools:ignore="UseCompoundDrawables">
                 <TextView
                     android:layout_weight="1"
                     android:id="@+id/tv_finishEvent_home"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lin_libertine_rz"
-                    android:text="Completed"
+                    android:text="@string/str_completed"
                     android:textColor="@color/colorAccent"
                     android:textSize="30sp" />
 
@@ -78,7 +71,8 @@
                     android:id="@+id/btn_deleteAll_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_round_delete_24"/>
+                    android:background="@drawable/ic_round_delete_24"
+                    android:contentDescription="@string/str_IVdesc_deleteicon"/>
 
             </LinearLayout>
 
@@ -89,7 +83,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
-                android:text="No schedule has been completed yet"
+                android:text="@string/str_nocompletedschedule"
                 android:textColor="@color/colorAccent"
                 android:textStyle="italic"
                 android:textSize="15sp"
