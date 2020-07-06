@@ -42,19 +42,6 @@ class MainActivity : AppCompatActivity() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(this,gso)
 
-        btn_login.setOnClickListener {
-            val options = ActivityOptions.makeSceneTransitionAnimation(
-                this,
-                UtilPair.create(iv_logo_welcome, "image_logo"),
-                UtilPair.create(linear_parent_main,"linear1"),
-                UtilPair.create(linear_bottom_main,"linear2")
-            )
-
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent, options.toBundle())
-            overridePendingTransition(0,0)
-        }
-
         btn_getStarted_main.setOnClickListener {
             startActivity(Intent(this,
                 HomeActivity::class.java))
@@ -131,8 +118,6 @@ class MainActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?){
         if(user != null){
             tv_greeting_welcome.text = "Google Sign In : " + user.displayName
-            tv_coba.text = "Firebase Sign In : " + user.photoUrl
-
             btn_signInGoogle_main.visibility = View.GONE
             btn_signOutGoogle_main.visibility = View.VISIBLE
         }

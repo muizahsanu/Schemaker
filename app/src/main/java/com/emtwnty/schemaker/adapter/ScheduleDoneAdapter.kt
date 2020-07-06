@@ -34,7 +34,7 @@ class ScheduleDoneAdapter:RecyclerView.Adapter<ScheduleDoneAdapter.ViewHolder>()
                 timeSche.text = DateFormat.format("hh:mm a",dateTime).toString()
             }
             else{
-                timeSche.text = R.string.tv_allday.toString()
+                timeSche.setText(R.string.tv_allday)
             }
 
             if(scheduleEntity.done != true){

@@ -17,8 +17,6 @@
         <activity android:name="com.emtwnty.schemaker.ui.main.SettingActivity" />
         <activity android:name="com.emtwnty.schemaker.ui.main.GroupActivity" />
         <activity android:name="com.emtwnty.schemaker.ui.main.HomeActivity" />
-        <activity android:name="com.emtwnty.schemaker.ui.RegisterActivity" />
-        <activity android:name="com.emtwnty.schemaker.ui.LoginActivity" />
         <activity android:name="com.emtwnty.schemaker.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

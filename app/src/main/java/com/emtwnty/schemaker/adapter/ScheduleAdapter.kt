@@ -34,7 +34,7 @@ class ScheduleAdapter:RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
                 timeSche.text = DateFormat.format("hh:mm a",dateTime).toString()
             }
             else{
-                timeSche.text = R.string.tv_allday.toString()
+                timeSche.setText(R.string.tv_allday)
             }
 
             // Click item listener
