@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/body_spkash"
+    android:transitionName="trans_body"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.SplashScreen">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="152dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/background_bawah"/>
+
+    <LinearLayout
+        android:id="@+id/linear_parent_main"
+        android:transitionName="linear1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_logo_splash"
+                android:transitionName="trans_logo"
+                android:layout_width="132dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/schemaker_logo"
+                android:alpha="0"/>
+
+            <TextView
+                android:id="@+id/tv_greeting_splash"
+                android:transitionName="trans_desc"
+                android:layout_width="256dp"
+                android:layout_height="46dp"
+                android:background="@drawable/greeting"
+                android:alpha="0"
+                android:layout_marginBottom="18dp"/>
+
+            <ProgressBar
+                android:id="@+id/progressbar_splash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible">
+            </ProgressBar>
+            <TextView
+                android:id="@+id/tv_checkLogin_splash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login to existing account"
+                android:textSize="16sp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/lin_libertine_r"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_bottom_main"
+            android:transitionName="linear2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_appVersion_splash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.0"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:alpha="0"/>
+            <ImageView
+                android:id="@+id/tv_slogan_splash"
+                android:layout_width="252dp"
+                android:layout_height="32dp"
+                android:background="@drawable/slogan"
+                android:alpha="0"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

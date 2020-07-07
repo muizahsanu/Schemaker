@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this,gso)
 
         btn_getStarted_main.setOnClickListener {
+            lin_progressbar_main.visibility = View.VISIBLE
             startActivity(Intent(this,
                 HomeActivity::class.java))
             finish()
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        window.enterTransition = null
         val currentUser = mAuth.currentUser
         if(currentUser != null){
             Toast.makeText(this,"ADA",Toast.LENGTH_SHORT).show()
@@ -81,10 +83,12 @@ class MainActivity : AppCompatActivity() {
                 updateUI(null)
             }
         }
+        lin_progressbar_main.visibility = View.INVISIBLE
     }
 
     private fun firebaseAuthGoogle(idToken: String){
         val credential = GoogleAuthProvider.getCredential(idToken,null)
+        lin_progressbar_main.visibility = View.VISIBLE
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener{
                 if(it.isSuccessful){
@@ -97,9 +101,11 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this,"Sign in Failed",Toast.LENGTH_SHORT).show()
                 }
             }
+        lin_progressbar_main.visibility = View.INVISIBLE
     }
 
     private fun startSignInGoogle(){
+        lin_progressbar_main.visibility = View.VISIBLE
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
