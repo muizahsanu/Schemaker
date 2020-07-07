@@ -26,6 +26,8 @@
     <string name="str_completed">Completed</string>
     <string name="str_nocompletedschedule">No schedule has been completed yet</string>
     <string name="str_IVdesc_deleteicon">Icon delete</string>
+    <string name="str_hello">Hello,</string>
+    <string name="str_whoareyou">Who are you?</string>
 
     <!--  RV LAYOUT SCHEDULE -->
     <string name="str_namahari">Sun</string>
