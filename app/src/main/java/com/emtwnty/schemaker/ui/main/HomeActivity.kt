@@ -9,6 +9,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Pair
 import android.view.MenuItem
@@ -29,6 +30,7 @@ import com.emtwnty.schemaker.model.ScheduleEntity
 import com.emtwnty.schemaker.ui.AddScheduleActivity
 import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
 import kotlin.concurrent.schedule
@@ -38,18 +40,20 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
     private var homeViewMode: ScheduleViewModel? = null
     private lateinit var scheduleAdapter: ScheduleAdapter
     private lateinit var scheduleDoneAdapter: ScheduleDoneAdapter
+    private lateinit var mSharedPref: SharedPreferences
+    private var ID_PRE = "com.emtwnty.schemaker-user"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         lin_progressbar_home.bringToFront()
-        lin_progressbar_home.setOnClickListener {
-
-        }
+        lin_progressbar_home.setOnClickListener{}
 
         bottomNav_home.selectedItemId = R.id.nav_home_menu
         bottomNav_home.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
+
+        mSharedPref = getSharedPreferences(ID_PRE,Context.MODE_PRIVATE)
 
         homeViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         /** [ Mengambil jadwal/task yang TIDAK akan diingatkan ] **/
@@ -175,7 +179,11 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
                 return true
             }
         }
-    /** [ END-- ] Navigation Item Selected. ketika user klik menu pada bottom nav**/
+
+    override fun onStart() {
+        super.onStart()
+        getDataUserPref()
+    }
 
     override fun finish() {
         super.finish()
@@ -209,6 +217,21 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         }
     }
     /** [ END-- ] Dialog delete item **/
+
+
+    private fun getDataUserPref(){
+        val userName = mSharedPref.getString("USER_NAME",null)
+        val userImage = mSharedPref.getString("USER_IMAGE",null)
+        if(userName !=null && userImage != null){
+            updateUI(userName,userImage)
+        }
+    }
+
+    private fun updateUI(userName:String,userImage:String){
+        tv_userName_home.text = userName
+        Picasso.get().load(userImage).into(iv_userImage_home)
+
+    }
 
 
     /** [Ketika user klik salah satu item di Recycler View] **/
