@@ -72,12 +72,10 @@ class SettingActivity : AppCompatActivity() {
         if(currentUser != null){
             btn_logout_setting.visibility = View.VISIBLE
             btn_signin_setting.visibility = View.GONE
-            Toast.makeText(this,"memek",Toast.LENGTH_SHORT).show()
         }
         else{
             btn_logout_setting.visibility = View.GONE
             btn_signin_setting.visibility = View.VISIBLE
-            Toast.makeText(this,"memek 2",Toast.LENGTH_SHORT).show()
         }
     }
 
