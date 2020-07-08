@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121212"
+    android:background="@color/colorBackground"
     tools:context=".ui.main.HomeActivity">
 
     <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/str_hello"
                 android:textSize="26sp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/lin_libertine_r"
                 app:layout_constraintTop_toTopOf="parent"/>
             <TextView
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/str_whoareyou"
                 android:textSize="26sp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:maxLines="2"
                 android:fontFamily="@font/lin_libertine_rb"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/lin_libertine_rz"
                 android:text="@string/str_yourschedule"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorText"
                 android:textSize="26sp" />
 
             <TextView
@@ -84,7 +84,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 android:text="@string/str_noschduledata"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorText"
                 android:textStyle="italic"
                 android:textSize="14sp"
                 android:textAlignment="center"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lin_libertine_rz"
                     android:text="@string/str_completed"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorText"
                     android:textSize="26sp" />
 
                 <ImageView
@@ -132,7 +132,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 android:text="@string/str_nocompletedschedule"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorText"
                 android:textStyle="italic"
                 android:textSize="14sp"
                 android:textAlignment="center"
@@ -164,7 +164,7 @@
         android:id="@+id/bottomNav_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#212121"
+        android:background="@color/colorCardView"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
         app:menu="@menu/bottomappbar_menu"

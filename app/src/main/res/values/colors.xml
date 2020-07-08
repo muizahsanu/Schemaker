@@ -9,4 +9,8 @@
     <color name="colorBackgroundSchedule2">#65d0df</color>
     <color name="colorBackgroundSchedule3">#632c32</color>
     <color name="colorBackgroundSchedule4">#e1a959</color>
+
+    <color name="colorBackground">#121212</color>
+    <color name="colorText">#d8eaf8</color>
+    <color name="colorCardView">#212121</color>
 </resources>

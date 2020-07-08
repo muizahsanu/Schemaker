@@ -6,13 +6,194 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.SettingActivity"
-    android:background="#121212">
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav_setting">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/btn_changeTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ligh mode"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:textColor="@color/colorText"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_notif_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Notification"
+            android:textSize="16sp"
+            android:textColor="@color/colorText"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_arrow_open"
+            app:iconGravity="end"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+        <LinearLayout
+            android:id="@+id/lin_notif_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="40dp"
+            android:orientation="vertical">
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_allNotif_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="All notifications"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:checked="true"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_groupNotif_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Group notifications"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:checked="true"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_reminder_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reminder notifications"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:checked="true"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_soundNotif_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Sound notification"
+            android:textSize="16sp"
+            android:textColor="@color/colorText"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_arrow_open"
+            app:iconGravity="end"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+        <LinearLayout
+            android:id="@+id/lin_soundNotif_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="40dp"
+            android:orientation="vertical">
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_allSoundNotif_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="All sound notifications"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:checked="true"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_groupSoundNotif_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Group sound notifications"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:checked="true"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_remindetSoundNotif_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reminder sound notifications"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:checked="true" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_logout_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Sign out"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_signin_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Sign in"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_rateus_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Rate us"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#212121"
+        android:background="@color/colorCardView"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
         app:menu="@menu/bottomappbar_menu"
