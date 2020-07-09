@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import android.util.Pair as UtilPair
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.model.online.UsersModel
 import com.emtwnty.schemaker.ui.main.HomeActivity
+import com.emtwnty.schemaker.viewmodel.UsersViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -27,14 +30,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var googleSignInClient: GoogleSignInClient
-
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mUsersViewModel: UsersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+        mUsersViewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -94,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                 if(it.isSuccessful){
                     Log.d(TAG, "Sign In with Google:Succes")
                     val user = mAuth.currentUser
+                    setDataToDatabase(user)
                     updateUI(user)
                 }
                 else{
@@ -102,6 +107,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         lin_progressbar_main.visibility = View.INVISIBLE
+    }
+
+    private fun setDataToDatabase(user: FirebaseUser?){
+        val uid = user?.uid.toString()
+        val email = user?.email.toString()
+        val fullName = user?.displayName.toString()
+        val imageUrl = user?.photoUrl.toString()
+        val username = user?.email?.split("@")!!.get(0)
+        val users = UsersModel(uid,email,username,fullName,imageUrl)
+        mUsersViewModel.setData(users)
+
     }
 
     private fun startSignInGoogle(){
