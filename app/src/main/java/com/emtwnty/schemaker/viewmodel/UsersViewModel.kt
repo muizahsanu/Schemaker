@@ -13,5 +13,5 @@ class UsersViewModel(app: Application): AndroidViewModel(app) {
         repo.setData(usersModel)
     }
 
-    fun getOneData() = repo.getOneData()
+    fun getUserDataByID(uid:String) = repo.getUserDataByID(uid)
 }

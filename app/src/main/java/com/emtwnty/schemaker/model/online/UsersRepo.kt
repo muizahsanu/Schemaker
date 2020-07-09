@@ -2,11 +2,6 @@ package com.emtwnty.schemaker.model.online
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -28,12 +23,12 @@ object UsersRepo {
         }
     }
 
-    fun getOneData(): LiveData<List<UsersModel>>{
+    fun getUserDataByID(uid: String): LiveData<List<UsersModel>>{
         return object : LiveData<List<UsersModel>>(){
             override fun onActive() {
                 super.onActive()
                 CoroutineScope(Main).launch {
-                    value = getOneDataBG()
+                    value = getUserDataByIDBG(uid)
                 }
             }
         }
@@ -42,20 +37,19 @@ object UsersRepo {
     private suspend fun setDataBG(usersModel: UsersModel){
         val uid = mAuth.currentUser?.uid.toString()
         val usersRef = mFirebaseDb.collection("users").document(uid)
-        val usersData = getOneDataBG()
+        val usersData = getUserDataByIDBG(uid)
         if(usersData.isEmpty()){
             usersRef.set(usersModel).await()
         }
     }
 
-    private suspend fun getOneDataBG(): List<UsersModel>{
-        val uid = mAuth.currentUser?.uid.toString()
+    private suspend fun getUserDataByIDBG(uid: String): List<UsersModel>{
         val usersRef = mFirebaseDb.collection("users").document(uid)
 
         val userData:ArrayList<UsersModel> = arrayListOf()
-        val kontol = usersRef.get().await().toObject<UsersModel>()
-        if(kontol != null){
-            userData.add(kontol)
+        val dataSnapshot = usersRef.get().await().toObject<UsersModel>()
+        if(dataSnapshot != null){
+            userData.add(dataSnapshot)
         }
         return userData
     }

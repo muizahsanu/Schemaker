@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.ui.AddGroupActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_group.*
 
 class GroupActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +20,9 @@ class GroupActivity : AppCompatActivity() {
         bottomNav_group.selectedItemId = R.id.nav_group_menu
         bottomNav_group.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
 
+        btn_addGroup_group.setOnClickListener {
+            startActivity(Intent(this,AddGroupActivity::class.java))
+        }
     }
 
     override fun onResume() {
