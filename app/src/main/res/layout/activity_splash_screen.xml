@@ -6,7 +6,7 @@
     android:transitionName="trans_body"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="#94194d"
     tools:context=".ui.SplashScreen">
 
     <ImageView
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="Login to existing account"
                 android:textSize="16sp"
-                android:textColor="@color/colorAccent"
+                android:textColor="#d8eaf8"
                 android:fontFamily="@font/lin_libertine_r"
                 android:visibility="invisible"/>
 

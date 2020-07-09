@@ -199,4 +199,18 @@
         app:menu="@menu/bottomappbar_menu"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <LinearLayout
+        android:id="@+id/lin_progressbar_setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#4D000000"
+        android:visibility="invisible">
+        <ProgressBar
+            android:id="@+id/progressbar_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ProgressBar>
+    </LinearLayout>
+
   </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:transitionName="trans_cv_to_addSche"
-    app:cardElevation="2dp"
+    app:cardElevation="1dp"
     app:cardBackgroundColor="@color/colorCardView"
     android:layout_margin="8dp">
 
