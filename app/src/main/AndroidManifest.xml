@@ -26,7 +26,7 @@
         <activity android:name=".ui.main.SettingActivity" />
         <activity android:name=".ui.main.GroupActivity" />
         <activity android:name=".ui.main.HomeActivity" />
-        <activity android:name=".ui.MainActivity"></activity>
+        <activity android:name=".ui.MainActivity"/>
 
         <service android:name=".ScheduleService" />
 

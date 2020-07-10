@@ -4,18 +4,37 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.adapter.GroupsAdapter
+import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.ui.AddGroupActivity
+import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_group.*
 
 class GroupActivity : AppCompatActivity() {
 
+    private lateinit var mGroupViewModel: GroupViewModel
+    private lateinit var mGroupsAdapter: GroupsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
+
+        mGroupsAdapter = GroupsAdapter()
+
+        mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        mGroupViewModel.getAllGroup().observe(this, Observer<List<GroupModel>>{
+            println("Group_data => ${it}")
+            mGroupsAdapter.groupsAdapter(it)
+            rv_listGroup_group.apply {
+                layoutManager = LinearLayoutManager(this@GroupActivity,LinearLayoutManager.HORIZONTAL,false)
+                adapter = mGroupsAdapter
+            }
+        })
 
         bottomNav_group.selectedItemId = R.id.nav_group_menu
         bottomNav_group.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
