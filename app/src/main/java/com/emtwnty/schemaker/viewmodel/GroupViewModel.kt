@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.emtwnty.schemaker.model.online.GroupListener
 import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.model.online.GroupRepo
@@ -17,7 +18,9 @@ class GroupViewModel(app: Application):AndroidViewModel(app) {
         repo.addGroup(groupMap)
     }
 
-    fun getAllGroup():LiveData<List<GroupModel>> = repo.getAllGroup()
+    fun getAllGroup():MutableLiveData<ArrayList<GroupModel>>{
+        return repo.getAllData
+    }
 
     fun result():LiveData<String> = repo.responseCallback
 

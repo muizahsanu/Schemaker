@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -22,12 +23,19 @@ object GroupRepo {
     var responseCallback: MutableLiveData<String> = MutableLiveData()
     private var groupListener: GroupListener? = null
     private var mStorage: FirebaseStorage = Firebase.storage
+    val arrayData = ArrayList<GroupModel>()
+
+    private var _mutbaleDataGroup: MutableLiveData<ArrayList<GroupModel>> = MutableLiveData<ArrayList<GroupModel>>()
 
     fun addGroup(groupMap: HashMap<String,Any>){
         responseCallback.value = "RUNNING"
         CoroutineScope(IO).launch {
             addGroupBG(groupMap)
         }
+    }
+
+    init {
+        getDataUsers()
     }
 
     private suspend fun addGroupBG(groupMap: HashMap<String,Any>){
@@ -55,34 +63,67 @@ object GroupRepo {
         }
     }
 
-    fun getAllGroup(): LiveData<List<GroupModel>>{
-        return object : LiveData<List<GroupModel>>(){
-            override fun onActive() {
-                super.onActive()
-                CoroutineScope(IO).launch {
-                    val userID = mAuth.currentUser?.uid.toString()
-                    val groupRef = mDatabase.collection("groups")
-                    val groupList: ArrayList<GroupModel> = arrayListOf()
-                    val usersRef = mDatabase.collection("users").document(userID)
-                        .collection("groups")
-                    groupList.clear()
-                    usersRef.get().addOnSuccessListener { resultUser->
-                        for (documentUser in resultUser){
-                            groupRef.whereEqualTo("groupID",documentUser.id).get().addOnSuccessListener {result->
-                                for (document in result){
-                                    val data = document.toObject(GroupModel::class.java)
-                                    groupList.add(data)
-                                }
-                                CoroutineScope(Main).launch {
-                                    value = groupList
-                                }
-                            }
-                        }
+    private fun getDataUsers(){
+        val userID = mAuth.currentUser?.uid.toString()
+        mDatabase.collection("users").document(userID)
+            .collection("groups").get().addOnSuccessListener {
+                if (it != null) {
+                    val documentsUsers = it.documents
+                    for (halo in documentsUsers){
+                        getDataGroup(halo.id)
                     }
                 }
             }
+    }
+    private fun getDataGroup(groupID: String){
+        mDatabase.collection("groups").whereEqualTo("groupID",groupID).get().addOnSuccessListener {
+            if(it != null){
+
+                val documents = it.documents
+                documents.forEach {
+                    val groups = it.toObject(GroupModel::class.java)
+                    if(groups != null){
+                        arrayData.add(groups)
+                    }
+                }
+                _mutbaleDataGroup.value = arrayData
+            }
         }
     }
+
+    internal var getAllData: MutableLiveData<ArrayList<GroupModel>>
+    get() {return _mutbaleDataGroup}
+    set(value) {
+        _mutbaleDataGroup = value}
+
+//    fun getAllGroup(): LiveData<List<GroupModel>>{
+//        return object : LiveData<List<GroupModel>>(){
+//            override fun onActive() {
+//                super.onActive()
+//                CoroutineScope(IO).launch {
+//                    val userID = mAuth.currentUser?.uid.toString()
+//                    val groupRef = mDatabase.collection("groups")
+//                    val groupList: ArrayList<GroupModel> = arrayListOf()
+//                    val usersRef = mDatabase.collection("users").document(userID)
+//                        .collection("groups")
+//                    groupList.clear()
+//                    usersRef.get().addOnSuccessListener { resultUser->
+//                        for (documentUser in resultUser){
+//                            groupRef.whereEqualTo("groupID",documentUser.id).get().addOnSuccessListener {result->
+//                                for (document in result){
+//                                    val data = document.toObject(GroupModel::class.java)
+//                                    groupList.add(data)
+//                                }
+//                                CoroutineScope(Main).launch {
+//                                    value = groupList
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     fun getImageURL(imageUri: Uri,groupID: String): LiveData<String>{
         return object : LiveData<String>(){
