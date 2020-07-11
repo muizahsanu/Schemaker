@@ -35,4 +35,6 @@
     <string name="str_title">Title Schedule</string>
     <string name="str_jam_angka">4:30 Am</string>
     <string name="str_IVdesc_checkIcon">Icon Check</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

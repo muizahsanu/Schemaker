@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.GroupDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/colorBackground"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <RelativeLayout
+        android:id="@+id/lin_header_profile"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_centerInParent="true">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginEnd="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ini nanti title Group"
+                android:textSize="24sp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/lin_libertine_rb"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorBackground"
+        app:layout_constraintBottom_toTopOf="@+id/batas2_profile"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/backgroun_batas1_profile"
+        app:layout_constraintBottom_toTopOf="@+id/batas2_profile"/>
+
+    <View
+        android:id="@+id/batas2_profile"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/background_profile_content"
+        app:layout_constraintBottom_toBottomOf="@id/lin_tablayout_profile"/>
+
+    <RelativeLayout
+        android:id="@+id/lin_tablayout_profile"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:orientation="vertical"
+        android:elevation="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/colorBottomNav"
+        app:layout_constraintTop_toBottomOf="@+id/lin_header_profile">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etLayout_search_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            app:boxBackgroundColor="@color/colorBottomNav"
+            app:hintTextColor="@color/colorTextLuarLayout"
+            android:layout_above="@+id/tabLayout_profile">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_search_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="72dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_search_profile"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/tabLayout_profile"
+            android:layout_alignParentTop="true"
+            android:text="search"
+            android:textColor="@color/colorTextLuarLayout"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_profile"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorHeight="0dp"
+            android:background="@color/colorBottomNav">
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_schedule_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schedule" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_members_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Members" />
+        </com.google.android.material.tabs.TabLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorBackground"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/lin_tablayout_profile"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

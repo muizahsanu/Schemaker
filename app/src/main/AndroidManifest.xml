@@ -13,20 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.AddGroupActivity"
-            android:parentActivityName=".ui.main.GroupActivity"/>
-        <activity android:name=".ui.SplashScreen">
+        <activity android:name=".ui.GroupDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.AddGroupActivity"
+            android:parentActivityName=".ui.main.GroupActivity" />
+        <activity android:name=".ui.SplashScreen">
+        </activity>
         <activity android:name=".ui.AddScheduleActivity" />
         <activity android:name=".ui.main.SettingActivity" />
         <activity android:name=".ui.main.GroupActivity" />
         <activity android:name=".ui.main.HomeActivity" />
-        <activity android:name=".ui.MainActivity"/>
+        <activity android:name=".ui.MainActivity" />
 
         <service android:name=".ScheduleService" />
 
