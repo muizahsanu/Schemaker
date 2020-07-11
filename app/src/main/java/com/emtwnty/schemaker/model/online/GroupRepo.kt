@@ -1,20 +1,16 @@
 package com.emtwnty.schemaker.model.online
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.tasks.await
 
 object GroupRepo {
 
@@ -27,17 +23,17 @@ object GroupRepo {
 
     private var _mutbaleDataGroup: MutableLiveData<ArrayList<GroupModel>> = MutableLiveData<ArrayList<GroupModel>>()
 
+    init {
+        getDataUsers()
+    }
+
+    /** [ START ] Menambahkan / membuat group **/
     fun addGroup(groupMap: HashMap<String,Any>){
         responseCallback.value = "RUNNING"
         CoroutineScope(IO).launch {
             addGroupBG(groupMap)
         }
     }
-
-    init {
-        getDataUsers()
-    }
-
     private suspend fun addGroupBG(groupMap: HashMap<String,Any>){
         delay(1500)
         val userID = mAuth.currentUser?.uid.toString()
@@ -62,7 +58,10 @@ object GroupRepo {
             responseCallback.value = ""
         }
     }
+    /** [ END ] Menambahkan / membuat group **/
 
+
+    /** [ START ] Menampilkan Group sesuai dengan member user **/
     private fun getDataUsers(){
         val userID = mAuth.currentUser?.uid.toString()
         mDatabase.collection("users").document(userID)
@@ -90,41 +89,10 @@ object GroupRepo {
             }
         }
     }
+    /** [ END ] Menampilkan Group sesuai dengan member user **/
 
-    internal var getAllData: MutableLiveData<ArrayList<GroupModel>>
-    get() {return _mutbaleDataGroup}
-    set(value) {
-        _mutbaleDataGroup = value}
 
-//    fun getAllGroup(): LiveData<List<GroupModel>>{
-//        return object : LiveData<List<GroupModel>>(){
-//            override fun onActive() {
-//                super.onActive()
-//                CoroutineScope(IO).launch {
-//                    val userID = mAuth.currentUser?.uid.toString()
-//                    val groupRef = mDatabase.collection("groups")
-//                    val groupList: ArrayList<GroupModel> = arrayListOf()
-//                    val usersRef = mDatabase.collection("users").document(userID)
-//                        .collection("groups")
-//                    groupList.clear()
-//                    usersRef.get().addOnSuccessListener { resultUser->
-//                        for (documentUser in resultUser){
-//                            groupRef.whereEqualTo("groupID",documentUser.id).get().addOnSuccessListener {result->
-//                                for (document in result){
-//                                    val data = document.toObject(GroupModel::class.java)
-//                                    groupList.add(data)
-//                                }
-//                                CoroutineScope(Main).launch {
-//                                    value = groupList
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
+    /** [ START ] Upload file ke storage, Mengambil link dari file **/
     fun getImageURL(imageUri: Uri,groupID: String): LiveData<String>{
         return object : LiveData<String>(){
             override fun onActive() {
@@ -144,4 +112,11 @@ object GroupRepo {
             }
         }
     }
+    /** [ END ] Upload file ke storage, Mengambil link dari file **/
+
+    internal var getAllData: MutableLiveData<ArrayList<GroupModel>>
+    get() {return _mutbaleDataGroup}
+    set(value) {
+        _mutbaleDataGroup = value}
+
 }

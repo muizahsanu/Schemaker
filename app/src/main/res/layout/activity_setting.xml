@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:layout_marginEnd="20sp"
             android:layout_marginStart="20sp"
-            android:textColor="@color/colorText"/>
+            android:textColor="@color/colorTextLuarLayout"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -40,7 +40,7 @@
             android:paddingEnd="0dp"
             android:text="Notification"
             android:textSize="16sp"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextLuarLayout"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             app:icon="@drawable/ic_arrow_open"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="All notifications"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:textSize="16sp"
                 android:checked="true"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="Group notifications"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:textSize="16sp"
                 android:checked="true"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="Reminder notifications"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:textSize="16sp"
                 android:checked="true"/>
         </LinearLayout>
@@ -98,7 +98,7 @@
             android:paddingEnd="0dp"
             android:text="Sound notification"
             android:textSize="16sp"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTextLuarLayout"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             app:icon="@drawable/ic_arrow_open"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="All sound notifications"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:textSize="16sp"
                 android:checked="true"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:text="Group sound notifications"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:textSize="16sp"
                 android:checked="true"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:text="Reminder sound notifications"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:textSize="16sp"
                 android:checked="true" />
         </LinearLayout>
@@ -193,7 +193,7 @@
         android:id="@+id/bottomNav_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorCardView"
+        android:background="@drawable/bottom_navigation_background"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
         app:menu="@menu/bottomappbar_menu"

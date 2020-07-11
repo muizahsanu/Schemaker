@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_namahari"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorText"
                 android:textAppearance="@style/TextHeadBold"
                 android:textSize="20sp"/>
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_tanggal_angka"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorText"
                 android:textAppearance="@style/TextHeadBold"
                 android:textSize="21sp"/>
         </LinearLayout>
@@ -57,13 +57,13 @@
                 android:maxLines="2"
                 android:textAppearance="@style/TextHeadBold"
                 android:textSize="20sp"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorText"/>
             <TextView
                 android:id="@+id/tv_jam_layoutRV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_jam_angka"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorText"
                 android:fontFamily="@font/lin_libertine_r"
                 android:textSize="16sp"/>
         </LinearLayout>

@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="List Group"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:textSize="24sp" />
             <androidx.recyclerview.widget.RecyclerView
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Schedule in your group"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTextLuarLayout"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:textSize="24sp"/>
             <androidx.recyclerview.widget.RecyclerView
@@ -60,7 +60,7 @@
         android:id="@+id/bottomNav_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorCardView"
+        android:background="@drawable/bottom_navigation_background"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
         app:menu="@menu/bottomappbar_menu"

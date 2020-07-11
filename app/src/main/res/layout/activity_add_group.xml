@@ -12,94 +12,96 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="?attr/actionBarSize"
+        android:background="@drawable/background_toolbar"
+        android:elevation="8dp"
         app:title="Create new group"
-        app:titleTextColor="@color/colorAccent"
+        app:titleTextColor="@color/colorTextLuarLayout"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingTop="32dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_addgroup_group"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_selectImage_addGroup"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:background="@drawable/background_cardview_custom"
+            android:layout_gravity="center"
+            android:elevation="8dp"
+            android:clickable="true"
+            android:focusable="true">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_groupImage_addGroup"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"/>
+            <TextView
+                android:id="@+id/tv_selectImage_addGroup"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:text="Select Group Image"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="#dadada"
+                android:textSize="16sp"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:background="@drawable/select_image_background"/>
+        </RelativeLayout>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_form_addGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorCardView"
+            app:cardBackgroundColor="@color/colorBottomNav"
             android:layout_margin="20sp"
+            app:cardElevation="8dp"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_addgroup_group">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="@color/colorBottomNav"
                 android:layout_margin="8dp">
-
-                <RelativeLayout
-                    android:id="@+id/rl_selectImage_addGroup"
-                    android:layout_width="128dp"
-                    android:layout_height="128dp"
-                    android:layout_gravity="center">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/iv_groupImage_addGroup"
-                        android:layout_width="128dp"
-                        android:layout_height="128dp"
-                        android:layout_gravity="center"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/schemaker_logo"/>
-                    <TextView
-                        android:id="@+id/tv_selectImage_addGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_centerInParent="true"
-                        android:text="Select Group Image"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:textColor="#dadada"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/lin_libertine_rb"
-                        android:background="#B3000000"/>
-                </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/etLayout_groupName_addGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Group Name"
+                    app:hintTextColor="@color/colorText"
                     app:boxStrokeWidth="0dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_groupName_addGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:hintTextColor="@color/colorText"
                         android:textColor="@color/colorText"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorAccent"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/etLayout_groupDesc_addGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Group Description"
+                    app:hintTextColor="@color/colorText"
                     app:boxStrokeWidth="0dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_groupDesc_addGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:hintTextColor="@color/colorText"
                         android:textColor="@color/colorText"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorAccent"
-                    android:layout_marginBottom="8dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.button.MaterialButton
@@ -109,8 +111,12 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="8dp"
             android:text="Create"
             android:textColor="@color/colorText"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintTop_toBottomOf="@+id/cv_form_addGroup" />
     </LinearLayout>
 

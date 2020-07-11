@@ -30,6 +30,7 @@ class AddGroupActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar_addgroup_group)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_round_close_24)
 
         mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 

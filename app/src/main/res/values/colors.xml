@@ -10,7 +10,11 @@
     <color name="colorBackgroundSchedule3">#632c32</color>
     <color name="colorBackgroundSchedule4">#e1a959</color>
 
-    <color name="colorBackground">#121212</color>
+    <color name="colorBackground">#212121</color>
     <color name="colorText">#d8eaf8</color>
-    <color name="colorCardView">#212121</color>
+    <color name="colorTextTitle">#d8eaf8</color>
+    <color name="colorTextLuarLayout">#d8eaf8</color>
+    <color name="colorCardView">#94194d</color>
+    <color name="colorBottomNav">#121212</color>
+    <color name="colorBackgroudUser">#121212</color>
 </resources>
