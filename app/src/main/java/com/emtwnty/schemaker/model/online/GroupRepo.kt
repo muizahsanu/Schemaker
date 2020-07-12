@@ -84,17 +84,23 @@ object GroupRepo {
     fun getGroupData() {
         println("Group_data => Halo")
         val currentUser = mAuth.currentUser
+
         if (currentUser != null) {
             println("Group_data => mems")
+
             val userID = currentUser.uid
             val groupsRef = mDatabase.collection("groups")
             val usersRef = mDatabase.collection("users").document(userID).collection("groups")
+
             usersRef.addSnapshotListener { value, error ->
+
                 val arrayGroupData = ArrayList<GroupModel>()
                 val user_groupsDocs = value?.documents
+
                 user_groupsDocs?.forEach { docSnapshootUser->
                     val groupID = docSnapshootUser.id
                     println("Group_ID => {$groupID}")
+
                     groupsRef.whereEqualTo("groupID",groupID).get().addOnSuccessListener { docGroup->
                         val groupsDoc = docGroup.documents
                         groupsDoc.forEach {

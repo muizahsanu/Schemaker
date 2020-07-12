@@ -1,6 +1,7 @@
 package com.emtwnty.schemaker.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,7 +26,7 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
     // TODO: Rename and change types of parameters
     private var groupID: String? = null
 
-    private lateinit var v:View
+    private lateinit var mView:View
     private lateinit var mContext: Context
 
     private lateinit var mMembersAdapter: MembersAdapter
@@ -47,8 +48,8 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_members, container, false)
-        return v
+        mView = inflater.inflate(R.layout.fragment_members, container, false)
+        return mView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,6 +57,13 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
         mMembersAdapter = MembersAdapter()
         mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
         getDataMember()
+
+        // Click listener
+        mView.btn_inviteMember_memveberFrag.setOnClickListener {
+            val intent = Intent(mContext,FindUserActivity::class.java)
+            intent.putExtra("GROUP_ID",groupID.toString())
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
@@ -72,7 +80,7 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
     }
 
     fun setRecyclerView(listMembers: List<UsersModel>){
-        val rv_members = v.rv_members_membersFrag
+        val rv_members = mView.rv_members_membersFrag
         mMembersAdapter.membersAdapter(listMembers,this)
         rv_members.apply {
             layoutManager = LinearLayoutManager(mContext)

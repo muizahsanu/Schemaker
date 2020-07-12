@@ -75,15 +75,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Group Name"
-                    app:hintTextColor="@color/colorText"
+                    app:hintTextColor="@color/colorTextLuarLayout"
                     app:boxStrokeWidth="0dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_groupName_addGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hintTextColor="@color/colorText"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorTextLuarLayout"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -91,15 +90,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Group Description"
-                    app:hintTextColor="@color/colorText"
+                    app:hintTextColor="@color/colorTextLuarLayout"
                     app:boxStrokeWidth="0dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_groupDesc_addGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hintTextColor="@color/colorText"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorTextLuarLayout"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

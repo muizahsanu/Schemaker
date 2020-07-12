@@ -3,12 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="18dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MembersFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_inviteMember_memveberFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invite member"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/lin_libertine_rb"
+        android:paddingStart="4dp"
+        android:paddingEnd="12dp"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="0dp"
+        app:icon="@drawable/ic_round_add_circle_24"
+        app:iconSize="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_members_membersFrag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/btn_inviteMember_memveberFrag"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
