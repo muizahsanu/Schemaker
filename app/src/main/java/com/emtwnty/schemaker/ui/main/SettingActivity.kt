@@ -3,18 +3,22 @@ package com.emtwnty.schemaker.ui.main
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.LoginViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_setting.*
+
 
 class SettingActivity : AppCompatActivity() {
 
@@ -24,6 +28,7 @@ class SettingActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mLoginViewModel: LoginViewModel
+    private lateinit var mGroupViewModel: GroupViewModel
     private lateinit var mSharedPrefSetting: SharedPreferences
     private var ID_PREF_SETTING = "com.emtwnty.schemaker-setting"
 
@@ -33,6 +38,7 @@ class SettingActivity : AppCompatActivity() {
 
         /** INIT Login View Model **/
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         /** Membuat Google Signin Options **/
         mAuth = FirebaseAuth.getInstance()
@@ -64,18 +70,17 @@ class SettingActivity : AppCompatActivity() {
             }
         })
 
+        checkUserLogin()
+
         btn_logout_setting.setOnClickListener {
             lin_progressbar_setting.visibility = View.VISIBLE
             mLoginViewModel.signOutUser()
-            updateUserUI()
+            afterLogInOut()
         }
         btn_signin_setting.setOnClickListener{
             lin_progressbar_setting.visibility = View.VISIBLE
             startActivityForResult(mLoginViewModel.signInIntent, RC_SIGN_IN)
         }
-
-
-        updateUserUI()
     }
 
     override fun onResume() {
@@ -87,11 +92,11 @@ class SettingActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_SIGN_IN){
             mLoginViewModel.signInGoogle(data)
-            updateUserUI()
+            afterLogInOut()
         }
     }
 
-    private fun updateUserUI(){
+    private fun checkUserLogin(){
         lin_progressbar_setting.visibility = View.INVISIBLE
         val currentUser = mAuth.currentUser
         if(currentUser != null){
@@ -102,6 +107,20 @@ class SettingActivity : AppCompatActivity() {
             btn_logout_setting.visibility = View.GONE
             btn_signin_setting.visibility = View.VISIBLE
         }
+    }
+
+    private fun afterLogInOut(){
+        mLoginViewModel.LOGIN_RESULT.observe(this, Observer {
+            if(it == "SIGNIN_SUCCESS" || it == "SIGNOUT_SUCCESS"){
+                lin_progressbar_setting.visibility = View.INVISIBLE
+                mGroupViewModel.resetMutable()
+                mLoginViewModel.LOGIN_RESULT.value = null
+                val intent = Intent(this,HomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun navigationItemSelectedListener()=

@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.ui.main.SettingActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -20,7 +21,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 class LoginViewModel(app: Application): AndroidViewModel(app) {
 
     private var mAuth: FirebaseAuth
-    private var LOGIN_RESULT: FirebaseUser?
+    var LOGIN_RESULT: MutableLiveData<String> = MutableLiveData()
     private var googleSignInClient: GoogleSignInClient
     private var mSharedPref: SharedPreferences
     var signInIntent: Intent
@@ -32,7 +33,6 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
 
     init {
         mAuth = FirebaseAuth.getInstance()
-        LOGIN_RESULT = null
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(app.getString(R.string.default_web_client_id))
             .requestEmail()
@@ -48,7 +48,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthGoogle(account.idToken!!)
         }catch (e: ApiException){
-            LOGIN_RESULT = null
+            LOGIN_RESULT.value = "SIGNIN_FAILED"
         }
     }
 
@@ -57,7 +57,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
         mAuth.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful){
                 val currentUser = mAuth.currentUser
-                LOGIN_RESULT = currentUser
+                LOGIN_RESULT.value = "SIGNIN_SUCCESS"
                 setPrefUser(currentUser!!)
             }
         }
@@ -68,7 +68,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
 
         googleSignInClient.signOut().addOnCompleteListener {
             if(it.isSuccessful){
-                LOGIN_RESULT = null
+                LOGIN_RESULT.value = "SIGNOUT_SUCCESS"
                 val editor = mSharedPref.edit()
                 editor.clear()
                 editor.apply()
@@ -84,10 +84,6 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
         editor.putString("USER_NAME", currentUser.displayName)
         editor.apply()
         editor.commit()
-    }
-
-    fun loginResult(): FirebaseUser?{
-        return LOGIN_RESULT
     }
 
 

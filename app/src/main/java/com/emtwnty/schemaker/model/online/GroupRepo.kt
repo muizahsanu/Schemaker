@@ -17,37 +17,38 @@ object GroupRepo {
     private var mDatabase = Firebase.firestore
     private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var responseCallback: MutableLiveData<String> = MutableLiveData()
-    private var groupListener: GroupListener? = null
     private var mStorage: FirebaseStorage = Firebase.storage
-    val arrayData = ArrayList<GroupModel>()
 
     private var _mutbaleDataGroup: MutableLiveData<ArrayList<GroupModel>> = MutableLiveData<ArrayList<GroupModel>>()
 
     init {
-        getDataUsers()
+        getGroupData()
     }
 
     /** [ START ] Menambahkan / membuat group **/
-    fun addGroup(groupMap: HashMap<String,Any>){
+    fun addGroup(groupModel: GroupModel){
         responseCallback.value = "RUNNING"
         CoroutineScope(IO).launch {
-            addGroupBG(groupMap)
+            addGroupBG(groupModel)
         }
     }
-    private suspend fun addGroupBG(groupMap: HashMap<String,Any>){
+    private suspend fun addGroupBG(groupModel: GroupModel){
         delay(1500)
         val userID = mAuth.currentUser?.uid.toString()
-        val users = HashMap<String,Any>()
-        users.put("role","hokage")
-        val groupID = groupMap.get("groupID")
-        val groupRef = mDatabase.collection("groups").document(groupID.toString())
-        val memberRef = groupRef.collection("members").document(userID)
-        val usersRef = mDatabase.collection("users").document(userID)
-            .collection("groups").document(groupID.toString())
-        groupRef.set(groupMap).addOnCompleteListener {
+        val groupID = groupModel.groupID
+        // ref
+        val groupRef = mDatabase.collection("groups").document(groupID)
+        val userRef = mDatabase.collection("users").document(userID)
+            .collection("groups").document(groupID)
+        val membersOnGroup = HashMap<String,Any>()
+        membersOnGroup.put("role","hokage")
+        val groupsInUsers = HashMap<String,Any>()
+        groupsInUsers.put("role","hokage")
+
+        groupRef.set(groupModel).addOnCompleteListener {
             if(it.isSuccessful){
-                memberRef.set(users)
-                usersRef.set(users)
+                groupRef.collection("members").document(userID).set(membersOnGroup)
+                userRef.set(groupsInUsers)
                 responseCallback.value = "FINISH"
             }
             else{
@@ -61,33 +62,69 @@ object GroupRepo {
     /** [ END ] Menambahkan / membuat group **/
 
 
-    /** [ START ] Menampilkan Group sesuai dengan member user **/
-    private fun getDataUsers(){
-        val userID = mAuth.currentUser?.uid.toString()
-        mDatabase.collection("users").document(userID)
-            .collection("groups").get().addOnSuccessListener {
-                if (it != null) {
-                    val documentsUsers = it.documents
-                    for (halo in documentsUsers){
-                        getDataGroup(halo.id)
-                    }
-                }
-            }
-    }
-    private fun getDataGroup(groupID: String){
-        mDatabase.collection("groups").whereEqualTo("groupID",groupID).get().addOnSuccessListener {
-            if(it != null){
 
-                val documents = it.documents
-                documents.forEach {
-                    val groups = it.toObject(GroupModel::class.java)
-                    if(groups != null){
-                        arrayData.add(groups)
+    /** [ START ] Menampilkan group sesuai ID **/
+
+    fun getGroupByID(groupID: String): LiveData<GroupModel>{
+        return object : LiveData<GroupModel>(){
+            override fun onActive() {
+                super.onActive()
+                mDatabase.collection("groups").document(groupID).get()
+                    .addOnSuccessListener {
+                        value = it.toObject(GroupModel::class.java)
                     }
-                }
-                _mutbaleDataGroup.value = arrayData
             }
         }
+    }
+    /** [ END ] Menampilkan group sesuai ID **/
+
+
+
+    /** [ START ] Menampilkan Group sesuai dengan member user **/
+    fun getGroupData() {
+        println("Group_data => Halo")
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            println("Group_data => mems")
+            val userID = currentUser.uid
+            val groupsRef = mDatabase.collection("groups")
+            val usersRef = mDatabase.collection("users").document(userID).collection("groups")
+            usersRef.addSnapshotListener { value, error ->
+                val arrayGroupData = ArrayList<GroupModel>()
+                val user_groupsDocs = value?.documents
+                user_groupsDocs?.forEach { docSnapshootUser->
+                    val groupID = docSnapshootUser.id
+                    println("Group_ID => {$groupID}")
+                    groupsRef.whereEqualTo("groupID",groupID).get().addOnSuccessListener { docGroup->
+                        val groupsDoc = docGroup.documents
+                        groupsDoc.forEach {
+                            val memek = it.toObject(GroupModel::class.java)
+                            arrayGroupData.add(memek!!)
+                        }
+                        _mutbaleDataGroup.value = arrayGroupData
+                    }
+                }
+            }
+//                .addSnapshotListener { value, error ->
+//                    if (value != null) {
+//                        val arrayData = ArrayList<GroupModel>()
+//                        val documents = value.documents
+//                        documents.forEach {
+//                            val groups = it.toObject(GroupModel::class.java)
+//                            if (groups != null) {
+//                                arrayData.add(groups)
+//                            }
+//                        }
+//                        _mutbaleDataGroup.value = arrayData
+//                    }
+//                }
+        }
+    }
+    fun resetMutable(){
+        _mutbaleDataGroup.postValue(null)
+    }
+    fun initGetGroupData(){
+        getGroupData()
     }
     /** [ END ] Menampilkan Group sesuai dengan member user **/
 

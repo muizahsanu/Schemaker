@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.layout_group_rv.view.*
 class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
 
     private lateinit var listGroup: List<GroupModel>
+    private lateinit var mItemClickListener: onItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupsAdapter.ViewHolder {
         return ViewHolder(
@@ -24,11 +25,12 @@ class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: GroupsAdapter.ViewHolder, position: Int) {
-        holder.bind(listGroup.get(position))
+        holder.bind(listGroup.get(position),mItemClickListener,position)
     }
 
-    fun groupsAdapter(listGroup: List<GroupModel>){
+    fun groupsAdapter(listGroup: List<GroupModel>,clickListener: onItemClickListener){
         this.listGroup = listGroup
+        this.mItemClickListener = clickListener
     }
 
     inner class ViewHolder(
@@ -36,11 +38,19 @@ class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
     ): RecyclerView.ViewHolder(view){
         val tvTitle = view.tv_titleGroup_layoutGroup
         val ivGroup = view.iv_groupImage_layoutGroup
-        fun bind(groupModel: GroupModel){
+        fun bind(groupModel: GroupModel, clickListener: onItemClickListener,position: Int){
             tvTitle.text = groupModel.groupName
             if(groupModel.groupImage != "null"){
                 Picasso.get().load(groupModel.groupImage).into(ivGroup)
             }
+
+            itemView.setOnClickListener {
+                clickListener.itemClickListener(groupModel,position)
+            }
         }
+    }
+
+    interface onItemClickListener{
+        fun itemClickListener(groupModel: GroupModel, position: Int)
     }
 }

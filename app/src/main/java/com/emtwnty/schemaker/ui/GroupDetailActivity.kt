@@ -3,15 +3,33 @@ package com.emtwnty.schemaker.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.model.online.GroupModel
+import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.google.android.material.tabs.TabLayout
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
 
 class GroupDetailActivity : AppCompatActivity() {
 
+    private lateinit var mGroupViewModel: GroupViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_detail)
+
+
+        // init
+        mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
+        val grouID = intent.getStringExtra("GROUP_ID")
+        if(grouID != null){
+            mGroupViewModel.getGroupDataByID(grouID).observe(this, Observer {
+                updateGroupUI(it)
+            })
+        }
 
         btn_search_profile.setOnClickListener {
             val result_search = et_search_profile.text.toString()
@@ -37,6 +55,13 @@ class GroupDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun updateGroupUI(groupModel: GroupModel){
+        tv_titleGroup_detailGroup.text = groupModel.groupName
+        if(groupModel.groupImage != "null"){
+            Picasso.get().load(groupModel.groupImage).into(iv_groupImage_detailGroup)
+        }
     }
 
     private fun findSelectedFragment(resultSearch:String){

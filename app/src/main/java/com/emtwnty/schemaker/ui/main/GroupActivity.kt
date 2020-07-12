@@ -11,30 +11,25 @@ import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.adapter.GroupsAdapter
 import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.ui.AddGroupActivity
+import com.emtwnty.schemaker.ui.GroupDetailActivity
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_group.*
 
-class GroupActivity : AppCompatActivity() {
+class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
 
     private lateinit var mGroupViewModel: GroupViewModel
     private lateinit var mGroupsAdapter: GroupsAdapter
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
 
         mGroupsAdapter = GroupsAdapter()
+        mAuth = FirebaseAuth.getInstance()
 
-        mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-        mGroupViewModel.getAllGroup().observe(this, Observer<List<GroupModel>>{
-            println("Group_data => ${it}")
-            mGroupsAdapter.groupsAdapter(it)
-            rv_listGroup_group.apply {
-                layoutManager = LinearLayoutManager(this@GroupActivity,LinearLayoutManager.HORIZONTAL,false)
-                adapter = mGroupsAdapter
-            }
-        })
 
         bottomNav_group.selectedItemId = R.id.nav_group_menu
         bottomNav_group.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
@@ -47,6 +42,27 @@ class GroupActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         bottomNav_group.selectedItemId = R.id.nav_group_menu
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(mAuth.currentUser != null){
+            mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+            retriveDataGroup()
+        }
+    }
+
+    private fun retriveDataGroup(){
+        mGroupViewModel.getAllGroup().observe(this, Observer<List<GroupModel>>{
+            println("Group_data => ${it}")
+            if(it != null){
+                mGroupsAdapter.groupsAdapter(it,this)
+                rv_listGroup_group.apply {
+                    layoutManager = LinearLayoutManager(this@GroupActivity,LinearLayoutManager.HORIZONTAL,false)
+                    adapter = mGroupsAdapter
+                }
+            } else mGroupViewModel.iniGetGroupData()
+        })
     }
 
     private fun navigationItemSelectedListener() =
@@ -73,5 +89,11 @@ class GroupActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_down,R.anim.slide_out_down)
+    }
+
+    override fun itemClickListener(groupModel: GroupModel, position: Int) {
+        val intent = Intent(this, GroupDetailActivity::class.java)
+        intent.putExtra("GROUP_ID",groupModel.groupID)
+        startActivity(intent)
     }
 }

@@ -1,14 +1,14 @@
 package com.emtwnty.schemaker.ui
 
-import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import android.util.Pair as UtilPair
 import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.model.online.UsersModel
 import com.emtwnty.schemaker.ui.main.HomeActivity
@@ -33,12 +33,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUsersViewModel: UsersViewModel
 
+    private var ID_PREF = "com.emtwnty.schemaker-user"
+    private lateinit var mSharedPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
         mUsersViewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
+        mSharedPref = getSharedPreferences(ID_PREF, Context.MODE_PRIVATE)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -55,9 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         btn_signInGoogle_main.setOnClickListener {
             startSignInGoogle()
-        }
-        btn_signOutGoogle_main.setOnClickListener{
-            signOutGoolge()
         }
 
     }
@@ -126,26 +127,19 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    private fun signOutGoolge(){
-        mAuth.signOut()
-
-        googleSignInClient.signOut().addOnCompleteListener {
-            if (it.isSuccessful){
-                Toast.makeText(this,"Sign out",Toast.LENGTH_SHORT).show()
-                updateUI(null)
-            }
-        }
-    }
-
     private fun updateUI(user: FirebaseUser?){
         if(user != null){
-            tv_greeting_welcome.text = "Google Sign In : " + user.displayName
-            btn_signInGoogle_main.visibility = View.GONE
-            btn_signOutGoogle_main.visibility = View.VISIBLE
-        }
-        else{
-            btn_signInGoogle_main.visibility = View.VISIBLE
-            btn_signOutGoogle_main.visibility = View.GONE
+            val editor = mSharedPref.edit()
+            editor.putString("USER_ID",user.uid)
+            editor.putString("USER_IMAGE",user.photoUrl.toString())
+            editor.putString("USER_NAME",user.displayName)
+            editor.apply()
+            editor.commit()
+
+            val intent = Intent(this,HomeActivity::class.java)
+
+            startActivity(intent)
+            finish()
         }
     }
 

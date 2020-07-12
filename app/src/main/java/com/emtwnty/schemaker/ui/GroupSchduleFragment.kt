@@ -1,5 +1,6 @@
 package com.emtwnty.schemaker.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ class GroupSchduleFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var v:View
+    private lateinit var mContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,11 @@ class GroupSchduleFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_group_schdule, container, false)
 
         return v
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
     }
 
     override fun onStart() {

@@ -45,8 +45,6 @@
                 android:background="@drawable/greeting"
                 android:layout_marginBottom="18dp"/>
 
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -63,31 +61,22 @@
                 android:layout_height="wrap_content"
                 android:text="Sign in with Google"
                 android:textAllCaps="false"
-                android:textColor="@color/colorAccent"
+                android:textColor="#d8eaf8"
                 app:strokeWidth="1dp"
-                app:strokeColor="@color/colorAccent"
-                app:backgroundTint="@color/colorPrimary"
+                app:strokeColor="#d8eaf8"
+                app:backgroundTint="#94194d"
                 app:iconTint="@color/colorAccent"
                 app:icon="@drawable/googleg_disabled_color_18"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_signOutGoogle_main"
-                android:layout_width="220dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                app:backgroundTint="@color/colorAccent"
-                android:text="Sign Out"
-                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_getStarted_main"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:text="Get Started"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#94194d"
                 app:strokeWidth="1dp"
-                app:strokeColor="@color/colorPrimary"
-                app:backgroundTint="@color/colorAccent"
+                app:strokeColor="#94194d"
+                app:backgroundTint="#d8eaf8"
                 android:textSize="16sp"
                 android:textAppearance="@style/TextHeadBold"/>
 

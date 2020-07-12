@@ -13,6 +13,7 @@ import com.emtwnty.schemaker.model.online.GroupListener
 import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.ui.main.GroupActivity
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_group.*
 import java.util.*
@@ -22,11 +23,16 @@ class AddGroupActivity : AppCompatActivity() {
 
     private lateinit var mGroupViewModel: GroupViewModel
     private lateinit var mGroupID: String
+    private lateinit var mUserID: String
+    private lateinit var mAuth: FirebaseAuth
     private var mImageUrl: Uri? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_group)
+
+        mAuth = FirebaseAuth.getInstance()
+        mUserID = mAuth.currentUser?.uid.toString()
 
         setSupportActionBar(toolbar_addgroup_group)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -71,20 +77,19 @@ class AddGroupActivity : AppCompatActivity() {
         }
         etLayout_groupDesc_addGroup.isErrorEnabled = false
 
-        val groupMap = HashMap<String,Any>()
-        groupMap.put("groupID",mGroupID)
-        groupMap.put("groupName",etGroupName.toString())
-        groupMap.put("groupDesc",etGroupDesc.toString())
+        val groupName = etGroupName.toString()
+        val groupDesc = etGroupDesc.toString()
+        var groups: GroupModel
         if(mImageUrl.toString() == "null"){
-            groupMap.put("groupImage",mImageUrl.toString())
-            mGroupViewModel.addGroup(groupMap)
+            groups = GroupModel(mGroupID,groupName,groupDesc, mImageUrl.toString())
+            mGroupViewModel.addGroup(groups)
         }
         else{
             mGroupViewModel.uploadImage(mImageUrl!!,mGroupID).observe(this,Observer<String>{
-                groupMap.put("groupImage",it)
+                groups = GroupModel(mGroupID,groupName,groupDesc,it)
                 mGroupViewModel.result().observe(this,Observer<String>{
                     if(it == "FINISH_UPLOAD_IMAGE"){
-                        mGroupViewModel.addGroup(groupMap)
+                        mGroupViewModel.addGroup(groups)
                     }
                 })
             })
