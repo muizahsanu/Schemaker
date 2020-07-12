@@ -105,19 +105,6 @@ object GroupRepo {
                     }
                 }
             }
-//                .addSnapshotListener { value, error ->
-//                    if (value != null) {
-//                        val arrayData = ArrayList<GroupModel>()
-//                        val documents = value.documents
-//                        documents.forEach {
-//                            val groups = it.toObject(GroupModel::class.java)
-//                            if (groups != null) {
-//                                arrayData.add(groups)
-//                            }
-//                        }
-//                        _mutbaleDataGroup.value = arrayData
-//                    }
-//                }
         }
     }
     fun resetMutable(){

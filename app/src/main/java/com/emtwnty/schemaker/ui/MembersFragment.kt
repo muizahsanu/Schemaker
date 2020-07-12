@@ -1,35 +1,45 @@
 package com.emtwnty.schemaker.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.adapter.MembersAdapter
+import com.emtwnty.schemaker.model.online.UsersModel
+import com.emtwnty.schemaker.viewmodel.MembersViewModel
+import com.emtwnty.schemaker.viewmodel.UsersViewModel
+import kotlinx.android.synthetic.main.fragment_members.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val GROUP_ID = "null"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MembersFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MembersFragment : Fragment() {
+class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var groupID: String? = null
 
     private lateinit var v:View
+    private lateinit var mContext: Context
+
+    private lateinit var mMembersAdapter: MembersAdapter
+    private lateinit var mMembersViewModel: MembersViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            groupID = it.getString(GROUP_ID)
         }
     }
 
@@ -38,32 +48,48 @@ class MembersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_members, container, false)
-
         return v
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mMembersAdapter = MembersAdapter()
+        mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
+        getDataMember()
     }
 
     override fun onStart() {
         super.onStart()
-        val asd = v.findViewById<TextView>(R.id.tv_coba2)
-        asd.text = param1
+    }
+
+    fun getDataMember(){
+        mMembersViewModel.memberDataFromGroup(groupID.toString()).observe(this,
+            Observer<List<UsersModel>>{
+                println("members_fragment => ${it}")
+                setRecyclerView(it)
+            }
+        )
+    }
+
+    fun setRecyclerView(listMembers: List<UsersModel>){
+        val rv_members = v.rv_members_membersFrag
+        mMembersAdapter.membersAdapter(listMembers,this)
+        rv_members.apply {
+            layoutManager = LinearLayoutManager(mContext)
+            adapter = mMembersAdapter
+        }
+    }
+
+    override fun itemClickListener(usersModel: UsersModel, position: Int) {
+        TODO("Not yet implemented")
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MembersFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String) =
             MembersFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(GROUP_ID, param1)
                 }
             }
     }

@@ -49,7 +49,8 @@ class GroupDetailActivity : AppCompatActivity() {
                         replaceFragment(fragment)
                     }
                     else-> {
-                        val fragment = MembersFragment.newInstance("asd","zxc")
+                        val groupID = intent.getStringExtra("GROUP_ID")
+                        val fragment = MembersFragment.newInstance(groupID!!)
                         replaceFragment(fragment)
                     }
                 }
@@ -65,10 +66,11 @@ class GroupDetailActivity : AppCompatActivity() {
     }
 
     private fun findSelectedFragment(resultSearch:String){
+        val groupID = intent.getStringExtra("GROUP_ID")
         val fragment: Fragment
         if(tabLayout_profile.selectedTabPosition == 0){
             fragment = GroupSchduleFragment.newInstance(resultSearch,"zxc")
-        } else fragment = MembersFragment.newInstance(resultSearch,"zxc")
+        } else fragment = MembersFragment.newInstance(groupID!!)
         replaceFragment(fragment)
     }
 

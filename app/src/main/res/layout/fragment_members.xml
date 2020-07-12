@@ -6,17 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MembersFragment">
 
-    <TextView
-        android:id="@+id/tv_coba2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_members_membersFrag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fragment Members"
-        android:gravity="center"/>
-    <TextView
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ini fragment member"
-        android:gravity="center"/>
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
