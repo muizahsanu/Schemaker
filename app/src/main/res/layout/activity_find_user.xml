@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.FindUserActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_cardView_findUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="@color/colorBottomNav"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etLayout_search_findUser"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorTextLuarLayout"
+                android:hint="Username"
+                app:hintTextColor="@color/colorTextLuarLayout"
+                app:startIconDrawable="@drawable/ic_baseline_search_24"
+                app:startIconTint="@color/colorTextLuarLayout"
+                app:boxStrokeWidth="0dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_search_findUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextLuarLayout"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_search_findUser"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:text="Search"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_userNotFound_findUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/cv_cardView_findUser"
+        android:text="User not found"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="@color/colorTextLuarLayout"
+        android:fontFamily="@font/lin_libertine_r"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_result_findeUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/colorCardView"
+        app:layout_constraintTop_toBottomOf="@+id/tv_userNotFound_findUser"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_userImage_findUser"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_userName_findUser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Nama User"
+                android:textSize="18sp"
+                android:fontFamily="@font/lin_libertine_rb"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_invite_findUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="invite"
+                android:textColor="@color/colorText"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
