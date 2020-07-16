@@ -46,14 +46,13 @@ class GroupDetailActivity : AppCompatActivity() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                val groupID = intent.getStringExtra("GROUP_ID").toString()
                 val fragment: Fragment
                 when(tab?.position){
                     0-> {
-                        fragment = GroupSchduleFragment.newInstance(groupID)
+                        fragment = GroupSchduleFragment.newInstance(groupID.toString())
                     }
                     else-> {
-                        fragment = MembersFragment.newInstance(groupID)
+                        fragment = MembersFragment.newInstance(groupID.toString())
                     }
                 }
                 replaceFragment(fragment)
