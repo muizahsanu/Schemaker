@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.ProfileActivity">
+
+    <View
+        android:id="@+id/view_header_userProfile"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <View
+        android:id="@+id/view_header2_userProfile"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@drawable/background_atas_profile"
+        app:layout_constraintTop_toBottomOf="@id/view_header_userProfile"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_detailProfile_userProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/colorBottomNav"
+        app:layout_constraintTop_toBottomOf="@+id/view_header_userProfile">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_userImage_profile"
+                android:layout_width="82dp"
+                android:layout_height="82dp"/>
+            <TextView
+                android:id="@+id/tv_userFullName_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Nama user"
+                android:textSize="20sp"
+                android:textColor="@color/colorTextLuarLayout"
+                android:fontFamily="@font/lin_libertine_rb"/>
+            <TextView
+                android:id="@+id/tv_username_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textColor="@color/colorTextLuarLayout"
+                android:fontFamily="@font/lin_libertine_r"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_requestList_userProfile"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_detailProfile_userProfile"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

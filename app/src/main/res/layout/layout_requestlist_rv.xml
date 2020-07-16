@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/colorCardView">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:gravity="center">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_groupImage_layoutReqList"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"/>
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/tv_groupTitle_layoutReqList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Title Group"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/lin_libertine_r"
+            android:textSize="16sp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_decline_layoutReqList"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text="Decline"
+            android:textColor="@color/colorText"
+            android:textAllCaps="false"
+            android:fontFamily="@font/lin_libertine_rb"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_accept_layoutReqList"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:textColor="@color/colorText"
+            android:textAllCaps="false"
+            android:fontFamily="@font/lin_libertine_rb"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

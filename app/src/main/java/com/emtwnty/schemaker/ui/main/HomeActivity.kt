@@ -28,6 +28,7 @@ import com.emtwnty.schemaker.adapter.ScheduleAdapter
 import com.emtwnty.schemaker.adapter.ScheduleDoneAdapter
 import com.emtwnty.schemaker.model.ScheduleEntity
 import com.emtwnty.schemaker.ui.AddScheduleActivity
+import com.emtwnty.schemaker.ui.ProfileActivity
 import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
@@ -93,6 +94,13 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
                     }
                 }
             }
+        }
+
+        iv_userImage_home.setOnClickListener {
+            val userID = mSharedPref.getString("USER_ID",null).toString()
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("USER_ID",userID)
+            startActivity(intent)
         }
     }
 

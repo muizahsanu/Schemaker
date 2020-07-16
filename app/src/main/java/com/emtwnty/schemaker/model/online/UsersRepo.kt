@@ -23,17 +23,6 @@ object UsersRepo {
         }
     }
 
-    fun getUserDataByID(uid: String): LiveData<List<UsersModel>>{
-        return object : LiveData<List<UsersModel>>(){
-            override fun onActive() {
-                super.onActive()
-                CoroutineScope(Main).launch {
-                    value = getUserDataByIDBG(uid)
-                }
-            }
-        }
-    }
-
     private suspend fun setDataBG(usersModel: UsersModel){
         val uid = mAuth.currentUser?.uid.toString()
         val usersRef = mFirebaseDb.collection("users").document(uid)
@@ -52,6 +41,24 @@ object UsersRepo {
             userData.add(dataSnapshot)
         }
         return userData
+    }
+
+
+    fun getUserDataByID(uid: String): LiveData<UsersModel>{
+        return object : LiveData<UsersModel>(){
+            override fun onActive() {
+                super.onActive()
+                CoroutineScope(Main).launch {
+                    value = getUserProfileBG(uid)
+                }
+            }
+        }
+    }
+    private suspend fun getUserProfileBG(uid:String): UsersModel{
+        val usersRef = mFirebaseDb.collection("users").document(uid)
+
+        val userDataSnapshot = usersRef.get().await().toObject(UsersModel::class.java)
+        return userDataSnapshot!!
     }
 
     fun getResult():String{
