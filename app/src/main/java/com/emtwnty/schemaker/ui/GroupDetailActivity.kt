@@ -33,7 +33,7 @@ class GroupDetailActivity : AppCompatActivity() {
 
         btn_search_profile.setOnClickListener {
             val result_search = et_search_profile.text.toString()
-            findSelectedFragment(result_search)
+//            findSelectedFragment(result_search)
         }
 
 
@@ -43,14 +43,15 @@ class GroupDetailActivity : AppCompatActivity() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                val groupID = intent.getStringExtra("GROUP_ID").toString()
                 when(tab?.position){
                     0-> {
-                        val fragment = GroupSchduleFragment.newInstance("asd","zxc")
+                        val fragment = GroupSchduleFragment.newInstance(groupID)
                         replaceFragment(fragment)
                     }
                     else-> {
-                        val groupID = intent.getStringExtra("GROUP_ID")
-                        val fragment = MembersFragment.newInstance(groupID!!)
+
+                        val fragment = MembersFragment.newInstance(groupID)
                         replaceFragment(fragment)
                     }
                 }
@@ -69,7 +70,7 @@ class GroupDetailActivity : AppCompatActivity() {
         val groupID = intent.getStringExtra("GROUP_ID")
         val fragment: Fragment
         if(tabLayout_profile.selectedTabPosition == 0){
-            fragment = GroupSchduleFragment.newInstance(resultSearch,"zxc")
+            fragment = GroupSchduleFragment.newInstance(resultSearch)
         } else fragment = MembersFragment.newInstance(groupID!!)
         replaceFragment(fragment)
     }

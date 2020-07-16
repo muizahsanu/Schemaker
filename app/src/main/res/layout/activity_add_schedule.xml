@@ -13,17 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#94194d"
+        app:title="Add Schedule"
+        app:titleTextColor="#fff"
         app:layout_constraintTop_toTopOf="parent">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginEnd="18dp">
-
             <Button
                 android:id="@+id/btn_cancel_addSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/btn_save_addSchedule"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:text="@string/btn_cancel"
                 android:textColor="@color/colorAccent"
@@ -33,12 +34,11 @@
                 android:id="@+id/btn_save_addSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:text="@string/btn_save"
                 android:textColor="@color/colorText"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-        </RelativeLayout>
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout

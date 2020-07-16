@@ -1,6 +1,7 @@
 package com.emtwnty.schemaker.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,8 +13,7 @@ import kotlinx.android.synthetic.main.fragment_group_schdule.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val GROUP_ID = "param1"
 
 /**
  * A simple [Fragment] subclass.
@@ -22,8 +22,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class GroupSchduleFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var groupID: String? = null
 
     private lateinit var v:View
     private lateinit var mContext: Context
@@ -31,8 +30,7 @@ class GroupSchduleFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            groupID = it.getString(GROUP_ID)
         }
     }
 
@@ -51,10 +49,13 @@ class GroupSchduleFragment : Fragment() {
         mContext = context
     }
 
-    override fun onStart() {
-        super.onStart()
-        val asd = v.findViewById<TextView>(R.id.tv_coba)
-        asd.text = param1
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.btn_addSchedule_scheduleFrag.setOnClickListener {
+            val intent = Intent(mContext,AddScheOnlineActivity::class.java)
+            intent.putExtra("GROUP_ID",groupID)
+            startActivity(intent)
+        }
     }
 
     companion object {
@@ -68,11 +69,10 @@ class GroupSchduleFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String) =
             GroupSchduleFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(GROUP_ID, param1)
                 }
             }
     }
