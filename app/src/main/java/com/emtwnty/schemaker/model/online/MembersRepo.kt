@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.*
 import kotlin.collections.ArrayList
 
 object MembersRepo {
@@ -21,12 +20,12 @@ object MembersRepo {
                 mDatabase.collection("groups").document(groupID)
                     .collection("members").addSnapshotListener { valueMemberGrup, error ->
                         val docsMember = valueMemberGrup?.documents
+                        val arrayUsers = ArrayList<UsersModel>()
                         docsMember?.forEach { docMember->
                             val userId = docMember.id
                             println("membersID_group => ${userId}")
                             val usersRef = mDatabase.collection("users").whereEqualTo("uid",userId)
                             usersRef.addSnapshotListener { valueUser, error ->
-                                val arrayUsers = ArrayList<UsersModel>()
                                 val userDocs = valueUser?.documents
                                 userDocs?.forEach {docUser->
                                     val userData = docUser.toObject(UsersModel::class.java)

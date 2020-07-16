@@ -61,6 +61,11 @@ class MainActivity : AppCompatActivity() {
             startSignInGoogle()
         }
 
+        val groupIDFromLink = intent.getStringExtra("GROUPID_FROMLINK")
+        if(groupIDFromLink != null){
+            btn_getStarted_main.visibility = View.GONE
+        }
+
     }
 
     override fun onStart() {
@@ -128,6 +133,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?){
+        val groupIDFromLink = intent.getStringExtra("GROUPID_FROMLINK")
         if(user != null){
             val editor = mSharedPref.edit()
             editor.putString("USER_ID",user.uid)
@@ -136,8 +142,11 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
             editor.commit()
 
-            val intent = Intent(this,HomeActivity::class.java)
 
+            val intent = Intent(this,HomeActivity::class.java)
+            if(groupIDFromLink != null){
+                intent.putExtra("GROUPID_FROMLINK",groupIDFromLink)
+            }
             startActivity(intent)
             finish()
         }

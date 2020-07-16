@@ -18,6 +18,9 @@ class GroupViewModel(app: Application):AndroidViewModel(app) {
     fun addGroup(groupModel: GroupModel){
         repo.addGroup(groupModel)
     }
+    fun addMemberGroup(groupID: String){
+        repo.addMemberGroup(groupID)
+    }
 
     fun getAllGroup():MutableLiveData<ArrayList<GroupModel>>{
         return repo.getAllData

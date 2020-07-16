@@ -29,7 +29,4 @@ class ProfileActivity : AppCompatActivity() {
                 Picasso.get().load(dataUser.imageURI).into(iv_userImage_profile)
             })
     }
-
-
-
 }

@@ -10,11 +10,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Pair
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.get
@@ -29,8 +31,11 @@ import com.emtwnty.schemaker.adapter.ScheduleDoneAdapter
 import com.emtwnty.schemaker.model.ScheduleEntity
 import com.emtwnty.schemaker.ui.AddScheduleActivity
 import com.emtwnty.schemaker.ui.ProfileActivity
+import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
@@ -44,6 +49,8 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
     private lateinit var mSharedPref: SharedPreferences
     private var ID_PRE = "com.emtwnty.schemaker-user"
 
+    private lateinit var mGroupViewModel: GroupViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -56,6 +63,7 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
 
         mSharedPref = getSharedPreferences(ID_PRE,Context.MODE_PRIVATE)
 
+        mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         homeViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         /** [ Mengambil jadwal/task yang TIDAK akan diingatkan ] **/
         homeViewMode?.getDonetask()?.observe(this,Observer<List<ScheduleEntity>>{
@@ -102,6 +110,36 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
             intent.putExtra("USER_ID",userID)
             startActivity(intent)
         }
+
+        // Check apakah dia masuk dengan link invitation atau tidak
+        checkInvitationLink()
+    }
+
+    /** [ Start ] Check Invitation **/
+    private fun checkInvitationLink(){
+        val groupIDFromLink = intent.getStringExtra("GROUPID_FROMLINK")
+        if(groupIDFromLink != null){
+            showDialogInvitation(groupIDFromLink)
+        }
+    }
+
+    /** [ Start ] Show dialog invitation **/
+    private fun showDialogInvitation(groupIDFromLink: String){
+        val alertDialog = AlertDialog.Builder(this,R.style.DialogTheme)
+        alertDialog
+            .setTitle("Invitation")
+            .setMessage("Join the group?")
+            .setPositiveButton("Join",
+            DialogInterface.OnClickListener { dialogInterface, i ->
+                // Join The group
+                mGroupViewModel.addMemberGroup(groupIDFromLink)
+            })
+            .setNegativeButton("Cancel",
+            DialogInterface.OnClickListener { dialogInterface, i ->
+                //  Cancel dan tidak join group
+                dialogInterface.cancel()
+            })
+        alertDialog.create().show()
     }
 
     /** [Menjalankan service jika ada jadwal/task yang akan diingatkan] **/

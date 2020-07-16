@@ -25,6 +25,30 @@ object GroupRepo {
         getGroupData()
     }
 
+    /** [ START ] Menambah Group Mamber **/
+    fun addMemberGroup(groupID: String){
+        CoroutineScope(IO).launch {
+            addMemberGroupBG(groupID)
+        }
+    }
+
+    private suspend fun addMemberGroupBG(groupID: String){
+        withContext(IO){
+            val userID = mAuth.currentUser?.uid.toString()
+            val newMemberMap = HashMap<String,Any>()
+            newMemberMap.put("role","genin")
+            mDatabase.collection("groups").document(groupID)
+                .collection("members").document(userID).set(newMemberMap)
+                .addOnCompleteListener {
+                    if(it.isSuccessful){
+                        mDatabase.collection("users").document(userID)
+                            .collection("groups").document(groupID).set(newMemberMap)
+                    }
+                }
+        }
+    }
+    /** [ END ] Menambah Group Mamber **/
+
     /** [ START ] Menambahkan / membuat group **/
     fun addGroup(groupModel: GroupModel){
         responseCallback.value = "RUNNING"
