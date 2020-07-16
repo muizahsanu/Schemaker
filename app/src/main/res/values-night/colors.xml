@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#94194d</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#000000</color>
+    <color name="colorWhite">#ffffff</color>
+
+    <color name="colorBackgroundSchedule1">#94194d</color>
+    <color name="colorBackgroundSchedule2">#65d0df</color>
+    <color name="colorBackgroundSchedule3">#632c32</color>
+    <color name="colorBackgroundSchedule4">#e1a959</color>
+
+    <color name="colorBackground">#f3f3f2</color>
+    <color name="colorText">#ffffff</color>
+    <color name="colorTextTitle">#94194d</color>
+    <color name="colorTextLuarLayout">#000000</color>
+    <color name="colorCardView">#94194d</color>
+    <color name="colorBottomNav">#ffffff</color>
+    <color name="colorBackgroudUser">#ffffff</color>
+</resources>

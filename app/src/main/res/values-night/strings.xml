@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Schemaker</string>
+
+    <!--  LOGIN dan REGISTER -->
+    <string name="str_login_LogReg">Login</string>
+    <string name="str_signup_LogReg">Sign up</string>
+    <string name="str_email_LogReg">Email</string>
+    <string name="str_password_LogReg">Password</string>
+    <string name="str_forgetpass_LogReg">Forget Password?</string>
+    <string name="str_fullnam_LogReg">Full Name</string>
+    <string name="str_username_LogReg">Username</string>
+
+    <!--  Add Schedule -->
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save</string>
+    <string name="hint_title">Title Schedule</string>
+    <string name="hint_desc">Detail Schdule</string>
+    <string name="tv_allday">All day</string>
+    <string name="tv_tanggal">Tanggal</string>
+    <string name="tv_jam">Jam</string>
+    <string name="tv_remindme">Remind me</string>
+
+    <!--  HOME  -->
+    <string name="str_yourschedule">Your Schedule</string>
+    <string name="str_noschduledata">There is no schedule</string>
+    <string name="str_completed">Completed</string>
+    <string name="str_nocompletedschedule">No schedule has been completed yet</string>
+    <string name="str_IVdesc_deleteicon">Icon delete</string>
+    <string name="str_hello">Hello,</string>
+    <string name="str_whoareyou">Who are you?</string>
+
+    <!--  RV LAYOUT SCHEDULE -->
+    <string name="str_namahari">Sun</string>
+    <string name="str_tanggal_angka">28</string>
+    <string name="str_title">Title Schedule</string>
+    <string name="str_jam_angka">4:30 Am</string>
+    <string name="str_IVdesc_checkIcon">Icon Check</string>
+</resources>

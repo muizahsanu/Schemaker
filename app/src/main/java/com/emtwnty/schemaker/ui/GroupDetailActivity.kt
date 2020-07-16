@@ -3,6 +3,7 @@ package com.emtwnty.schemaker.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
@@ -24,11 +25,13 @@ class GroupDetailActivity : AppCompatActivity() {
         // init
         mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        val grouID = intent.getStringExtra("GROUP_ID")
-        if(grouID != null){
-            mGroupViewModel.getGroupDataByID(grouID).observe(this, Observer {
+        val groupID = intent.getStringExtra("GROUP_ID")
+        if(groupID != null){
+            mGroupViewModel.getGroupDataByID(groupID).observe(this, Observer {
                 updateGroupUI(it)
             })
+            val fragment = GroupSchduleFragment.newInstance(groupID)
+            replaceFragment(fragment)
         }
 
         btn_search_profile.setOnClickListener {
@@ -44,17 +47,16 @@ class GroupDetailActivity : AppCompatActivity() {
             }
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val groupID = intent.getStringExtra("GROUP_ID").toString()
+                val fragment: Fragment
                 when(tab?.position){
                     0-> {
-                        val fragment = GroupSchduleFragment.newInstance(groupID)
-                        replaceFragment(fragment)
+                        fragment = GroupSchduleFragment.newInstance(groupID)
                     }
                     else-> {
-
-                        val fragment = MembersFragment.newInstance(groupID)
-                        replaceFragment(fragment)
+                        fragment = MembersFragment.newInstance(groupID)
                     }
                 }
+                replaceFragment(fragment)
             }
         })
     }
@@ -78,7 +80,6 @@ class GroupDetailActivity : AppCompatActivity() {
     private fun replaceFragment(fragment:Fragment){
         val fragTrans = supportFragmentManager.beginTransaction()
         fragTrans.replace(R.id.framelayout,fragment)
-        fragTrans.addToBackStack(null)
         fragTrans.commit()
     }
 }
