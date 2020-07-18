@@ -1,6 +1,8 @@
 package com.emtwnty.schemaker.model.online
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -13,6 +15,7 @@ object GroupScheduleRepo {
 
     private var mDatabase = FirebaseFirestore.getInstance()
     var scheduleResponseCallback: MutableLiveData<String> = MutableLiveData()
+    private var mAuth:FirebaseAuth = FirebaseAuth.getInstance()
 
     fun addGroupSchedule(scheduleOnlineModel: ScheduleOnlineModel){
         CoroutineScope(IO).launch {

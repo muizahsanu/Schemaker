@@ -12,6 +12,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.emtwnty.schemaker.App.Companion.CHANNEL_ID_SERVICE
 import com.emtwnty.schemaker.model.ScheduleEntity
+import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import com.emtwnty.schemaker.viewmodel.ScheduleViewModel
 import java.util.*
 

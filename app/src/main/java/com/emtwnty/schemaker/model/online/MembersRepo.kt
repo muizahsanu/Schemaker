@@ -13,31 +13,34 @@ object MembersRepo {
     private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var RESULT_SEARCH: MutableLiveData<String> = MutableLiveData()
 
-    fun getUserData(groupID: String): LiveData<List<UsersModel>>{
-        return object: LiveData<List<UsersModel>>(){
-            override fun onActive() {
-                super.onActive()
-                mDatabase.collection("groups").document(groupID)
-                    .collection("members").addSnapshotListener { valueMemberGrup, error ->
-                        val docsMember = valueMemberGrup?.documents
-                        val arrayUsers = ArrayList<UsersModel>()
-                        docsMember?.forEach { docMember->
-                            val userId = docMember.id
+    private var _mutableUserData: MutableLiveData<ArrayList<UsersModel>> = MutableLiveData()
+
+    private fun getUserData(groupID: String){
+        mDatabase.collection("groups").document(groupID)
+            .collection("members").addSnapshotListener { valueMemberGrup, error ->
+                val docsMember = valueMemberGrup?.documents
+                val arrayUsers = ArrayList<UsersModel>()
+                docsMember?.forEach { docMember->
+                    val userId = docMember.id
+                    println("membersID_group => ${userId}")
+                    val usersRef = mDatabase.collection("users").whereEqualTo("uid",userId)
+                    usersRef.addSnapshotListener { valueUser, error ->
+                        val userDocs = valueUser?.documents
+                        userDocs?.forEach {docUser->
+                            val userData = docUser.toObject(UsersModel::class.java)
                             println("membersID_group => ${userId}")
-                            val usersRef = mDatabase.collection("users").whereEqualTo("uid",userId)
-                            usersRef.addSnapshotListener { valueUser, error ->
-                                val userDocs = valueUser?.documents
-                                userDocs?.forEach {docUser->
-                                    val userData = docUser.toObject(UsersModel::class.java)
-                                    println("membersID_group => ${userId}")
-                                    arrayUsers.add(userData!!)
-                                }
-                                value = arrayUsers
-                            }
+                            arrayUsers.add(userData!!)
                         }
                     }
+                    _mutableUserData.value = arrayUsers
+                }
             }
-        }
+    }
+    fun initGetUserData(groupID: String){
+        getUserData(groupID)
+    }
+    fun resetMutableUserData(){
+        _mutableUserData.postValue(null)
     }
 
     fun findUserByUsernam(username: String): LiveData<UsersModel>{
@@ -70,5 +73,11 @@ object MembersRepo {
         val dataInvite = InviteModel(groupID,userID,groupID)
         usersRef.set(dataInvite)
     }
+
+    internal var getAllUserData: MutableLiveData<ArrayList<UsersModel>>
+        get() {return _mutableUserData
+        }
+        set(value) {
+            _mutableUserData = value}
 
 }

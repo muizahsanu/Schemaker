@@ -20,10 +20,44 @@ object GroupRepo {
     private var mStorage: FirebaseStorage = Firebase.storage
 
     private var _mutbaleDataGroup: MutableLiveData<ArrayList<GroupModel>> = MutableLiveData<ArrayList<GroupModel>>()
+    private var _mutableGroupScedule: MutableLiveData<ArrayList<ScheduleOnlineModel>> = MutableLiveData()
 
     init {
-        getGroupData()
+        if(_mutbaleDataGroup.value == null || _mutbaleDataGroup.value.toString() == "null"){
+            getGroupData()
+        }
     }
+
+    /** [ START ] Mengambil Group Schedule  **/
+
+    private fun getScheduleGroup(groupID: String) {
+        println("Ngeget ke database")
+        mDatabase.collection("groups").document(groupID)
+            .collection("schedules").get().addOnSuccessListener {
+                if (it != null) {
+                    val scheduleArray = ArrayList<ScheduleOnlineModel>()
+                    val scheDoc = it.documents
+                    for (scheSnapshoot in scheDoc) {
+                        val scheData = scheSnapshoot.toObject(ScheduleOnlineModel::class.java)
+                        if (scheData != null) {
+                            scheduleArray.add(scheData)
+                        }
+                    }
+                    _mutableGroupScedule.value = scheduleArray
+                }
+            }
+    }
+    fun initGetScheduleGroup(groupID: String){
+        getScheduleGroup(groupID)
+    }
+
+    internal var getAllDataSchedule: MutableLiveData<ArrayList<ScheduleOnlineModel>>
+    get() {return _mutableGroupScedule}
+    set(value) {
+        _mutableGroupScedule = value
+    }
+
+    /** [ END ] Mengambil Group Schedule  **/
 
     /** [ START ] Menambah Group Mamber **/
     fun addMemberGroup(groupID: String){

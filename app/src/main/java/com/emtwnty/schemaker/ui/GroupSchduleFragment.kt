@@ -8,30 +8,42 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.adapter.GroupScheAdapter
+import com.emtwnty.schemaker.adapter.GroupsAdapter
+import com.emtwnty.schemaker.model.online.ScheduleOnlineModel
+import com.emtwnty.schemaker.viewmodel.GroupViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.synthetic.main.fragment_group_schdule.*
 import kotlinx.android.synthetic.main.fragment_group_schdule.view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val GROUP_ID = "param1"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GroupSchduleFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GroupSchduleFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var groupID: String? = null
 
     private lateinit var v:View
     private lateinit var mContext: Context
+    private var mDatabase = FirebaseFirestore.getInstance()
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var mGroupViewModel: GroupViewModel
+    private lateinit var mGroupAdapter: GroupScheAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             groupID = it.getString(GROUP_ID)
         }
+        mAuth = FirebaseAuth.getInstance()
+        mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        mGroupAdapter = GroupScheAdapter()
     }
 
     override fun onCreateView(
@@ -41,6 +53,7 @@ class GroupSchduleFragment : Fragment() {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_group_schdule, container, false)
 
+        getUserRole()
         return v
     }
 
@@ -56,18 +69,42 @@ class GroupSchduleFragment : Fragment() {
             intent.putExtra("GROUP_ID",groupID)
             startActivity(intent)
         }
+
+
+        getGroupScheduleData()
+    }
+
+    private fun getGroupScheduleData(){
+        mGroupViewModel.getAllDataSchedule().observe(this,
+            Observer<ArrayList<ScheduleOnlineModel>>{
+                if(it != null){
+                    setDataGroupScheduleToRecView(it)
+                }
+            })
+    }
+    private fun setDataGroupScheduleToRecView(groupScheList: List<ScheduleOnlineModel>){
+        mGroupAdapter.groupScheAdapter(groupScheList)
+        v.rv_schedules_scheduleFrag.apply {
+            layoutManager = LinearLayoutManager(mContext)
+            adapter = mGroupAdapter
+        }
+    }
+
+    private fun getUserRole(){
+        val userID = mAuth.currentUser?.uid.toString()
+        mDatabase.collection("users").document(userID)
+            .collection("groups").document(groupID!!).get().addOnSuccessListener {
+                if(it != null){
+                    val data = it.data as HashMap<*,*>
+                    val role = data.get("role")
+                    if(role != "hokage"){
+                        btn_addSchedule_scheduleFrag.visibility = View.GONE
+                    }
+                }
+            }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GroupSchduleFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String) =
             GroupSchduleFragment().apply {

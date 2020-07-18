@@ -48,6 +48,8 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
         arguments?.let {
             groupID = it.getString(GROUP_ID)
         }
+
+        mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -58,11 +60,10 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
         return mView
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mMembersAdapter = MembersAdapter()
-        mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
-        getDataMember()
 
         // Click listener
         mView.btn_inviteMember_memveberFrag.setOnClickListener {
@@ -86,17 +87,18 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getDataMember()
     }
 
     fun getDataMember(){
-        mMembersViewModel.memberDataFromGroup(groupID.toString()).observe(this,
-            Observer<List<UsersModel>>{
-                println("members_fragment => ${it}")
+        mMembersViewModel.getAllUserData().observe(this, Observer<ArrayList<UsersModel>>{
+            if(it!=null){
+                println("memberFrag: memberdata => ${it}")
                 setRecyclerView(it)
             }
-        )
+        })
     }
 
     fun setRecyclerView(listMembers: List<UsersModel>){

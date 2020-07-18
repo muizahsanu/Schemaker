@@ -3,6 +3,8 @@ package com.emtwnty.schemaker.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.model.online.GroupScheduleRepo
 import com.emtwnty.schemaker.model.online.ScheduleOnlineModel
 
@@ -15,5 +17,4 @@ class GroupScheViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun scheduleResponseCallback():LiveData<String> = repo.scheduleResponseCallback
-
 }

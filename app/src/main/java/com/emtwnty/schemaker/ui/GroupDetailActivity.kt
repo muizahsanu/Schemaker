@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
+import com.emtwnty.schemaker.viewmodel.MembersViewModel
 import com.google.android.material.tabs.TabLayout
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_group_detail.*
 class GroupDetailActivity : AppCompatActivity() {
 
     private lateinit var mGroupViewModel: GroupViewModel
+    private lateinit var mMembersViewModel: MembersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +26,13 @@ class GroupDetailActivity : AppCompatActivity() {
 
         // init
         mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
+
 
         val groupID = intent.getStringExtra("GROUP_ID")
         if(groupID != null){
+            mGroupViewModel.initGetScheduleGroup(groupID)
+            mMembersViewModel.initGetUserData(groupID)
             mGroupViewModel.getGroupDataByID(groupID).observe(this, Observer {
                 updateGroupUI(it)
             })

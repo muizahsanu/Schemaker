@@ -97,7 +97,6 @@ class AddScheduleActivity : AppCompatActivity() {
         /**
          * -------------------------BAGIAN PEMILIHAN TANGGAL---------------------------
          * **/
-        // Menampilkan tanggal sekarang / current date
         tv_tanggal_addSchedule.setOnClickListener {
             //Membuat Date Picker
             val datePickerDialog = DatePickerDialog(

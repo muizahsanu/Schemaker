@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.LoginViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,6 +30,7 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mLoginViewModel: LoginViewModel
     private lateinit var mGroupViewModel: GroupViewModel
+    private lateinit var mGrougScheViewModel: GroupScheViewModel
     private lateinit var mSharedPrefSetting: SharedPreferences
     private var ID_PREF_SETTING = "com.emtwnty.schemaker-setting"
 
@@ -39,6 +41,7 @@ class SettingActivity : AppCompatActivity() {
         /** INIT Login View Model **/
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
         mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        mGrougScheViewModel = ViewModelProviders.of(this).get(GroupScheViewModel::class.java)
 
         /** Membuat Google Signin Options **/
         mAuth = FirebaseAuth.getInstance()

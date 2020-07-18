@@ -145,5 +145,6 @@ class AddScheOnlineActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

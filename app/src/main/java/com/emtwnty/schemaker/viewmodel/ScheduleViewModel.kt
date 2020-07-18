@@ -30,4 +30,7 @@ class ScheduleViewModel(app: Application): AndroidViewModel(app) {
         repo.updateRemindMe(scheID, newDone)
     }
 
+
+    // ONLINE
+
 }

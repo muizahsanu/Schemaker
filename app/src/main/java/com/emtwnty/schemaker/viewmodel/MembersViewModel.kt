@@ -16,10 +16,6 @@ class MembersViewModel(app: Application): AndroidViewModel(app) {
         memberRepo = MembersRepo
     }
 
-    fun memberDataFromGroup(groupID: String): LiveData<List<UsersModel>>{
-        return memberRepo.getUserData(groupID)
-    }
-
     fun findUserByUsername(username: String): LiveData<UsersModel>{
         return memberRepo.findUserByUsernam(username)
     }
@@ -28,8 +24,12 @@ class MembersViewModel(app: Application): AndroidViewModel(app) {
         memberRepo.inviteUser(otherUserID,userID,groupID)
     }
 
-    fun searchMemberResult(): MutableLiveData<String>{
-        return memberRepo.RESULT_SEARCH
+    fun initGetUserData(groupID: String){
+        memberRepo.initGetUserData(groupID)
+    }
+
+    fun getAllUserData(): MutableLiveData<ArrayList<UsersModel>>{
+        return memberRepo.getAllUserData
     }
 
 }

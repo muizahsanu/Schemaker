@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/lin_atas_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="124dp"
         android:orientation="horizontal"
         android:padding="20dp"
         android:gravity="center_vertical"
@@ -166,7 +166,7 @@
         android:id="@+id/bottomNav_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_navigation_background"
+        android:background="@drawable/bottom_navigation_background_reserve"
         app:itemTextAppearanceActive="@style/TextHeadBold"
         app:itemTextAppearanceInactive="@style/TextBody"
         app:menu="@menu/bottomappbar_menu"

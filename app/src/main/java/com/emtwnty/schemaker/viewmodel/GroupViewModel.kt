@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.model.online.GroupRepo
+import com.emtwnty.schemaker.model.online.ScheduleOnlineModel
 
 class GroupViewModel(app: Application):AndroidViewModel(app) {
 
@@ -37,6 +38,14 @@ class GroupViewModel(app: Application):AndroidViewModel(app) {
     }
     fun iniGetGroupData(){
         repo.initGetGroupData()
+    }
+
+    // Schedule Group
+    fun initGetScheduleGroup(groupID: String){
+        repo.initGetScheduleGroup(groupID)
+    }
+    fun getAllDataSchedule(): MutableLiveData<ArrayList<ScheduleOnlineModel>>{
+        return repo.getAllDataSchedule
     }
 
 
