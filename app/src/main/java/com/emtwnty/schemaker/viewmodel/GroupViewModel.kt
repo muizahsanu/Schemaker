@@ -23,6 +23,9 @@ class GroupViewModel(app: Application):AndroidViewModel(app) {
         repo.addMemberGroup(groupID)
     }
 
+    fun deleteGroupByID(groupID: String){
+        repo.deleteGroupByID(groupID)
+    }
     fun getAllGroup():MutableLiveData<ArrayList<GroupModel>>{
         return repo.getAllData
     }

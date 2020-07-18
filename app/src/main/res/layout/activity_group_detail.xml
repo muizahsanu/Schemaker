@@ -19,27 +19,51 @@
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_groupDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/menu_group"/>
         <LinearLayout
+            android:id="@+id/lin_logoName_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@+id/toolbar_groupDetail"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:layout_centerInParent="true">
+            android:orientation="horizontal">
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_groupImage_detailGroup"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/schemaker_logo"/>
+                android:src="@drawable/schemaker_logo" />
             <TextView
                 android:id="@+id/tv_titleGroup_detailGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
                 android:text="Ini nanti title Group"
-                android:textSize="24sp"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/lin_libertine_rb"/>
+                android:textSize="24sp"
+                android:maxLines="2"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Group"
+            android:textSize="16sp"
+            android:textColor="@color/colorText"
+            android:textAlignment="center"
+            android:fontFamily="@font/lin_libertine_r"
+            android:layout_marginStart="64sp"
+            android:layout_marginEnd="64dp"
+            android:layout_below="@+id/lin_logoName_group"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <View

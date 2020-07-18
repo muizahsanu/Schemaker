@@ -32,4 +32,8 @@ class MembersViewModel(app: Application): AndroidViewModel(app) {
         return memberRepo.getAllUserData
     }
 
+    fun leaveGroup(groupID: String){
+        memberRepo.leaveGroup(groupID)
+    }
+
 }

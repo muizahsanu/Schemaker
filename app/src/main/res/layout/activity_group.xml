@@ -38,12 +38,13 @@
         <LinearLayout
             android:id="@+id/lin_groupList_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:elevation="8dp"
             android:background="@drawable/bottom_navigation_background_reserve"
-            app:layout_constraintTop_toBottomOf="@+id/lin_header_group">
+            app:layout_constraintTop_toBottomOf="@+id/lin_header_group"
+            app:layout_constraintBottom_toBottomOf="parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,53 +87,25 @@
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
 
+            <TextView
+                android:id="@+id/tv_noGroup_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You are not in any group yet"
+                android:textColor="@color/colorTextLuarLayout"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:fontFamily="@font/lin_libertine_r"
+                android:layout_marginTop="12dp"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_listGroup_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nesSroll_content_group"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/lin_groupList_group"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_viewgroup_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="view group"
-                    android:textColor="@color/colorText"
-                    app:strokeColor="@color/colorText"
-                    app:strokeWidth="1dp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:layout_constraintTop_toBottomOf="@+id/lin_groupList_group"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_scheduleGroup_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_addGroup_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:src="@drawable/ic_add"
-            android:layout_marginBottom="18dp"
-            android:layout_marginEnd="18dp"
-            app:borderWidth="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -154,6 +127,25 @@
             android:textStyle="italic"
             android:fontFamily="@font/lin_libertine_r"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBottomNav"
+        app:layout_constraintTop_toTopOf="@id/bottomNav_group"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_addGroup_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_add"
+        android:layout_marginBottom="18dp"
+        android:layout_marginEnd="18dp"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav_group"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav_group"

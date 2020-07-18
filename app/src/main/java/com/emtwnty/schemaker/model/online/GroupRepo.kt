@@ -59,6 +59,48 @@ object GroupRepo {
 
     /** [ END ] Mengambil Group Schedule  **/
 
+    /** [ START ] Delete Group **/
+    fun deleteGroupByID(groupID: String){
+        val groupRef = mDatabase.collection("groups").document(groupID)
+
+        // Delete members collection di dalam group collection
+        groupRef.collection("members")
+            .get().addOnSuccessListener {
+                if (it != null) {
+                    val docMembers = it.documents
+                    for (dataMember in docMembers) {
+                        val membersID = dataMember.id
+                        groupRef.collection("members").document(membersID).delete()
+                            .addOnCompleteListener {
+                                if(it.isSuccessful){
+
+                                    // Delete members collection di dalam group collection
+                                    groupRef.collection("schedules").get().addOnSuccessListener {
+                                        if(it == null){
+                                            @Suppress("LABEL_NAME_CLASH")
+                                            return@addOnSuccessListener
+                                        }
+                                        val docSchedule = it.documents
+                                        for (docScheSnapshot in docSchedule){
+                                            val scheduleID = docScheSnapshot.id
+                                            groupRef.collection("schedules").document(scheduleID).delete()
+                                                .addOnCompleteListener {
+                                                    if(it.isSuccessful){
+                                                        groupRef.delete()
+                                                    }
+                                                }
+                                        }
+                                    }
+
+                                }
+                            }
+                    }
+                }
+            }
+    }
+    /** [ END ] Delete Group **/
+
+
     /** [ START ] Menambah Group Mamber **/
     fun addMemberGroup(groupID: String){
         CoroutineScope(IO).launch {

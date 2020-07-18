@@ -43,12 +43,6 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
         btn_addGroup_group.setOnClickListener {
             startActivity(Intent(this,AddGroupActivity::class.java))
         }
-
-        btn_viewgroup_group.setOnClickListener {
-            val intent = Intent(this, GroupDetailActivity::class.java)
-            intent.putExtra("GROUP_ID",groupID)
-            startActivity(intent)
-        }
     }
 
     override fun onResume() {
@@ -61,6 +55,7 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
         if(mAuth.currentUser != null){
             konten_group.visibility = View.VISIBLE
             lin_notLogin_group.visibility = View.GONE
+            btn_addGroup_group.visibility = View.VISIBLE
 
             mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
             retriveDataGroup()
@@ -68,18 +63,25 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
         else{
             konten_group.visibility = View.GONE
             lin_notLogin_group.visibility = View.VISIBLE
+            btn_addGroup_group.visibility = View.GONE
         }
     }
 
     private fun retriveDataGroup(){
         mGroupViewModel.getAllGroup().observe(this, Observer<List<GroupModel>>{
             if(it != null){
+                rv_listGroup_group.visibility = View.VISIBLE
+                tv_noGroup_group.visibility = View.GONE
                 mGroupsAdapter.groupsAdapter(it,this)
                 rv_listGroup_group.apply {
-                    layoutManager = LinearLayoutManager(this@GroupActivity,LinearLayoutManager.HORIZONTAL,false)
+                    layoutManager = LinearLayoutManager(this@GroupActivity)
                     adapter = mGroupsAdapter
                 }
-            } else mGroupViewModel.iniGetGroupData()
+            } else {
+                rv_listGroup_group.visibility = View.GONE
+                tv_noGroup_group.visibility = View.VISIBLE
+                mGroupViewModel.iniGetGroupData()
+            }
         })
     }
 
@@ -107,15 +109,6 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_down,R.anim.slide_out_down)
-    }
-
-    private fun setDataScheduleToRecyclerView(scheduleList: List<ScheduleOnlineModel>){
-        rv_scheduleGroup_group.apply {
-            layoutManager = LinearLayoutManager(this@GroupActivity)
-            mGroupScheAdapter = GroupScheAdapter()
-            mGroupScheAdapter.groupScheAdapter(scheduleList)
-            adapter = mGroupScheAdapter
-        }
     }
 
     override fun itemClickListener(groupModel: GroupModel, position: Int) {
