@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="18dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.GroupSchduleFragment">
 
@@ -16,6 +19,7 @@
         android:fontFamily="@font/lin_libertine_rb"
         android:paddingStart="4dp"
         android:paddingEnd="12dp"
+        android:visibility="gone"
         app:strokeColor="@color/colorPrimary"
         app:strokeWidth="0dp"
         app:icon="@drawable/ic_round_add_circle_24"

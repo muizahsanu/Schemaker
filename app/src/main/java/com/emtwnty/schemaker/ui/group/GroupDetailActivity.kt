@@ -1,4 +1,4 @@
-package com.emtwnty.schemaker.ui
+package com.emtwnty.schemaker.ui.group
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -10,18 +10,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.model.online.GroupModel
+import com.emtwnty.schemaker.ui.GroupSchduleFragment
+import com.emtwnty.schemaker.ui.MembersFragment
 import com.emtwnty.schemaker.ui.main.HomeActivity
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.MembersViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
 
@@ -52,7 +52,10 @@ class GroupDetailActivity : AppCompatActivity() {
             mGroupViewModel.getGroupDataByID(groupID).observe(this, Observer {
                 updateGroupUI(it)
             })
-            val fragment = GroupSchduleFragment.newInstance(groupID)
+            val fragment =
+                GroupSchduleFragment.newInstance(
+                    groupID
+                )
             replaceFragment(fragment)
         }
 
@@ -71,10 +74,16 @@ class GroupDetailActivity : AppCompatActivity() {
                 val fragment: Fragment
                 when(tab?.position){
                     0-> {
-                        fragment = GroupSchduleFragment.newInstance(groupID.toString())
+                        fragment =
+                            GroupSchduleFragment.newInstance(
+                                groupID.toString()
+                            )
                     }
                     else-> {
-                        fragment = MembersFragment.newInstance(groupID.toString())
+                        fragment =
+                            MembersFragment.newInstance(
+                                groupID.toString()
+                            )
                     }
                 }
                 replaceFragment(fragment)
@@ -168,8 +177,14 @@ class GroupDetailActivity : AppCompatActivity() {
         val groupID = intent.getStringExtra("GROUP_ID")
         val fragment: Fragment
         if(tabLayout_profile.selectedTabPosition == 0){
-            fragment = GroupSchduleFragment.newInstance(resultSearch)
-        } else fragment = MembersFragment.newInstance(groupID!!)
+            fragment =
+                GroupSchduleFragment.newInstance(
+                    resultSearch
+                )
+        } else fragment =
+            MembersFragment.newInstance(
+                groupID!!
+            )
         replaceFragment(fragment)
     }
 

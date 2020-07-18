@@ -1,4 +1,4 @@
-package com.emtwnty.schemaker.ui
+package com.emtwnty.schemaker.ui.group
 
 import android.content.Intent
 import android.net.Uri
@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
-import com.emtwnty.schemaker.model.online.GroupListener
 import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.ui.main.GroupActivity
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
@@ -17,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_group.*
 import java.util.*
-import kotlin.collections.HashMap
 
 class AddGroupActivity : AppCompatActivity() {
 

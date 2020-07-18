@@ -64,41 +64,4 @@ object UsersRepo {
     fun getResult():String{
         return result
     }
-
-
-///** [START- Fungsi Mengambil data user pada database] **/
-//    fun getData(): LiveData<List<UsersModel>> {
-//        return object : LiveData<List<UsersModel>>() {
-//            // Ketika fungsi getData di panggil
-//            override fun onActive() {
-//                super.onActive()
-//                // mengambil reference dari database
-//                mFirebaseDb = Firebase.database.reference.child("users")
-//
-//                /** [START- run program in background] **/
-//                CoroutineScope(IO).launch {
-//                    // Mengambil data dari firebase realtime database
-//                    mFirebaseDb.addListenerForSingleValueEvent(object : ValueEventListener {
-//                        override fun onCancelled(error: DatabaseError) {
-//                        }
-//
-//                        override fun onDataChange(snapshot: DataSnapshot) {
-//                            val halo: ArrayList<UsersModel> = ArrayList()
-//                            for (i in snapshot.children) {
-//                                val data = i.getValue(UsersModel::class.java)
-//                                halo.add(data!!)
-//                            }
-//                            /** [START- run program in Main Thread] **/
-//                            CoroutineScope(Main).launch {
-//                                value = halo
-//                            }
-//                            /** [STOP- run program in Main Thread] **/
-//                        }
-//                    })
-//                }
-//                /** [END- run program in background] **/
-//            }
-//        }
-//    }
-///** [END- Fungsi Mengambil data user pada database] **/
 }

@@ -12,9 +12,8 @@ import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.adapter.GroupScheAdapter
 import com.emtwnty.schemaker.adapter.GroupsAdapter
 import com.emtwnty.schemaker.model.online.GroupModel
-import com.emtwnty.schemaker.model.online.ScheduleOnlineModel
-import com.emtwnty.schemaker.ui.AddGroupActivity
-import com.emtwnty.schemaker.ui.GroupDetailActivity
+import com.emtwnty.schemaker.ui.group.AddGroupActivity
+import com.emtwnty.schemaker.ui.group.GroupDetailActivity
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -41,7 +40,8 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
         bottomNav_group.setOnNavigationItemSelectedListener(navigationItemSelectedListener())
 
         btn_addGroup_group.setOnClickListener {
-            startActivity(Intent(this,AddGroupActivity::class.java))
+            startActivity(Intent(this,
+                AddGroupActivity::class.java))
         }
     }
 

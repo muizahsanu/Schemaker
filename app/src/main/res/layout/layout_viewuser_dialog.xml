@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/lin_header_dialogUser"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:background="@color/colorPrimary">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:gravity="center">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_userImage_dialogUser"
+                android:layout_width="64dp"
+                android:layout_height="64dp"/>
+            <TextView
+                android:id="@+id/tv_userName_dialogUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textSize="18sp"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/lin_libertine_rz"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_userProfile_dialogUser"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_gravity="start"
+                android:padding="0dp"
+                android:text="Profile"
+                android:textColor="@color/colorText"
+                android:fontFamily="@font/lin_libertine_rz"
+                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_kickUser_dialogUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kick"
+            android:textColor="@color/colorText"
+            android:fontFamily="@font/lin_libertine_rb"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:id="@+id/lin_role_dialogUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ROLE:"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextLuarLayout"
+            android:fontFamily="@font/lin_libertine_rb"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroup_role_dialogUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radioButton_hokage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hokage"
+                android:textColor="@color/colorTextLuarLayout"
+                android:fontFamily="@font/lin_libertine_r"/>
+            <RadioButton
+                android:id="@+id/radioButton_chunin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chunin"
+                android:textColor="@color/colorTextLuarLayout"
+                android:fontFamily="@font/lin_libertine_r"/>
+            <RadioButton
+                android:id="@+id/radioButton_genin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genin"
+                android:textColor="@color/colorTextLuarLayout"
+                android:fontFamily="@font/lin_libertine_r"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lin_submit_dialogUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel_dialogUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/colorTextLuarLayout"
+            android:layout_toStartOf="@+id/btn_submit_dialogUser"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit_dialogUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Submit"
+            android:layout_alignParentEnd="true"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

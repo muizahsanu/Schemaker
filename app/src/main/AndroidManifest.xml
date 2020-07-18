@@ -29,9 +29,9 @@
         </activity>
         <activity android:name=".ui.ProfileActivity" />
         <activity android:name=".ui.FindUserActivity" />
-        <activity android:name=".ui.GroupDetailActivity" />
+        <activity android:name=".ui.group.GroupDetailActivity" />
         <activity
-            android:name=".ui.AddGroupActivity"
+            android:name=".ui.group.AddGroupActivity"
             android:parentActivityName=".ui.main.GroupActivity" />
         <activity android:name=".ui.SplashScreen">
             <intent-filter>

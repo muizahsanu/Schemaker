@@ -97,8 +97,8 @@ class GroupSchduleFragment : Fragment() {
                 if(it != null){
                     val data = it.data as HashMap<*,*>
                     val role = data.get("role")
-                    if(role != "hokage"){
-                        btn_addSchedule_scheduleFrag.visibility = View.GONE
+                    if(role == "hokage"){
+                        btn_addSchedule_scheduleFrag.visibility = View.VISIBLE
                     }
                 }
             }

@@ -61,6 +61,23 @@ object MembersRepo {
             }
     }
 
+    fun kickMember(groupID: String,userID: String){
+        mDatabase.collection("users").document(userID)
+            .collection("groups").document(groupID).delete()
+            .addOnCompleteListener {
+                println("berhasil keluar grup")
+                if(it.isSuccessful){
+                    mDatabase.collection("groups").document(groupID)
+                        .collection("members").document(userID).delete()
+                        .addOnCompleteListener {
+                            if(it.isSuccessful){
+                                println("berhasil hapus member")
+                            }
+                        }
+                }
+            }
+    }
+
     fun findUserByUsernam(username: String): LiveData<UsersModel>{
         return object: LiveData<UsersModel>(){
             override fun onActive() {

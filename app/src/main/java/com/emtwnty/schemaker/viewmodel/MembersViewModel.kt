@@ -36,4 +36,8 @@ class MembersViewModel(app: Application): AndroidViewModel(app) {
         memberRepo.leaveGroup(groupID)
     }
 
+    fun kickMember(groupID: String, userID: String){
+        memberRepo.kickMember(groupID,userID)
+    }
+
 }
