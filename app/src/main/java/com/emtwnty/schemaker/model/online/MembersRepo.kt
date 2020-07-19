@@ -3,6 +3,7 @@ package com.emtwnty.schemaker.model.online
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlin.collections.ArrayList
@@ -51,21 +52,24 @@ object MembersRepo {
             }
     }
 
-    fun kickMember(groupID: String,userID: String){
-        mDatabase.collection("users").document(userID)
-            .collection("groups").document(groupID).delete()
-            .addOnCompleteListener {
-                println("berhasil keluar grup")
-                if(it.isSuccessful){
-                    mDatabase.collection("groups").document(groupID)
-                        .collection("members").document(userID).delete()
-                        .addOnCompleteListener {
-                            if(it.isSuccessful){
-                                println("berhasil hapus member")
-                            }
-                        }
+    fun kickMember(groupID: String, userID: String) {
+        val groupsRef = mDatabase.collection("groups").document(groupID)
+        val userRef = mDatabase.collection("users").document(userID)
+
+        groupsRef.update("members.$userID", FieldValue.delete()).addOnCompleteListener {
+            if (it.isSuccessful) {
+                groupsRef.update("role.$userID", FieldValue.delete()).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        userRef.update("groups.$groupID", FieldValue.delete())
+                    }
                 }
             }
+        }
+    }
+
+    fun updateRoleMember(groupID: String, userID: String, newRole: String){
+        val groupsRef = mDatabase.collection("groups").document(groupID)
+            .update("role.$userID",newRole)
     }
 
     fun findUserByUsernam(username: String): LiveData<UsersModel>{

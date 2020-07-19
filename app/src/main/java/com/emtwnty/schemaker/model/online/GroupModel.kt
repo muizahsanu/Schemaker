@@ -6,5 +6,5 @@ data class GroupModel (
     val groupDesc: String = "",
     val groupImage: String = "",
     val members: Map<String,Boolean> = hashMapOf(),
-    val role: Map<String,String> = hashMapOf()
+    val role: Map<String,Any> = hashMapOf()
 )

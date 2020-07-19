@@ -48,6 +48,7 @@ object GroupRepo {
 
     /** [ START ] Menambah Group Mamber **/
     fun addMemberGroup(groupID: String){
+        responseCallback.value = "PROSES_ADDMEMBER"
         CoroutineScope(IO).launch {
             addMemberGroupBG(groupID)
         }
@@ -56,16 +57,24 @@ object GroupRepo {
     private suspend fun addMemberGroupBG(groupID: String){
         withContext(IO){
             val userID = mAuth.currentUser?.uid.toString()
-            val newMemberMap = HashMap<String,Any>()
-            newMemberMap["role"] = "genin"
-            mDatabase.collection("groups").document(groupID)
-                .collection("members").document(userID).set(newMemberMap)
-                .addOnCompleteListener {
-                    if(it.isSuccessful){
-                        mDatabase.collection("users").document(userID)
-                            .collection("groups").document(groupID).set(newMemberMap)
+            val usersRef = mDatabase.collection("users").document(userID)
+            val groupsRef = mDatabase.collection("groups").document(groupID)
+
+            // Menambah grouplist di users
+            usersRef.update("groups.$groupID",true)
+                .addOnCompleteListener { userTask->
+                    if (userTask.isSuccessful){
+                        groupsRef.update("members.$userID",true)
+                        groupsRef.update("role.$userID","genin")
+                            .addOnCompleteListener { groupTask->
+                                if (groupTask.isSuccessful)
+                                    responseCallback.value = "FINISH_JOIN_GROUP"
+                            }
                     }
                 }
+        }
+        withContext(Main){
+            responseCallback.value = ""
         }
     }
     /** [ END ] Menambah Group Mamber **/
@@ -131,17 +140,19 @@ object GroupRepo {
 
             val userID = currentUser.uid
             mDatabase.collection("groups").whereEqualTo("members.$userID",true)
-                .addSnapshotListener { value, _ ->
-                    if(value!=null){
-                        val arrayGroup = ArrayList<GroupModel>()
-                        val docGroup = value.documents
-                        for (docSnapshot in docGroup){
-                            val dataGroup = docSnapshot.toObject(GroupModel::class.java)
-                            println("Group_data111 => $dataGroup")
-                            arrayGroup.add(dataGroup!!)
-                        }
-                        mutbaleDataGroup.value = arrayGroup
+                .addSnapshotListener { value, iniError ->
+                    if(value?.isEmpty!!){
+                        return@addSnapshotListener
                     }
+                    val arrayGroup = ArrayList<GroupModel>()
+                    val docGroup = value.documents
+                    for (docSnapshot in docGroup){
+                        val dataGroup = docSnapshot.toObject(GroupModel::class.java)
+                        println("Group_data111 => $dataGroup")
+                        arrayGroup.add(dataGroup!!)
+                    }
+                    mutbaleDataGroup.value = arrayGroup
+                    println("Get_group_error => ${iniError?.cause.toString()}")
                 }
         }
     }

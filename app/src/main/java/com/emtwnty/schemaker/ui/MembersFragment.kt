@@ -19,6 +19,7 @@ import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.adapter.MembersAdapter
 import com.emtwnty.schemaker.model.online.UsersModel
 import com.emtwnty.schemaker.ui.dialog.DialogUser
+import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.MembersViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.ShortDynamicLink
@@ -37,53 +38,62 @@ import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val GROUP_ID = "null"
+private const val GROUP_ID = "GROUP_ID"
+private const val CURRENT_USER_ROLE = "CURRENT_USER_ROLE"
 
 class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.ResultSubmit {
     private var groupID: String? = null
+    private var currentUserRole: String? = null
 
     private lateinit var mView:View
     private lateinit var mContext: Context
 
     private lateinit var mMembersAdapter: MembersAdapter
     private lateinit var mMembersViewModel: MembersViewModel
+    private lateinit var mGroupViewMode: GroupViewModel
     private lateinit var mDatabase: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
 
-    override fun resultSubmit(newRole: String, oldRole: String,userID: String) {
-        if(newRole != oldRole || newRole.isNotEmpty() || newRole != "null"){
-            val newRoleMap = HashMap<String,Any>()
-            newRoleMap.put("role",newRole)
-            mDatabase.collection("users").document(userID)
-                .collection("groups").document(groupID!!)
-                .set(newRoleMap).addOnCompleteListener {
-                    if(it.isSuccessful){
-                        mDatabase.collection("groups").document(groupID!!)
-                            .collection("members").document(userID)
-                            .set(newRoleMap)
-                    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(groupID: String,currentUserRole: String) =
+            MembersFragment().apply {
+                arguments = Bundle().apply {
+                    putString(GROUP_ID, groupID)
+                    putString(CURRENT_USER_ROLE, currentUserRole)
                 }
-        }
-    }
-
-    override fun kickMember(userID: String) {
-        mMembersViewModel.kickMember(groupID!!,userID)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             groupID = it.getString(GROUP_ID)
+            currentUserRole = it.getString(CURRENT_USER_ROLE)
         }
 
         mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
+        mGroupViewMode = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         mDatabase = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
+    }
+
+
+    override fun resultSubmit(newRole: String, oldRole: String,userID: String) {
+        if(newRole != oldRole || newRole.isNotEmpty() || newRole != "null"){
+            mMembersViewModel.updateRoleMember(groupID!!,userID,newRole)
+        }
+    }
+
+    override fun kickMember(userID: String) {
+        mMembersViewModel.kickMember(groupID!!,userID)
+        mMembersViewModel.initGetUserData(groupID!!)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
     }
 
     override fun onCreateView(
@@ -134,7 +144,6 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.
             }
         })
     }
-
     fun setRecyclerView(listMembers: List<UsersModel>){
         val rv_members = mView.rv_members_membersFrag
         mMembersAdapter.membersAdapter(listMembers,this)
@@ -145,34 +154,13 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.
     }
 
     override fun itemClickListener(usersModel: UsersModel, position: Int) {
-        val currentUserID = mAuth.currentUser?.uid.toString()
-        CoroutineScope(IO).launch {
-            if(usersModel.uid != currentUserID){
-                val roleMap = mDatabase.collection("users").document(usersModel.uid)
-                    .collection("groups").document(groupID!!).get().await().data
-                val role = roleMap?.get("role").toString()
-
-                val roleCurrentUserMap = mDatabase.collection("users").document(currentUserID)
-                    .collection("groups").document(groupID!!).get().await().data
-                val roleCurrentUser = roleCurrentUserMap?.get("role").toString()
-
-                withContext(Main){
-                    val dialogUser: DialogFragment = DialogUser.newInstance(
-                        usersModel.fullname, usersModel.imageURI,role,usersModel.uid,roleCurrentUser)
-                    dialogUser.setTargetFragment(this@MembersFragment,300)
-                    dialogUser.show(fragmentManager!!,"dialogFragmet_user")
-                }
+        mGroupViewMode.getUserRole(usersModel.uid,groupID!!).observe(this, Observer {
+            if(currentUserRole != it){
+                val dialogUser: DialogFragment = DialogUser.newInstance(
+                    usersModel.fullname, usersModel.imageURI,it,usersModel.uid,currentUserRole!!)
+                dialogUser.setTargetFragment(this@MembersFragment,300)
+                dialogUser.show(fragmentManager!!,"dialogFragmet_user")
             }
-        }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String) =
-            MembersFragment().apply {
-                arguments = Bundle().apply {
-                    putString(GROUP_ID, param1)
-                }
-            }
+        })
     }
 }

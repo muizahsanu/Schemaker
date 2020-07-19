@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingTop="18dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MembersFragment">
 
@@ -13,6 +10,9 @@
         android:id="@+id/btn_inviteMember_memveberFrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="18dp"
         android:text="Invite member"
         android:textSize="14sp"
         android:textAllCaps="false"
@@ -32,6 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_inviteMember_memveberFrag"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

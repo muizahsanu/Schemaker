@@ -118,7 +118,7 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
     override fun itemClickListener(groupModel: GroupModel, position: Int) {
         val userID = mAuth.currentUser?.uid
         val halo = groupModel.role
-        val roleCurentUser = halo[userID]
+        val roleCurentUser = halo[userID].toString()
 
         val intent = Intent(this, GroupDetailActivity::class.java)
         intent.putExtra("GROUP_ID",groupModel.groupID)

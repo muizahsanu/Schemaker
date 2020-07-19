@@ -6,8 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.ui.main.HomeActivity
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -44,6 +48,7 @@ class InvitationActivity : AppCompatActivity() {
                 }
             }
     }
+
     private fun showDialogInvitation(groupIDFromLink: String){
         val alertDialog = AlertDialog.Builder(this,R.style.DialogTheme)
         alertDialog
@@ -53,6 +58,7 @@ class InvitationActivity : AppCompatActivity() {
             DialogInterface.OnClickListener { dialogInterface, i ->
                 // Join The group
                 mGroupViewModel.addMemberGroup(groupIDFromLink)
+                indicator()
             })
             .setNegativeButton("Cancel",
             DialogInterface.OnClickListener { dialogInterface, i ->
@@ -62,5 +68,21 @@ class InvitationActivity : AppCompatActivity() {
                 System.exit(0)
             })
         alertDialog.create().show()
+    }
+
+    private fun indicator(){
+        mGroupViewModel.result().observe(this, Observer {
+            when(it){
+                "PROSES_ADDMEMBER"-> progressbar_invitation.visibility = View.VISIBLE
+                "FINISH_JOIN_GROUP"-> {
+                    Toast.makeText(this,"You have successfully joined the group", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        })
     }
 }

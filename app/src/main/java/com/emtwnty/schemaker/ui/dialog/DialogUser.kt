@@ -71,24 +71,30 @@ class DialogUser: DialogFragment() {
         var newRole = "null"
         checkRole(view)
 
+        // Validasi Role
         if(roleCurrentUser == "hokage"){
             view.btn_kickUser_dialogUser.visibility = View.VISIBLE
-            view.lin_role_dialogUser.visibility = View.VISIBLE
             view.lin_submit_dialogUser.visibility = View.VISIBLE
+            view.radioGroup_role_dialogUser.visibility = View.VISIBLE
         }
 
         view.tv_userName_dialogUser.text = userName
+        view.tv_userRole_dialogUser.text = mOldRole
         Picasso.get().load(userImage).into(view.iv_userImage_dialogUser)
+
+        /** Ketika user menekan button Cancel **/
         view.btn_cancel_dialogUser.setOnClickListener {
             dismiss()
         }
 
+        /** Ketika user menekan button Kick **/
         view.btn_kickUser_dialogUser.setOnClickListener {
             val kickUser: ResultSubmit = targetFragment as ResultSubmit
             kickUser.kickMember(userID!!)
             dismiss()
         }
 
+        /** Radio button **/
         view.radioGroup_role_dialogUser.setOnCheckedChangeListener(
             object : RadioGroup.OnCheckedChangeListener{
                 override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
@@ -101,6 +107,7 @@ class DialogUser: DialogFragment() {
             }
         )
 
+        /** Ketika user menekan button submit **/
         view.btn_submit_dialogUser.setOnClickListener {
             val mResultSubmit:ResultSubmit = targetFragment as ResultSubmit
             mResultSubmit.resultSubmit(newRole,mOldRole!!,userID!!)
@@ -110,11 +117,17 @@ class DialogUser: DialogFragment() {
 
     private fun checkRole(view:View){
         if(mOldRole == "hokage"){
-            view.radioButton_hokage.isChecked = true
+            view.radioButton_hokage.visibility = View.GONE
+            view.radioButton_chunin.visibility = View.VISIBLE
+            view.radioButton_genin.visibility = View.VISIBLE
         }else if(mOldRole == "chunin"){
-            view.radioButton_chunin.isChecked = true
-        }else{
-            view.radioButton_genin.isChecked = true
+            view.radioButton_hokage.visibility = View.VISIBLE
+            view.radioButton_chunin.visibility = View.GONE
+            view.radioButton_genin.visibility = View.VISIBLE
+        }else if(mOldRole == "genin"){
+            view.radioButton_hokage.visibility = View.VISIBLE
+            view.radioButton_chunin.visibility = View.VISIBLE
+            view.radioButton_genin.visibility = View.GONE
         }
     }
 

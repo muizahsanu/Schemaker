@@ -82,10 +82,9 @@ class GroupSchduleFragment : Fragment() {
             startActivity(intent)
         }
 
-        if (currentUserRole == "hokage") {
+        if (currentUserRole == "hokage" || currentUserRole == "chunin") {
             view.btn_addSchedule_scheduleFrag.visibility = View.VISIBLE
         }
-        Toast.makeText(mContext,currentUserRole,Toast.LENGTH_SHORT).show()
         getListGroupScheduel()
     }
 

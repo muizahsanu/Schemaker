@@ -71,12 +71,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         window.enterTransition = null
-        val currentUser = mAuth.currentUser
-        if(currentUser != null){
-            Toast.makeText(this,"ADA",Toast.LENGTH_SHORT).show()
-        }
-        else Toast.makeText(this, "GAADA",Toast.LENGTH_SHORT).show()
-        updateUI(currentUser)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

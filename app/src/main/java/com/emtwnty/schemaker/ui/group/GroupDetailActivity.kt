@@ -5,15 +5,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
-import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.ui.GroupSchduleFragment
 import com.emtwnty.schemaker.ui.MembersFragment
 import com.emtwnty.schemaker.ui.main.HomeActivity
@@ -21,14 +18,8 @@ import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.MembersViewModel
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class GroupDetailActivity : AppCompatActivity() {
 
@@ -90,7 +81,7 @@ class GroupDetailActivity : AppCompatActivity() {
                 val fragment: Fragment
                 when (tab?.position) {
                     0 -> fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole)
-                    else -> fragment = MembersFragment.newInstance(groupID)
+                    else -> fragment = MembersFragment.newInstance(groupID,currentUserRole)
                 }
                 replaceFragment(fragment)
             }
@@ -143,7 +134,7 @@ class GroupDetailActivity : AppCompatActivity() {
                     }
                     else if(dialogKey == "LEAVE_GROUP"){
                         mMembersViewModel.leaveGroup(groupID)
-                        Toast.makeText(this@GroupDetailActivity,"Keluar Group",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@GroupDetailActivity,"You left the group",Toast.LENGTH_SHORT).show()
                     }
                     val intent = Intent(this@GroupDetailActivity, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -171,7 +162,7 @@ class GroupDetailActivity : AppCompatActivity() {
         val fragment: Fragment
         if (tabLayout_profile.selectedTabPosition == 0) {
             fragment = GroupSchduleFragment.newInstance(resultSearch,currentUserRole)
-        } else fragment = MembersFragment.newInstance(groupID)
+        } else fragment = MembersFragment.newInstance(groupID,currentUserRole)
         replaceFragment(fragment)
     }
 

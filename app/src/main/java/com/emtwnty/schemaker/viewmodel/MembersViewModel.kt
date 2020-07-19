@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.emtwnty.schemaker.model.online.MembersRepo
 import com.emtwnty.schemaker.model.online.UsersModel
-import java.net.IDN
 
 class MembersViewModel(app: Application): AndroidViewModel(app) {
 
@@ -38,6 +37,10 @@ class MembersViewModel(app: Application): AndroidViewModel(app) {
 
     fun kickMember(groupID: String, userID: String){
         memberRepo.kickMember(groupID,userID)
+    }
+
+    fun updateRoleMember(groupID: String, userID: String, newRole:String){
+        memberRepo.updateRoleMember(groupID,userID,newRole)
     }
 
 }
