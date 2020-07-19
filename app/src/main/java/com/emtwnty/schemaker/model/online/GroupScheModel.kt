@@ -1,6 +1,6 @@
 package com.emtwnty.schemaker.model.online
 
-data class ScheduleOnlineModel (
+data class GroupScheModel (
     val scheduleID: String = "",
     val title: String = "",
     val description: String = "",

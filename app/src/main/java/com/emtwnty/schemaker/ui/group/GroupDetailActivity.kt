@@ -17,6 +17,7 @@ import com.emtwnty.schemaker.model.online.GroupModel
 import com.emtwnty.schemaker.ui.GroupSchduleFragment
 import com.emtwnty.schemaker.ui.MembersFragment
 import com.emtwnty.schemaker.ui.main.HomeActivity
+import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.MembersViewModel
 import com.google.android.material.tabs.TabLayout
@@ -24,40 +25,50 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class GroupDetailActivity : AppCompatActivity() {
 
     private lateinit var mGroupViewModel: GroupViewModel
+    private lateinit var mGroupScheViewModel: GroupScheViewModel
     private lateinit var mMembersViewModel: MembersViewModel
     private lateinit var mMenu: Menu
+
+    private lateinit var groupID: String
+    private lateinit var groupName:String
+    private lateinit var groupDesc: String
+    private lateinit var groupImage: String
+    private lateinit var currentUserRole: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_detail)
 
-        checkUserRole()
+        groupID = intent.getStringExtra("GROUP_ID").toString()
+        groupName = intent.getStringExtra("GROUP_NAME").toString()
+        groupDesc = intent.getStringExtra("GROUP_DESC").toString()
+        groupImage = intent.getStringExtra("GROUP_IMAGE").toString()
+        currentUserRole = intent.getStringExtra("CURRENT_USER_ROLE").toString()
 
         toolbar_groupDetail.setOnMenuItemClickListener(toolbarItemClickListener())
         mMenu = toolbar_groupDetail.menu
 
         // init
         mGroupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        mGroupScheViewModel = ViewModelProviders.of(this).get(GroupScheViewModel::class.java)
         mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
 
+        mMembersViewModel.initGetUserData(groupID)
+        mGroupScheViewModel.initGetGroupSche(groupID)
 
-        val groupID = intent.getStringExtra("GROUP_ID")
-        if(groupID != null){
-            mGroupViewModel.initGetScheduleGroup(groupID)
-            mMembersViewModel.initGetUserData(groupID)
-            mGroupViewModel.getGroupDataByID(groupID).observe(this, Observer {
-                updateGroupUI(it)
-            })
-            val fragment =
-                GroupSchduleFragment.newInstance(
-                    groupID
-                )
-            replaceFragment(fragment)
-        }
+        checkUserRole()
+        updateGroupUI()
+
+        val fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole)
+        replaceFragment(fragment)
 
         btn_search_profile.setOnClickListener {
             val result_search = et_search_profile.text.toString()
@@ -65,56 +76,40 @@ class GroupDetailActivity : AppCompatActivity() {
         }
 
 
-        tabLayout_profile.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        // Tab Layout Click Listener
+        tabLayout_profile.addOnTabSelectedListener(tabLayoutSelectedListener(groupID))
+    }
+
+    private fun tabLayoutSelectedListener(groupID: String) =
+        object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val fragment: Fragment
-                when(tab?.position){
-                    0-> {
-                        fragment =
-                            GroupSchduleFragment.newInstance(
-                                groupID.toString()
-                            )
-                    }
-                    else-> {
-                        fragment =
-                            MembersFragment.newInstance(
-                                groupID.toString()
-                            )
-                    }
+                when (tab?.position) {
+                    0 -> fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole)
+                    else -> fragment = MembersFragment.newInstance(groupID)
                 }
                 replaceFragment(fragment)
             }
-        })
-    }
+        }
 
     private fun checkUserRole(){
-        val userID = FirebaseAuth.getInstance().currentUser?.uid
-        val groupID = intent.getStringExtra("GROUP_ID").toString()
-        FirebaseFirestore.getInstance().collection("users").document(userID!!)
-            .collection("groups").document(groupID)
-            .get().addOnSuccessListener {
-                if(it!=null){
-                    val iniData = it.data as HashMap<*,*>
-                    val role = iniData.get("role")
-                    if(role == "hokage"){
-                        mMenu.findItem(R.id.deletGroup_menu).setVisible(true)
-                        mMenu.findItem(R.id.editGroup_menu).setVisible(true)
-                        mMenu.findItem(R.id.leaveGroup_menu).setVisible(false)
-                    }else{
-                        mMenu.findItem(R.id.deletGroup_menu).setVisible(false)
-                        mMenu.findItem(R.id.editGroup_menu).setVisible(false)
-                        mMenu.findItem(R.id.leaveGroup_menu).setVisible(true)
-                    }
-                }
-            }
+        if(currentUserRole == "hokage"){
+            mMenu.findItem(R.id.deletGroup_menu).isVisible = true
+            mMenu.findItem(R.id.editGroup_menu).isVisible = true
+            mMenu.findItem(R.id.leaveGroup_menu).isVisible = false
+        }else{
+            mMenu.findItem(R.id.deletGroup_menu).isVisible = false
+            mMenu.findItem(R.id.editGroup_menu).isVisible = false
+            mMenu.findItem(R.id.leaveGroup_menu).isVisible = true
+        }
     }
 
-    private fun toolbarItemClickListener() = object : Toolbar.OnMenuItemClickListener{
-        override fun onMenuItemClick(item: MenuItem?): Boolean {
+    private fun toolbarItemClickListener() =
+        Toolbar.OnMenuItemClickListener { item ->
             var dialogTitle = ""
             var dialogMessage = ""
             var dialogKey = ""
@@ -122,7 +117,7 @@ class GroupDetailActivity : AppCompatActivity() {
                 R.id.deletGroup_menu->{
                     dialogTitle = "Delete Group"
                     dialogMessage = "Are you sure you want to delete this group ?!"
-                    dialogKey = "DELETE_GRUP"
+                    dialogKey = "DELETE_GROUP"
                 }
                 R.id.leaveGroup_menu->{
                     dialogTitle = "Leave Group"
@@ -133,9 +128,8 @@ class GroupDetailActivity : AppCompatActivity() {
             if(dialogKey.isNotEmpty()){
                 showDialogDelete(dialogTitle,dialogMessage,dialogKey)
             }
-            return true
+            true
         }
-    }
 
     private fun showDialogDelete(dialogTitle: String,dialogMessage: String, dialogKey: String){
         val dialogBuilder = AlertDialog.Builder(this,R.style.DialogTheme)
@@ -144,7 +138,6 @@ class GroupDetailActivity : AppCompatActivity() {
             .setMessage(dialogMessage)
             .setPositiveButton("Delete",object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    val groupID = intent.getStringExtra("GROUP_ID").toString()
                     if(dialogKey == "DELETE_GROUP"){
                         mGroupViewModel.deleteGroupByID(groupID)
                     }
@@ -166,25 +159,19 @@ class GroupDetailActivity : AppCompatActivity() {
             .create().show()
     }
 
-    private fun updateGroupUI(groupModel: GroupModel){
-        tv_titleGroup_detailGroup.text = groupModel.groupName
-        if(groupModel.groupImage != "null"){
-            Picasso.get().load(groupModel.groupImage).into(iv_groupImage_detailGroup)
+    private fun updateGroupUI(){
+        tv_titleGroup_detailGroup.text = groupName
+        tv_groupDesc_detailGroup.text = groupDesc
+        if(groupImage != "null"){
+            Picasso.get().load(groupImage).into(iv_groupImage_detailGroup)
         }
     }
 
-    private fun findSelectedFragment(resultSearch:String){
-        val groupID = intent.getStringExtra("GROUP_ID")
+    private fun findSelectedFragment(resultSearch: String) {
         val fragment: Fragment
-        if(tabLayout_profile.selectedTabPosition == 0){
-            fragment =
-                GroupSchduleFragment.newInstance(
-                    resultSearch
-                )
-        } else fragment =
-            MembersFragment.newInstance(
-                groupID!!
-            )
+        if (tabLayout_profile.selectedTabPosition == 0) {
+            fragment = GroupSchduleFragment.newInstance(resultSearch,currentUserRole)
+        } else fragment = MembersFragment.newInstance(groupID)
         replaceFragment(fragment)
     }
 

@@ -4,15 +4,15 @@
 
     <item
         android:id="@+id/deletGroup_menu"
-        android:visible="false"
+        android:visible="true"
         android:title="Delete group"/>
     <item
         android:id="@+id/editGroup_menu"
-        android:visible="false"
+        android:visible="true"
         android:title="Edit group"/>
     <item
         android:id="@+id/leaveGroup_menu"
-        android:visible="false"
+        android:visible="true"
         android:title="Leave group"/>
 
 </menu>

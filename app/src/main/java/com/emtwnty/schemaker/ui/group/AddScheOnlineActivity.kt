@@ -1,4 +1,4 @@
-package com.emtwnty.schemaker.ui
+package com.emtwnty.schemaker.ui.group
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
-import com.emtwnty.schemaker.model.online.ScheduleOnlineModel
+import com.emtwnty.schemaker.model.online.GroupScheModel
 import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import kotlinx.android.synthetic.main.activity_add_sche_online.*
 import java.util.*
@@ -58,7 +58,7 @@ class AddScheOnlineActivity : AppCompatActivity() {
             validationForm()
         }
 
-
+        val asd = intent.getSerializableExtra("asd")
     }
 
     private fun onDateSetListener() {
@@ -119,10 +119,9 @@ class AddScheOnlineActivity : AppCompatActivity() {
     private fun addGroupSchedule(title:String, desc:String){
         val scheduleID = UUID.randomUUID().toString()
         val timestamp = mCalendar.timeInMillis / 1000L
-        val remindMe = true
         val done = false
 
-        val scheduleData = ScheduleOnlineModel(scheduleID,title,desc,timestamp,groupID,remindMe,done)
+        val scheduleData = GroupScheModel(scheduleID,title,desc,timestamp,groupID,done)
         mGroupScheViewModel.addGroupSchedule(scheduleData)
         indicator()
     }

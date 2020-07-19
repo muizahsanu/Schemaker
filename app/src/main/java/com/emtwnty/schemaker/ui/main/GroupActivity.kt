@@ -69,18 +69,22 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
 
     private fun retriveDataGroup(){
         mGroupViewModel.getAllGroup().observe(this, Observer<List<GroupModel>>{
-            if(it != null){
+            if(it.toString() != "[]"){
+                val asd = it.toString()
+                println("Group_data => ${asd}")
                 rv_listGroup_group.visibility = View.VISIBLE
                 tv_noGroup_group.visibility = View.GONE
+
                 mGroupsAdapter.groupsAdapter(it,this)
                 rv_listGroup_group.apply {
                     layoutManager = LinearLayoutManager(this@GroupActivity)
                     adapter = mGroupsAdapter
                 }
+
             } else {
                 rv_listGroup_group.visibility = View.GONE
                 tv_noGroup_group.visibility = View.VISIBLE
-                mGroupViewModel.iniGetGroupData()
+//                mGroupViewModel.iniGetGroupData()
             }
         })
     }
@@ -112,8 +116,16 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
     }
 
     override fun itemClickListener(groupModel: GroupModel, position: Int) {
+        val userID = mAuth.currentUser?.uid
+        val halo = groupModel.role
+        val roleCurentUser = halo[userID]
+
         val intent = Intent(this, GroupDetailActivity::class.java)
         intent.putExtra("GROUP_ID",groupModel.groupID)
+        intent.putExtra("GROUP_NAME",groupModel.groupName)
+        intent.putExtra("GROUP_DESC",groupModel.groupDesc)
+        intent.putExtra("GROUP_IMAGE",groupModel.groupImage)
+        intent.putExtra("CURRENT_USER_ROLE",roleCurentUser)
         startActivity(intent)
     }
 }

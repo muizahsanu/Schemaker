@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_group.*
 import java.util.*
+import kotlin.collections.HashMap
 
 class AddGroupActivity : AppCompatActivity() {
 
@@ -78,13 +79,18 @@ class AddGroupActivity : AppCompatActivity() {
         val groupName = etGroupName.toString()
         val groupDesc = etGroupDesc.toString()
         var groups: GroupModel
+        val memberMap = HashMap<String,Boolean>()
+        memberMap[mUserID] = true
+        val roleMap = HashMap<String,String>()
+        roleMap[mUserID] = "hokage"
+
         if(mImageUrl.toString() == "null"){
-            groups = GroupModel(mGroupID,groupName,groupDesc, mImageUrl.toString())
+            groups = GroupModel(mGroupID,groupName,groupDesc, mImageUrl.toString(),memberMap,roleMap)
             mGroupViewModel.addGroup(groups)
         }
         else{
             mGroupViewModel.uploadImage(mImageUrl!!,mGroupID).observe(this,Observer<String>{
-                groups = GroupModel(mGroupID,groupName,groupDesc,it)
+                groups = GroupModel(mGroupID,groupName,groupDesc,it,memberMap,roleMap)
                 mGroupViewModel.result().observe(this,Observer<String>{
                     if(it == "FINISH_UPLOAD_IMAGE"){
                         mGroupViewModel.addGroup(groups)

@@ -16,31 +16,21 @@ object MembersRepo {
     private var _mutableUserData: MutableLiveData<ArrayList<UsersModel>> = MutableLiveData()
 
     private fun getUserData(groupID: String){
-        mDatabase.collection("groups").document(groupID)
-            .collection("members").addSnapshotListener { valueMemberGrup, error ->
-                val docsMember = valueMemberGrup?.documents
-                val arrayUsers = ArrayList<UsersModel>()
-                docsMember?.forEach { docMember->
-                    val userId = docMember.id
-                    println("membersID_group => ${userId}")
-                    val usersRef = mDatabase.collection("users").whereEqualTo("uid",userId)
-                    usersRef.addSnapshotListener { valueUser, error ->
-                        val userDocs = valueUser?.documents
-                        userDocs?.forEach {docUser->
-                            val userData = docUser.toObject(UsersModel::class.java)
-                            println("membersID_group => ${userId}")
-                            arrayUsers.add(userData!!)
-                        }
+        mDatabase.collection("users").whereEqualTo("groups.$groupID",true)
+            .get().addOnSuccessListener {
+                if(it != null){
+                    val userArray = ArrayList<UsersModel>()
+                    val userDoc = it.documents
+                    for(userSnapshot in userDoc){
+                        val userData = userSnapshot.toObject(UsersModel::class.java)
+                        userArray.add(userData!!)
                     }
-                    _mutableUserData.value = arrayUsers
+                    _mutableUserData.value = userArray
                 }
             }
     }
     fun initGetUserData(groupID: String){
         getUserData(groupID)
-    }
-    fun resetMutableUserData(){
-        _mutableUserData.postValue(null)
     }
 
     fun leaveGroup(groupID: String){
@@ -110,8 +100,7 @@ object MembersRepo {
     }
 
     internal var getAllUserData: MutableLiveData<ArrayList<UsersModel>>
-        get() {return _mutableUserData
-        }
+        get() {return _mutableUserData }
         set(value) {
             _mutableUserData = value}
 

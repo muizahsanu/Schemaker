@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -11,6 +12,7 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.tasks.await
 
 object GroupRepo {
 
@@ -19,86 +21,29 @@ object GroupRepo {
     var responseCallback: MutableLiveData<String> = MutableLiveData()
     private var mStorage: FirebaseStorage = Firebase.storage
 
-    private var _mutbaleDataGroup: MutableLiveData<ArrayList<GroupModel>> = MutableLiveData<ArrayList<GroupModel>>()
-    private var _mutableGroupScedule: MutableLiveData<ArrayList<ScheduleOnlineModel>> = MutableLiveData()
+    private var mutbaleDataGroup: MutableLiveData<ArrayList<GroupModel>> = MutableLiveData()
 
     init {
-        if(_mutbaleDataGroup.value == null || _mutbaleDataGroup.value.toString() == "null"){
+        if(mutbaleDataGroup.value == null || mutbaleDataGroup.value.toString() == "null"){
             getGroupData()
         }
     }
 
-    /** [ START ] Mengambil Group Schedule  **/
-
-    private fun getScheduleGroup(groupID: String) {
-        println("Ngeget ke database")
-        mDatabase.collection("groups").document(groupID)
-            .collection("schedules").get().addOnSuccessListener {
-                if (it != null) {
-                    val scheduleArray = ArrayList<ScheduleOnlineModel>()
-                    val scheDoc = it.documents
-                    for (scheSnapshoot in scheDoc) {
-                        val scheData = scheSnapshoot.toObject(ScheduleOnlineModel::class.java)
-                        if (scheData != null) {
-                            scheduleArray.add(scheData)
-                        }
-                    }
-                    _mutableGroupScedule.value = scheduleArray
-                }
-            }
-    }
-    fun initGetScheduleGroup(groupID: String){
-        getScheduleGroup(groupID)
-    }
-
-    internal var getAllDataSchedule: MutableLiveData<ArrayList<ScheduleOnlineModel>>
-    get() {return _mutableGroupScedule}
-    set(value) {
-        _mutableGroupScedule = value
-    }
-
-    /** [ END ] Mengambil Group Schedule  **/
-
     /** [ START ] Delete Group **/
     fun deleteGroupByID(groupID: String){
-        val groupRef = mDatabase.collection("groups").document(groupID)
+        val userID = mAuth.currentUser?.uid
 
-        // Delete members collection di dalam group collection
-        groupRef.collection("members")
-            .get().addOnSuccessListener {
-                if (it != null) {
-                    val docMembers = it.documents
-                    for (dataMember in docMembers) {
-                        val membersID = dataMember.id
-                        groupRef.collection("members").document(membersID).delete()
-                            .addOnCompleteListener {
-                                if(it.isSuccessful){
-
-                                    // Delete members collection di dalam group collection
-                                    groupRef.collection("schedules").get().addOnSuccessListener {
-                                        if(it == null){
-                                            @Suppress("LABEL_NAME_CLASH")
-                                            return@addOnSuccessListener
-                                        }
-                                        val docSchedule = it.documents
-                                        for (docScheSnapshot in docSchedule){
-                                            val scheduleID = docScheSnapshot.id
-                                            groupRef.collection("schedules").document(scheduleID).delete()
-                                                .addOnCompleteListener {
-                                                    if(it.isSuccessful){
-                                                        groupRef.delete()
-                                                    }
-                                                }
-                                        }
-                                    }
-
-                                }
-                            }
-                    }
+        mDatabase.collection("groups").document(groupID)
+            .delete()
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    mDatabase.collection("users").document(userID!!)
+                        .update("groups.$groupID",FieldValue.delete())
                 }
             }
     }
     /** [ END ] Delete Group **/
+
 
 
     /** [ START ] Menambah Group Mamber **/
@@ -112,7 +57,7 @@ object GroupRepo {
         withContext(IO){
             val userID = mAuth.currentUser?.uid.toString()
             val newMemberMap = HashMap<String,Any>()
-            newMemberMap.put("role","genin")
+            newMemberMap["role"] = "genin"
             mDatabase.collection("groups").document(groupID)
                 .collection("members").document(userID).set(newMemberMap)
                 .addOnCompleteListener {
@@ -125,6 +70,8 @@ object GroupRepo {
     }
     /** [ END ] Menambah Group Mamber **/
 
+
+
     /** [ START ] Menambahkan / membuat group **/
     fun addGroup(groupModel: GroupModel){
         responseCallback.value = "RUNNING"
@@ -134,27 +81,19 @@ object GroupRepo {
     }
     private suspend fun addGroupBG(groupModel: GroupModel){
         delay(1500)
-        val userID = mAuth.currentUser?.uid.toString()
         val groupID = groupModel.groupID
-        // ref
-        val groupRef = mDatabase.collection("groups").document(groupID)
-        val userRef = mDatabase.collection("users").document(userID)
-            .collection("groups").document(groupID)
-        val membersOnGroup = HashMap<String,Any>()
-        membersOnGroup.put("role","hokage")
-        val groupsInUsers = HashMap<String,Any>()
-        groupsInUsers.put("role","hokage")
+        val userID = mAuth.currentUser?.uid
 
-        groupRef.set(groupModel).addOnCompleteListener {
-            if(it.isSuccessful){
-                groupRef.collection("members").document(userID).set(membersOnGroup)
-                userRef.set(groupsInUsers)
-                responseCallback.value = "FINISH"
+        mDatabase.collection("groups").document(groupID)
+            .set(groupModel)
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    mDatabase.collection("users").document(userID!!)
+                        .update("groups.$groupID",true)
+                    responseCallback.value = "FINISH"
+                }else responseCallback.value = it.exception.toString()
+
             }
-            else{
-                responseCallback.value = it.exception.toString()
-            }
-        }
         withContext(Main){
             responseCallback.value = ""
         }
@@ -163,25 +102,27 @@ object GroupRepo {
 
 
 
-    /** [ START ] Menampilkan group sesuai ID **/
-
-    fun getGroupByID(groupID: String): LiveData<GroupModel>{
-        return object : LiveData<GroupModel>(){
+    /** [ START ] Mengambil user role **/
+    fun getUserRole(userID: String, groupID: String):LiveData<String>{
+        return object : LiveData<String>() {
             override fun onActive() {
                 super.onActive()
-                mDatabase.collection("groups").document(groupID).get()
-                    .addOnSuccessListener {
-                        value = it.toObject(GroupModel::class.java)
+                CoroutineScope(IO).launch {
+                    val role = mDatabase.collection("groups").document(groupID)
+                        .get().await().get("role.$userID").toString()
+                    CoroutineScope(Main).launch {
+                        value = role
                     }
+                }
             }
         }
     }
-    /** [ END ] Menampilkan group sesuai ID **/
+    /** [ END ] Mengambil user role **/
 
 
 
     /** [ START ] Menampilkan Group sesuai dengan member user **/
-    fun getGroupData() {
+    private fun getGroupData() {
         println("Group_data => Halo")
         val currentUser = mAuth.currentUser
 
@@ -189,37 +130,26 @@ object GroupRepo {
             println("Group_data => mems")
 
             val userID = currentUser.uid
-            val groupsRef = mDatabase.collection("groups")
-            val usersRef = mDatabase.collection("users").document(userID).collection("groups")
-
-            usersRef.addSnapshotListener { value, error ->
-
-                val arrayGroupData = ArrayList<GroupModel>()
-                val user_groupsDocs = value?.documents
-
-                user_groupsDocs?.forEach { docSnapshootUser->
-                    val groupID = docSnapshootUser.id
-                    println("Group_ID => {$groupID}")
-
-                    groupsRef.whereEqualTo("groupID",groupID).get().addOnSuccessListener { docGroup->
-                        val groupsDoc = docGroup.documents
-                        groupsDoc.forEach {
-                            val memek = it.toObject(GroupModel::class.java)
-                            arrayGroupData.add(memek!!)
+            mDatabase.collection("groups").whereEqualTo("members.$userID",true)
+                .addSnapshotListener { value, _ ->
+                    if(value!=null){
+                        val arrayGroup = ArrayList<GroupModel>()
+                        val docGroup = value.documents
+                        for (docSnapshot in docGroup){
+                            val dataGroup = docSnapshot.toObject(GroupModel::class.java)
+                            println("Group_data111 => $dataGroup")
+                            arrayGroup.add(dataGroup!!)
                         }
-                        _mutbaleDataGroup.value = arrayGroupData
+                        mutbaleDataGroup.value = arrayGroup
                     }
                 }
-            }
         }
-    }
-    fun resetMutable(){
-        _mutbaleDataGroup.postValue(null)
     }
     fun initGetGroupData(){
         getGroupData()
     }
     /** [ END ] Menampilkan Group sesuai dengan member user **/
+
 
 
     /** [ START ] Upload file ke storage, Mengambil link dari file **/
@@ -230,8 +160,8 @@ object GroupRepo {
                 responseCallback.value = "UPLOAD_IMAGE"
                 CoroutineScope(IO).launch {
                     val imageRef = mStorage.reference.child("/images/$groupID")
-                    imageRef.putFile(imageUri).addOnCompleteListener {
-                        if(it.isSuccessful){
+                    imageRef.putFile(imageUri).addOnCompleteListener { task ->
+                        if(task.isSuccessful){
                             imageRef.downloadUrl.addOnSuccessListener {
                                 value = it.toString()
                                 responseCallback.value = "FINISH_UPLOAD_IMAGE"
@@ -245,8 +175,8 @@ object GroupRepo {
     /** [ END ] Upload file ke storage, Mengambil link dari file **/
 
     internal var getAllData: MutableLiveData<ArrayList<GroupModel>>
-    get() {return _mutbaleDataGroup}
+    get() {return mutbaleDataGroup}
     set(value) {
-        _mutbaleDataGroup = value}
+        mutbaleDataGroup = value}
 
 }

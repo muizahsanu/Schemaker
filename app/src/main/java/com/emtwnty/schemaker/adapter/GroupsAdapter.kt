@@ -28,19 +28,6 @@ class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: GroupsAdapter.ViewHolder, position: Int) {
         holder.bind(listGroup.get(position),mItemClickListener,position)
-//        if(selected_position == position){
-//            holder.cv_group.cardElevation = 1f
-//            holder.cv_group.isClickable = false
-//            holder.indicatorView.setBackgroundColor(Color.parseColor("#94194d"))
-//        }else {
-//            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-//                holder.indicatorView.setBackgroundColor(Color.parseColor("#ffffff"))
-//            }else{
-//                holder.indicatorView.setBackgroundColor(Color.parseColor("#121212"))
-//            }
-//            holder.cv_group.cardElevation = 0F
-//            holder.cv_group.isClickable = true
-//        }
     }
 
     fun groupsAdapter(listGroup: List<GroupModel>,clickListener: onItemClickListener){

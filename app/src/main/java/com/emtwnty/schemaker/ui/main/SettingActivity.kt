@@ -116,7 +116,7 @@ class SettingActivity : AppCompatActivity() {
         mLoginViewModel.LOGIN_RESULT.observe(this, Observer {
             if(it == "SIGNIN_SUCCESS" || it == "SIGNOUT_SUCCESS"){
                 lin_progressbar_setting.visibility = View.INVISIBLE
-                mGroupViewModel.resetMutable()
+                mGroupViewModel.iniGetGroupData()
                 mLoginViewModel.LOGIN_RESULT.value = null
                 val intent = Intent(this,HomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
