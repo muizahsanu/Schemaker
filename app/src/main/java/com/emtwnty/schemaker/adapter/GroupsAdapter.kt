@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.RecyclerView
 import com.emtwnty.schemaker.R
@@ -11,9 +13,10 @@ import com.emtwnty.schemaker.model.online.GroupModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_group_rv.view.*
 
-class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
+class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>(), Filterable {
 
-    private lateinit var listGroup: List<GroupModel>
+    private var listGroup: List<GroupModel> = ArrayList()
+    private lateinit var simpanListGroup: List<GroupModel>
     private lateinit var mItemClickListener: onItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupsAdapter.ViewHolder {
@@ -32,6 +35,7 @@ class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
 
     fun groupsAdapter(listGroup: List<GroupModel>,clickListener: onItemClickListener){
         this.listGroup = listGroup
+        simpanListGroup = ArrayList<GroupModel>(listGroup)
         this.mItemClickListener = clickListener
     }
 
@@ -54,5 +58,26 @@ class GroupsAdapter:RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
 
     interface onItemClickListener{
         fun itemClickListener(groupModel: GroupModel, position: Int)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                val filterGroupList = ArrayList<GroupModel>()
+                val filterPattern = p0.toString().toLowerCase().trim()
+                for (row in simpanListGroup){
+                    if(row.groupName.toLowerCase().trim().contains(filterPattern)){
+                        filterGroupList.add(row)
+                    }
+                }
+                val results = FilterResults()
+                results.values = filterGroupList
+                return results
+            }
+            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                listGroup = p1?.values as List<GroupModel>
+                notifyDataSetChanged()
+            }
+        }
     }
 }

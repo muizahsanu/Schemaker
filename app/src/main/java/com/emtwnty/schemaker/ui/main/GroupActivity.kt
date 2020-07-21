@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,16 @@ class GroupActivity : AppCompatActivity(), GroupsAdapter.onItemClickListener {
             startActivity(Intent(this,
                 AddGroupActivity::class.java))
         }
+
+        searchView_group.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(p0: String?): Boolean {
+                mGroupsAdapter.filter.filter(p0)
+                return false
+            }
+        })
     }
 
     override fun onResume() {
