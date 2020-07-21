@@ -15,6 +15,11 @@ class GroupScheViewModel(app: Application): AndroidViewModel(app) {
         repo.addGroupSchedule(groupScheModel)
     }
 
+    fun deleteSchedule(scheduleID: String) = repo.deleteSchedule(scheduleID)
+
+    fun updateGroupSche(scheduleID: String, newSchedule: Map<String,Any>)
+            = repo.updateGroupSche(scheduleID,newSchedule)
+
     fun getGroupSchedule():MutableLiveData<ArrayList<GroupScheModel>>{
         return repo.getAllGroupSche
     }

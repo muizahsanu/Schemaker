@@ -17,23 +17,35 @@ class GroupScheAdapter:RecyclerView.Adapter<GroupScheAdapter.ViewHolder>(), Filt
 
     private lateinit var groupScheList: List<GroupScheModel>
     private lateinit var allGroupScheList: List<GroupScheModel>
+    private lateinit var mClickListener: ItemClickListener
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val tv_schetitle = view.tv_scheduleTitle_groupScheLayout
         val tv_schetanggal = view.tv_scheduleTanggal_groupScheLayout
         val tv_schejam = view.tv_scheduleJam_groupScheLayout
 
-        fun onBind(groupScheModel: GroupScheModel){
+        fun onBind(groupScheModel: GroupScheModel, clickListener: ItemClickListener){
             tv_schetitle.text = groupScheModel.title
             val timestamp = Calendar.getInstance()
             timestamp.timeInMillis = groupScheModel.timestamp * 1000L
             tv_schetanggal.text = DateFormat.format("dd MMM yyyy",timestamp).toString()
             tv_schejam.text = DateFormat.format("hh:mm a",timestamp).toString()
+
+            itemView.setOnClickListener {
+                clickListener.itemClickLister(groupScheModel)
+            }
+            itemView.setOnLongClickListener (object : View.OnLongClickListener{
+                override fun onLongClick(p0: View?): Boolean {
+                    clickListener.itemLongClickListener(groupScheModel)
+                    return true
+                }
+            })
         }
     }
 
-    fun groupScheAdapter(groupScheList: List<GroupScheModel>){
+    fun groupScheAdapter(groupScheList: List<GroupScheModel>, clickListener: ItemClickListener){
         this.groupScheList = groupScheList
+        mClickListener = clickListener
 //        allGroupScheList = ArrayList<GroupScheModel>(groupScheList)
 //        notifyDataSetChanged()
     }
@@ -49,7 +61,7 @@ class GroupScheAdapter:RecyclerView.Adapter<GroupScheAdapter.ViewHolder>(), Filt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(groupScheList.get(position))
+        holder.onBind(groupScheList.get(position),mClickListener)
     }
 
     override fun getFilter(): Filter {
@@ -72,5 +84,10 @@ class GroupScheAdapter:RecyclerView.Adapter<GroupScheAdapter.ViewHolder>(), Filt
                 notifyDataSetChanged()
             }
         }
+    }
+
+    interface ItemClickListener{
+        fun itemClickLister(groupScheModel: GroupScheModel)
+        fun itemLongClickListener(groupScheModel: GroupScheModel)
     }
 }

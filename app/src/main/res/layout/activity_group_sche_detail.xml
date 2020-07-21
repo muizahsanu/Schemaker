@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.group.GroupScheDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_groupScheDetail"
+        android:transitionName="trans_lin_to_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#94194d"
+        app:title="Group Schedule"
+        app:titleTextColor="#fff"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel_groupScheDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_groupScheDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:text="Save"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_editGroupSche_groupScheDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:text="Edit"
+                android:textColor="@color/colorText"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/inicobalayout"
+        android:transitionName="trans_cv_to_addSche"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_groupScheDetail">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_title_groupScheDetail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_title"
+            android:textColorHint="@color/colorTextLuarLayout"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_title_groupScheDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textSize="24sp"
+                android:textColor="@color/colorTextLuarLayout"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/batas1_groupScheDetail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_description_groupScheDetail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_desc"
+            android:textColorHint="@color/colorTextLuarLayout"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_description_groupScheDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textSize="24sp"
+                android:textColor="@color/colorTextLuarLayout"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/batas2_groupScheDetail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/colorBackground"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_tanggal_groupScheDetail"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:text="@string/tv_tanggal"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorTextLuarLayout"
+                android:textSize="16sp"
+                android:enabled="false" />
+
+            <Button
+                android:id="@+id/btn_jam_groupScheDetail"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:text="@string/tv_jam"
+                android:textColor="@color/colorTextLuarLayout"
+                android:textSize="16sp"
+                android:enabled="false" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/batas4_groupScheDetail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/sw_remindMe_groupScheDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="18dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="18dp"
+            android:layout_marginBottom="16dp"
+            android:text="Remind me"
+            android:textColor="@color/colorTextLuarLayout"
+            android:fontFamily="@font/lin_libertine_rb"
+            android:textSize="20sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

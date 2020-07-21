@@ -8,13 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.emtwnty.schemaker.R
 import com.emtwnty.schemaker.adapter.GroupScheAdapter
 import com.emtwnty.schemaker.model.online.GroupScheModel
+import com.emtwnty.schemaker.ui.dialog.DialogDeleteGroupSche
 import com.emtwnty.schemaker.ui.group.AddScheOnlineActivity
+import com.emtwnty.schemaker.ui.group.GroupScheDetailActivity
 import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -25,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_group_schdule.view.*
 private const val GROUP_ID = "GROUP_ID"
 private const val CURRENT_USER_ROLE = "CURRENT_USER_ROLE"
 
-class GroupSchduleFragment : Fragment() {
+class GroupSchduleFragment : Fragment(), GroupScheAdapter.ItemClickListener {
     private var groupID: String? = null
     private var currentUserRole: String? = null
 
@@ -100,10 +103,27 @@ class GroupSchduleFragment : Fragment() {
 
     private fun setDataToRecyclerView(groupScheList: ArrayList<GroupScheModel>){
         mGroupScheaAdapter = GroupScheAdapter()
-        mGroupScheaAdapter.groupScheAdapter(groupScheList)
+        mGroupScheaAdapter.groupScheAdapter(groupScheList,this)
         v.rv_schedules_scheduleFrag.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = mGroupScheaAdapter
         }
+    }
+
+    override fun itemClickLister(groupScheModel: GroupScheModel) {
+        val intent = Intent(context,GroupScheDetailActivity::class.java)
+        intent.putExtra("TITLE",groupScheModel.title)
+        intent.putExtra("DESC",groupScheModel.description)
+        intent.putExtra("TIMESTAMP",groupScheModel.timestamp)
+        intent.putExtra("GROUP_ID",groupScheModel.groupID)
+        intent.putExtra("SCHEDULE_ID",groupScheModel.scheduleID)
+        intent.putExtra("DONE",groupScheModel.done)
+        startActivity(intent)
+    }
+
+    override fun itemLongClickListener(groupScheModel: GroupScheModel) {
+        val scheduleID = groupScheModel.scheduleID
+        val dialogDelete: DialogFragment = DialogDeleteGroupSche.newInstance(scheduleID)
+        dialogDelete.show(fragmentManager!!,"dialog-fragment_delete-schedule")
     }
 }
