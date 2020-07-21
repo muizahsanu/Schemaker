@@ -27,10 +27,12 @@ import kotlinx.android.synthetic.main.fragment_group_schdule.view.*
 
 private const val GROUP_ID = "GROUP_ID"
 private const val CURRENT_USER_ROLE = "CURRENT_USER_ROLE"
+private const val RESULT_SEARCH = "RESULT_SEARCH"
 
 class GroupSchduleFragment : Fragment(), GroupScheAdapter.ItemClickListener {
     private var groupID: String? = null
     private var currentUserRole: String? = null
+    private var resultSearch: String? = null
 
     private lateinit var v:View
     private lateinit var mContext: Context
@@ -40,11 +42,12 @@ class GroupSchduleFragment : Fragment(), GroupScheAdapter.ItemClickListener {
 
     companion object {
         @JvmStatic
-        fun newInstance(groupID: String,currentUserRole: String) =
+        fun newInstance(groupID: String,currentUserRole: String,resultSearch: String) =
             GroupSchduleFragment().apply {
                 arguments = Bundle().apply {
                     putString(GROUP_ID, groupID)
                     putString(CURRENT_USER_ROLE, currentUserRole)
+                    putString(RESULT_SEARCH, resultSearch)
                 }
             }
     }
@@ -54,11 +57,13 @@ class GroupSchduleFragment : Fragment(), GroupScheAdapter.ItemClickListener {
         arguments?.let {
             groupID = it.getString(GROUP_ID)
             currentUserRole = it.getString(CURRENT_USER_ROLE)
+            resultSearch = it.getString(RESULT_SEARCH)
         }
 
 
         mAuth = FirebaseAuth.getInstance()
         mGroupScheViewModel = ViewModelProviders.of(this).get(GroupScheViewModel::class.java)
+        mGroupScheaAdapter = GroupScheAdapter()
     }
 
     override fun onCreateView(
@@ -91,6 +96,12 @@ class GroupSchduleFragment : Fragment(), GroupScheAdapter.ItemClickListener {
         getListGroupScheduel()
     }
 
+    private fun filterList(){
+        if(resultSearch != null || !resultSearch.toString().isEmpty()){
+            mGroupScheaAdapter.filter.filter(resultSearch)
+        }
+    }
+
     private fun getListGroupScheduel(){
         mGroupScheViewModel.getGroupSchedule().observe(this,
             Observer<ArrayList<GroupScheModel>> {
@@ -102,12 +113,12 @@ class GroupSchduleFragment : Fragment(), GroupScheAdapter.ItemClickListener {
     }
 
     private fun setDataToRecyclerView(groupScheList: ArrayList<GroupScheModel>){
-        mGroupScheaAdapter = GroupScheAdapter()
         mGroupScheaAdapter.groupScheAdapter(groupScheList,this)
         v.rv_schedules_scheduleFrag.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = mGroupScheaAdapter
         }
+        filterList()
     }
 
     override fun itemClickLister(groupScheModel: GroupScheModel) {

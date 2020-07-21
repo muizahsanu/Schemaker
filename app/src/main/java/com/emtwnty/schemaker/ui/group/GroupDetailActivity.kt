@@ -4,6 +4,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -58,13 +60,24 @@ class GroupDetailActivity : AppCompatActivity() {
         checkUserRole()
         updateGroupUI()
 
-        val fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole)
+        val fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole,"")
         replaceFragment(fragment)
 
         btn_search_profile.setOnClickListener {
             val result_search = et_search_profile.text.toString()
-//            findSelectedFragment(result_search)
+            findSelectedFragment(result_search)
         }
+        et_search_profile.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.isNullOrEmpty() || p0.isNullOrBlank()){
+                    findSelectedFragment(p0.toString())
+                }
+            }
+        })
 
 
         // Tab Layout Click Listener
@@ -80,8 +93,8 @@ class GroupDetailActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val fragment: Fragment
                 when (tab?.position) {
-                    0 -> fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole)
-                    else -> fragment = MembersFragment.newInstance(groupID,currentUserRole)
+                    0 -> fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole,"")
+                    else -> fragment = MembersFragment.newInstance(groupID,currentUserRole,"")
                 }
                 replaceFragment(fragment)
             }
@@ -161,8 +174,8 @@ class GroupDetailActivity : AppCompatActivity() {
     private fun findSelectedFragment(resultSearch: String) {
         val fragment: Fragment
         if (tabLayout_profile.selectedTabPosition == 0) {
-            fragment = GroupSchduleFragment.newInstance(resultSearch,currentUserRole)
-        } else fragment = MembersFragment.newInstance(groupID,currentUserRole)
+            fragment = GroupSchduleFragment.newInstance(groupID,currentUserRole,resultSearch)
+        } else fragment = MembersFragment.newInstance(groupID,currentUserRole,resultSearch)
         replaceFragment(fragment)
     }
 

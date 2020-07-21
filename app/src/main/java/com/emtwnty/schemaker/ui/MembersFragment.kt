@@ -40,10 +40,12 @@ import kotlinx.coroutines.withContext
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val GROUP_ID = "GROUP_ID"
 private const val CURRENT_USER_ROLE = "CURRENT_USER_ROLE"
+private const val SEARCH_RESULT = "SEARCH_RESULT"
 
 class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.ResultSubmit {
     private var groupID: String? = null
     private var currentUserRole: String? = null
+    private var searchResult: String? = null
 
     private lateinit var mView:View
     private lateinit var mContext: Context
@@ -57,11 +59,12 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.
 
     companion object {
         @JvmStatic
-        fun newInstance(groupID: String,currentUserRole: String) =
+        fun newInstance(groupID: String,currentUserRole: String, searchResult: String) =
             MembersFragment().apply {
                 arguments = Bundle().apply {
                     putString(GROUP_ID, groupID)
                     putString(CURRENT_USER_ROLE, currentUserRole)
+                    putString(SEARCH_RESULT, searchResult)
                 }
             }
     }
@@ -71,6 +74,7 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.
         arguments?.let {
             groupID = it.getString(GROUP_ID)
             currentUserRole = it.getString(CURRENT_USER_ROLE)
+            searchResult = it.getString(SEARCH_RESULT)
         }
 
         mMembersViewModel = ViewModelProviders.of(this).get(MembersViewModel::class.java)
@@ -136,7 +140,7 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.
         getDataMember()
     }
 
-    fun getDataMember(){
+    private fun getDataMember(){
         mMembersViewModel.getAllUserData().observe(this, Observer<ArrayList<UsersModel>>{
             if(it!=null){
                 println("memberFrag: memberdata => ${it}")
@@ -144,13 +148,19 @@ class MembersFragment : Fragment(),MembersAdapter.ItemClickListener, DialogUser.
             }
         })
     }
-    fun setRecyclerView(listMembers: List<UsersModel>){
+    private fun filterList(){
+        if(searchResult != null || !searchResult.toString().isEmpty()){
+            mMembersAdapter.filter.filter(searchResult)
+        }
+    }
+    private fun setRecyclerView(listMembers: List<UsersModel>){
         val rv_members = mView.rv_members_membersFrag
         mMembersAdapter.membersAdapter(listMembers,this)
         rv_members.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = mMembersAdapter
         }
+        filterList()
     }
 
     override fun itemClickListener(usersModel: UsersModel, position: Int) {

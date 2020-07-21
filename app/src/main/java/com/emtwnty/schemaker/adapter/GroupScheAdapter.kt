@@ -45,8 +45,8 @@ class GroupScheAdapter:RecyclerView.Adapter<GroupScheAdapter.ViewHolder>(), Filt
 
     fun groupScheAdapter(groupScheList: List<GroupScheModel>, clickListener: ItemClickListener){
         this.groupScheList = groupScheList
+        allGroupScheList = ArrayList<GroupScheModel>(groupScheList)
         mClickListener = clickListener
-//        allGroupScheList = ArrayList<GroupScheModel>(groupScheList)
 //        notifyDataSetChanged()
     }
 
@@ -70,7 +70,7 @@ class GroupScheAdapter:RecyclerView.Adapter<GroupScheAdapter.ViewHolder>(), Filt
                 val filteredList = ArrayList<GroupScheModel>()
                 val filterPattern = p0.toString().toLowerCase().trim()
                 for(row in allGroupScheList){
-                    if(row.groupID.toLowerCase().contains(filterPattern)){
+                    if(row.title.toLowerCase().contains(filterPattern)){
                         filteredList.add(row)
                     }
                 }

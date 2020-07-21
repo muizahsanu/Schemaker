@@ -3,15 +3,19 @@ package com.emtwnty.schemaker.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.model.online.GroupScheModel
 import com.emtwnty.schemaker.model.online.UsersModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_members_rv.view.*
 
-class MembersAdapter: RecyclerView.Adapter<MembersAdapter.ViewHolder>() {
+class MembersAdapter: RecyclerView.Adapter<MembersAdapter.ViewHolder>(), Filterable {
 
     private lateinit var listMembers: List<UsersModel>
+    private lateinit var allListMembers: List<UsersModel>
     private lateinit var mItemClick: ItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersAdapter.ViewHolder {
@@ -44,10 +48,33 @@ class MembersAdapter: RecyclerView.Adapter<MembersAdapter.ViewHolder>() {
 
     fun membersAdapter(listMembers: List<UsersModel>, itemClick: ItemClickListener){
         this.listMembers = listMembers
+        allListMembers = ArrayList<UsersModel>(listMembers)
         this.mItemClick = itemClick
     }
 
     interface ItemClickListener{
         fun itemClickListener(usersModel: UsersModel, position: Int)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                val filteredList = ArrayList<UsersModel>()
+                val filterPattern = p0.toString().toLowerCase().trim()
+                for(row in allListMembers){
+                    if(row.fullname.toLowerCase().contains(filterPattern)){
+                        filteredList.add(row)
+                    }
+                }
+                val results = FilterResults()
+                results.values = filteredList
+                return results
+            }
+
+            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                listMembers = p1?.values as List<UsersModel>
+                notifyDataSetChanged()
+            }
+        }
     }
 }
