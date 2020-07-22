@@ -22,6 +22,9 @@ class GroupViewModel(app: Application):AndroidViewModel(app) {
         repo.addMemberGroup(groupID)
     }
 
+    fun updateGroup(groupID: String, newDataGroup: Map<String,Any>)
+            =repo.updateGroup(groupID,newDataGroup)
+
     fun deleteGroupByID(groupID: String){
         repo.deleteGroupByID(groupID)
     }

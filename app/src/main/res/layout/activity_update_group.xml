@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.group.UpdateGroupActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_addgroup_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="?attr/actionBarSize"
+        android:background="@drawable/background_toolbar"
+        android:elevation="8dp"
+        app:title="Edit Group"
+        app:titleTextColor="@color/colorTextLuarLayout"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_addgroup_group"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_selectImage_updateGroup"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:background="@drawable/background_cardview_custom"
+            android:layout_gravity="center"
+            android:elevation="8dp"
+            android:clickable="true"
+            android:focusable="true">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_groupImage_updateGroup"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"/>
+            <TextView
+                android:id="@+id/tv_selectImage_updateGroup"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:text="Select Group Image"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="#dadada"
+                android:textSize="16sp"
+                android:fontFamily="@font/lin_libertine_rb"
+                android:background="@drawable/select_image_background"/>
+        </RelativeLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_form_updateGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorBottomNav"
+            android:layout_margin="20sp"
+            app:cardElevation="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_addgroup_group">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/colorBottomNav"
+                android:layout_margin="8dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etLayout_groupName_updateGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Group Name"
+                    app:hintTextColor="@color/colorTextLuarLayout"
+                    app:boxStrokeWidth="0dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_groupName_updateGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextLuarLayout"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etLayout_groupDesc_updateGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Group Description"
+                    app:hintTextColor="@color/colorTextLuarLayout"
+                    app:boxStrokeWidth="0dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_groupDesc_updateGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextLuarLayout"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_update_updateGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="8dp"
+            android:text="update"
+            android:textColor="@color/colorText"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@+id/cv_form_updateGroup" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel_updateGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="8dp"
+            android:text="Cancel"
+            android:textColor="@color/colorText"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@+id/cv_form_updateGroup" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lin_progressbar_updateGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#4D000000"
+        android:visibility="gone">
+        <ProgressBar
+            android:id="@+id/progressbar_updateGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -110,6 +110,31 @@ object GroupRepo {
     /** [ END ] Menambahkan / membuat group **/
 
 
+    /** [ START ] Update Group **/
+    fun updateGroup(groupID: String,newDataGroup: Map<String,Any>){
+        CoroutineScope(IO).launch {
+            updateGroupBG(groupID,newDataGroup)
+        }
+    }
+    private suspend fun updateGroupBG(groupID: String,newDataGroup: Map<String,Any>){
+        withContext(Main){
+            responseCallback.value = "UPDATING"
+        }
+        withContext(IO){
+            mDatabase.collection("groups").document(groupID)
+                .update(newDataGroup).addOnCompleteListener {
+                    if(it.isSuccessful){
+                        responseCallback.value = "FINISH"
+                    }
+                }.await()
+        }
+        withContext(Main){
+            responseCallback.value = ""
+        }
+    }
+    /** [ END ] Update Group **/
+
+
 
     /** [ START ] Mengambil user role **/
     fun getUserRole(userID: String, groupID: String):LiveData<String>{

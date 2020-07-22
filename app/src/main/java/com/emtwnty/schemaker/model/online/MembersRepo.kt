@@ -68,7 +68,7 @@ object MembersRepo {
     }
 
     fun updateRoleMember(groupID: String, userID: String, newRole: String){
-        val groupsRef = mDatabase.collection("groups").document(groupID)
+        mDatabase.collection("groups").document(groupID)
             .update("role.$userID",newRole)
     }
 

@@ -117,30 +117,41 @@ class GroupDetailActivity : AppCompatActivity() {
             var dialogTitle = ""
             var dialogMessage = ""
             var dialogKey = ""
+            var dialogPostifiButton = ""
             when(item?.itemId){
                 R.id.deletGroup_menu->{
                     dialogTitle = "Delete Group"
                     dialogMessage = "Are you sure you want to delete this group ?!"
                     dialogKey = "DELETE_GROUP"
+                    dialogPostifiButton = "Delete"
                 }
                 R.id.leaveGroup_menu->{
                     dialogTitle = "Leave Group"
                     dialogMessage = "Are you sure you want to leave this group?"
                     dialogKey = "LEAVE_GROUP"
+                    dialogPostifiButton = "Leave"
+                }
+                R.id.editGroup_menu->{
+                    val intent = Intent(this, UpdateGroupActivity::class.java)
+                    intent.putExtra("GROUP_ID",groupID)
+                    intent.putExtra("GROUP_IMAGE",groupImage)
+                    intent.putExtra("GROUP_NAME",groupName)
+                    intent.putExtra("GROUP_DESC",groupDesc)
+                    startActivity(intent)
                 }
             }
             if(dialogKey.isNotEmpty()){
-                showDialogDelete(dialogTitle,dialogMessage,dialogKey)
+                showDialogDelete(dialogTitle,dialogMessage,dialogKey,dialogPostifiButton)
             }
             true
         }
 
-    private fun showDialogDelete(dialogTitle: String,dialogMessage: String, dialogKey: String){
+    private fun showDialogDelete(dialogTitle: String,dialogMessage: String, dialogKey: String, dialogPostifiButton: String){
         val dialogBuilder = AlertDialog.Builder(this,R.style.DialogTheme)
         dialogBuilder
             .setTitle(dialogTitle)
             .setMessage(dialogMessage)
-            .setPositiveButton("Delete",object : DialogInterface.OnClickListener{
+            .setPositiveButton(dialogPostifiButton,object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     if(dialogKey == "DELETE_GROUP"){
                         mGroupViewModel.deleteGroupByID(groupID)

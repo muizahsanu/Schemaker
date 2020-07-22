@@ -71,7 +71,7 @@
                 android:textColor="@color/colorText"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:layout_alignParentEnd="true"
-                android:visibility="visible"
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button.TextButton"/>
         </RelativeLayout>
 
@@ -90,7 +90,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

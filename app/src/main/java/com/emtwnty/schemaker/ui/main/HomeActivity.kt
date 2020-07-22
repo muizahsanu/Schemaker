@@ -269,8 +269,9 @@ class HomeActivity : AppCompatActivity(), ScheduleAdapter.ItemClickListener,Sche
         val userName = mSharedPref.getString("USER_NAME",null)
         val userImage = mSharedPref.getString("USER_IMAGE",null)
         if(userName !=null && userImage != null){
+            iv_userImage_home.visibility = View.VISIBLE
             updateUI(userName,userImage)
-        }
+        }else iv_userImage_home.visibility = View.GONE
     }
 
     private fun updateUI(userName:String,userImage:String){
