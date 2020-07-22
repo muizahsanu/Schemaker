@@ -14,9 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.group.UpdateGroupActivity"></activity>
-        <activity android:name=".ui.group.GroupScheDetailActivity" />
-        <activity android:name=".ui.group.AddScheOnlineActivity" />
+        <activity android:name=".ui.group.UpdateGroupActivity"/>
+        <activity android:name=".ui.group.GroupScheDetailActivity"
+            android:parentActivityName=".ui.group.GroupDetailActivity"/>
+        <activity android:name=".ui.group.AddScheOnlineActivity"
+            android:parentActivityName=".ui.group.GroupDetailActivity"/>
         <activity android:name=".ui.InvitationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -31,7 +33,8 @@
         </activity>
         <activity android:name=".ui.ProfileActivity" />
         <activity android:name=".ui.FindUserActivity" />
-        <activity android:name=".ui.group.GroupDetailActivity" />
+        <activity android:name=".ui.group.GroupDetailActivity"
+            android:parentActivityName=".ui.main.GroupActivity"/>
         <activity
             android:name=".ui.group.AddGroupActivity"
             android:parentActivityName=".ui.main.GroupActivity" />
@@ -42,7 +45,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AddScheduleActivity" />
+        <activity android:name=".ui.AddScheduleActivity"
+            android:parentActivityName=".ui.main.HomeActivity"/>
         <activity android:name=".ui.main.SettingActivity" />
         <activity android:name=".ui.main.GroupActivity" />
         <activity android:name=".ui.main.HomeActivity" />

@@ -34,6 +34,9 @@ class AddScheduleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_schedule)
 
+        setSupportActionBar(toolbar_addSchedule)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // Mendeklarasikan ViewModel
         mScheduleViewMode = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
 
@@ -182,6 +185,7 @@ class AddScheduleActivity : AppCompatActivity() {
             radioGroup_color_addSchedule.visibility = View.VISIBLE
             btn_save_addSchedule.text = "Save"
             btn_cancel_addSchedule.visibility = View.VISIBLE
+            supportActionBar?.setTitle("Edit Schedule")
         }
         else{
             et_title_addSchedule.isEnabled = false
@@ -193,6 +197,7 @@ class AddScheduleActivity : AppCompatActivity() {
             radioGroup_color_addSchedule.visibility = View.GONE
             btn_save_addSchedule.text = "Edit"
             btn_cancel_addSchedule.visibility = View.GONE
+            supportActionBar?.setTitle("View Schedule")
         }
     }
 

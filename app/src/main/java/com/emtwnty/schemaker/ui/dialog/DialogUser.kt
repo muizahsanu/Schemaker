@@ -1,5 +1,6 @@
 package com.emtwnty.schemaker.ui.dialog
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.ui.ProfileActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_viewuser_dialog.view.*
 
@@ -112,6 +114,13 @@ class DialogUser: DialogFragment() {
             val mResultSubmit:ResultSubmit = targetFragment as ResultSubmit
             mResultSubmit.resultSubmit(newRole,mOldRole!!,userID!!)
             dismiss()
+        }
+
+        /** Ketika user menekan tombol profile **/
+        view.btn_userProfile_dialogUser.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("USER_ID",userID)
+            startActivity(intent)
         }
     }
 

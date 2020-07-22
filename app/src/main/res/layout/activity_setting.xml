@@ -12,9 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_marginTop="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNav_setting">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_profile_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Profile"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextLuarLayout"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/btn_changeTheme"
@@ -45,6 +64,7 @@
             android:textAllCaps="false"
             app:icon="@drawable/ic_arrow_open"
             app:iconGravity="end"
+            android:visibility="gone"
             style="@style/Widget.MaterialComponents.Button.TextButton" />
 
         <LinearLayout
@@ -53,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20sp"
             android:layout_marginStart="40dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/sw_allNotif_setting"
                 android:layout_width="match_parent"
@@ -86,7 +107,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:visibility="gone"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_soundNotif_setting"
@@ -103,6 +125,7 @@
             android:textAllCaps="false"
             app:icon="@drawable/ic_arrow_open"
             app:iconGravity="end"
+            android:visibility="gone"
             style="@style/Widget.MaterialComponents.Button.TextButton" />
         <LinearLayout
             android:id="@+id/lin_soundNotif_setting"
@@ -110,7 +133,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20sp"
             android:layout_marginStart="40dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/sw_allSoundNotif_setting"
                 android:layout_width="match_parent"
@@ -143,7 +167,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:visibility="gone"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_logout_setting"

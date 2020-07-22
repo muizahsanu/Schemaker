@@ -21,14 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="18dp">
-            <Button
-                android:id="@+id/btn_cancel_addOnlineSche"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lin_libertine_rb"
-                android:text="@string/btn_cancel"
-                android:textColor="@color/colorAccent"
-                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_create_addOnlineSche"
@@ -37,6 +29,7 @@
                 android:fontFamily="@font/lin_libertine_rb"
                 android:text="Create"
                 android:textColor="@color/colorText"
+                app:strokeWidth="0dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>

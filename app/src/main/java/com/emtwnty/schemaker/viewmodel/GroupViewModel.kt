@@ -39,6 +39,7 @@ class GroupViewModel(app: Application):AndroidViewModel(app) {
     fun iniGetGroupData(){
         repo.initGetGroupData()
     }
+    fun resetMutableGetGroup() = repo.resetMutableGetGroup()
 
     fun getUserRole(userID: String,groupID: String):LiveData<String> = repo.getUserRole(userID,groupID)
 

@@ -160,13 +160,13 @@ object GroupRepo {
         println("Group_data => Halo")
         val currentUser = mAuth.currentUser
 
-        if (currentUser != null) {
+        if (currentUser != null || currentUser?.uid.toString().isNotEmpty()) {
             println("Group_data => mems")
 
-            val userID = currentUser.uid
+            val userID = currentUser?.uid
             mDatabase.collection("groups").whereEqualTo("members.$userID",true)
                 .addSnapshotListener { value, iniError ->
-                    if(value?.isEmpty!!){
+                    if(value == null){
                         return@addSnapshotListener
                     }
                     val arrayGroup = ArrayList<GroupModel>()
@@ -183,6 +183,9 @@ object GroupRepo {
     }
     fun initGetGroupData(){
         getGroupData()
+    }
+    fun resetMutableGetGroup(){
+        mutbaleDataGroup.postValue(null)
     }
     /** [ END ] Menampilkan Group sesuai dengan member user **/
 

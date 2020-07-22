@@ -19,16 +19,17 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="18dp">
-            <Button
+            android:layout_gravity="end">
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cancel_addSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lin_libertine_rb"
                 android:text="@string/btn_cancel"
-                android:textColor="@color/colorAccent"
-                android:visibility="gone"/>
+                android:textColor="@color/colorText"
+                android:visibility="gone"
+                app:strokeWidth="0dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_addSchedule"
@@ -37,6 +38,7 @@
                 android:fontFamily="@font/lin_libertine_rb"
                 android:text="@string/btn_save"
                 android:textColor="@color/colorText"
+                app:strokeWidth="0dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>

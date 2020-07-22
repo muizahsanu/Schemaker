@@ -3,16 +3,17 @@ package com.emtwnty.schemaker.ui.main
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.emtwnty.schemaker.R
+import com.emtwnty.schemaker.ui.ProfileActivity
 import com.emtwnty.schemaker.viewmodel.GroupScheViewModel
 import com.emtwnty.schemaker.viewmodel.GroupViewModel
 import com.emtwnty.schemaker.viewmodel.LoginViewModel
@@ -32,7 +33,9 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var mGroupViewModel: GroupViewModel
     private lateinit var mGrougScheViewModel: GroupScheViewModel
     private lateinit var mSharedPrefSetting: SharedPreferences
+    private lateinit var mSharedPref: SharedPreferences
     private var ID_PREF_SETTING = "com.emtwnty.schemaker-setting"
+    private var ID_PRE = "com.emtwnty.schemaker-user"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,7 @@ class SettingActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         mSharedPrefSetting = getSharedPreferences(ID_PREF_SETTING,Context.MODE_PRIVATE)
+        mSharedPref = getSharedPreferences(ID_PRE,Context.MODE_PRIVATE)
 
         /** INIT bottom navigation klik listener **/
         bottomNav_setting.selectedItemId = R.id.nav_setting_menu
@@ -83,6 +87,16 @@ class SettingActivity : AppCompatActivity() {
         btn_signin_setting.setOnClickListener{
             lin_progressbar_setting.visibility = View.VISIBLE
             startActivityForResult(mLoginViewModel.signInIntent, RC_SIGN_IN)
+        }
+        btn_profile_setting.setOnClickListener {
+            val userID = mSharedPref.getString("USER_ID",null).toString()
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("USER_ID",userID)
+            startActivity(intent)
+        }
+        btn_rateus_setting.setOnClickListener {
+            val appName = "com.emtwnty.schemaker"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appName")))
         }
     }
 
